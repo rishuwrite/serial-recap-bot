@@ -1,14 +1,14 @@
 {
   "date": "2026-10-21",
   "counts": {
-    "kaisi": 3,
-    "bhabhi": 3,
-    "sohni": 3,
-    "rimjhim": 3,
-    "mannsundar": 3,
-    "atisundar": 3,
-    "patibrahma": 3,
-    "ishq": 3
+    "kaisi": 4,
+    "bhabhi": 4,
+    "sohni": 4,
+    "rimjhim": 4,
+    "mannsundar": 4,
+    "atisundar": 4,
+    "patibrahma": 4,
+    "ishq": 4
   },
   "history": [
     {
@@ -154,6 +154,54 @@
       "time_ist": "23:34:51 IST",
       "reason": "unprocessed new episode 231 (1kciC2EbOAU)",
       "attempt": 3
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "23:35:46 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: AttributeError: 'list' object has no attribute 'get')",
+      "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "23:35:46 IST",
+      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
+      "attempt": 4
+    },
+    {
+      "show": "sohni",
+      "time_ist": "23:35:46 IST",
+      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
+      "attempt": 4
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "23:35:46 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 4
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "23:35:46 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
+      "attempt": 4
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "23:35:46 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
+      "attempt": 4
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "23:35:46 IST",
+      "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
+      "attempt": 4
+    },
+    {
+      "show": "ishq",
+      "time_ist": "23:35:46 IST",
+      "reason": "unprocessed new episode 231 (1kciC2EbOAU)",
+      "attempt": 4
     }
   ]
 }
