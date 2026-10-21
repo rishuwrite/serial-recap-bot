@@ -7,7 +7,8 @@
     "mannsundar": 1,
     "bhabhi": 1,
     "ishq": 1,
-    "atisundar": 1
+    "atisundar": 1,
+    "sohni": 1
   },
   "history": [
     {
@@ -97,6 +98,12 @@
     {
       "show": "atisundar",
       "time_ist": "00:49:42 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
+    },
+    {
+      "show": "sohni",
+      "time_ist": "00:52:56 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "attempt": 1
     }
