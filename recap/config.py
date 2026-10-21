@@ -14,16 +14,16 @@ OUTRO_LINE = "अगर आपको ऐसी डेली अपडेट्�
 BASE_TAGS = ["serial summary", "serial story in hindi", "today episode", "full episode summary", "episode summary in hindi",
              "hindi serial", "hindi tv serial", "dangal tv serial", "dangal tv", "आज का एपिसोड", "आज की कहानी", "सीरियल की कहानी",
              "serial update", "tv serial recap", "episode review", "kal ka episode", "next episode prediction", "serial twist"]
-# match = lowercase text that must appear in the video title; slot = IST publish time (staggered mornings)
+# match = lowercase text that must appear in the video title; slot = IST publish time (9 AM, 10 AM, 11 AM, 12 PM, 1 PM, 2 PM, 3 PM, 4 PM IST)
 SHOWS = {
-    "kaisi":   {"match": "kaisi teri dillagi", "en": "Kaisi Teri Dillagi", "hi": "कैसी तेरी दिल्लगी", "slot": (6, 30), "alt": ["kaisi teri dilagi", "kaisi teri dillagi serial"]},
-    "bhabhi":  {"match": "hamari bhabhi number 1", "en": "Hamari Bhabhi Number 1", "hi": "हमारी भाभी नंबर 1", "slot": (7, 0), "alt": ["hamari bhabhi no 1", "hamari bhabhi number one"]},
-    "sohni":   {"match": "sohni", "en": "Sohni Aur Nahi Koi Honi", "hi": "सोहनी और नहीं कोई होनी", "slot": (7, 30), "alt": ["sohni serial", "sohni aur nahi koi honi"]},
-    "rimjhim": {"match": "rimjhim", "en": "Rimjhim", "hi": "रिमझिम", "slot": (8, 0), "alt": ["rimjhim choti umar bada safar", "rimjhim serial"]},
-    "mannsundar": {"match": "mann sundar", "en": "Mann Sundar", "hi": "मन सुंदर", "slot": (8, 30), "alt": ["man sundar", "mann sundar serial"]},
-    "atisundar": {"match": "mann atisundar", "en": "Mann Atisundar", "hi": "मन अतिसुंदर", "slot": (9, 0), "alt": ["man atisundar", "mann atisundar serial", "mann ati sundar"]},
-    "patibrahma": {"match": "pati brahmachari", "en": "Pati Brahmachari", "hi": "पति ब्रह्मचारी", "slot": (9, 30), "alt": ["pati brahmachari serial", "pati bramhachari"]},
-    "ishq":    {"match": "ishq junooni", "en": "Ishq Junooni", "hi": "इश्क़ जुनूनी", "slot": (10, 0), "alt": ["ishq junooni serial", "ishq jununi"]},
+    "kaisi":      {"match": "kaisi teri dillagi",     "en": "Kaisi Teri Dillagi",      "hi": "कैसी तेरी दिल्लगी",       "slot": (9, 0),  "alt": ["kaisi teri dilagi", "kaisi teri dillagi serial"]},
+    "bhabhi":     {"match": "hamari bhabhi number 1", "en": "Hamari Bhabhi Number 1",  "hi": "हमारी भाभी नंबर 1",      "slot": (10, 0), "alt": ["hamari bhabhi no 1", "hamari bhabhi number one"]},
+    "sohni":      {"match": "sohni",                  "en": "Sohni Aur Nahi Koi Honi", "hi": "सोहनी और नहीं कोई होनी",   "slot": (11, 0), "alt": ["sohni serial", "sohni aur nahi koi honi"]},
+    "rimjhim":    {"match": "rimjhim",                "en": "Rimjhim",                 "hi": "रिमझिम",                "slot": (12, 0), "alt": ["rimjhim choti umar bada safar", "rimjhim serial"]},
+    "mannsundar": {"match": "mann sundar",            "en": "Mann Sundar",             "hi": "मन सुंदर",               "slot": (13, 0), "alt": ["man sundar", "mann sundar serial"]},
+    "atisundar":  {"match": "mann atisundar",         "en": "Mann Atisundar",          "hi": "मन अतिसुंदर",            "slot": (14, 0), "alt": ["man atisundar", "mann atisundar serial", "mann ati sundar"]},
+    "patibrahma": {"match": "pati brahmachari",       "en": "Pati Brahmachari",        "hi": "पति ब्रह्मचारी",          "slot": (15, 0), "alt": ["pati brahmachari serial", "pati bramhachari"]},
+    "ishq":       {"match": "ishq junooni",           "en": "Ishq Junooni",            "hi": "इश्क़ जुनूनी",            "slot": (16, 0), "alt": ["ishq junooni serial", "ishq jununi"]},
 }
 HI_MONTHS = ["जनवरी", "फ़रवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"]
 EMOTION_COLORS = {"tense": (200, 90, 0), "sad": (40, 90, 170), "happy": (30, 150, 70), "angry": (190, 20, 30),

@@ -10,6 +10,39 @@ def _token():
     if r.status_code != 200: raise SystemExit(f"YouTube token refresh failed: {r.status_code} {r.text[:300]}")
     return r.json()["access_token"]
 
+def already_uploaded(show, target_ep, source_vid=None):
+    """Live check against the user's YouTube channel (including private/scheduled videos) to guarantee
+    the same episode is NEVER uploaded twice even if a job is retried or git state had a conflict."""
+    if not enabled():
+        return None
+    try:
+        tok = _token()
+        hdr = {"Authorization": f"Bearer {tok}"}
+        ch = requests.get("https://www.googleapis.com/youtube/v3/channels",
+                          params={"part": "contentDetails", "mine": "true"}, headers=hdr, timeout=30).json()
+        items = ch.get("items", [])
+        if not items:
+            return None
+        uploads_pl = items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        pl = requests.get("https://www.googleapis.com/youtube/v3/playlistItems",
+                          params={"part": "snippet", "playlistId": uploads_pl, "maxResults": 50},
+                          headers=hdr, timeout=30).json()
+        en_low = show["en"].lower()
+        ep_tag = f"ep {target_ep}".lower() if target_ep and str(target_ep) != "?" else ""
+        for it in pl.get("items", []):
+            sn = it.get("snippet", {})
+            vid = sn.get("resourceId", {}).get("videoId", "")
+            title_low = (sn.get("title") or "").lower()
+            desc = sn.get("description") or ""
+            # Match 1: exact source Dangal TV video ID cited in description
+            if source_vid and source_vid in desc:
+                return vid
+            # Match 2: same show name + same target episode number in title
+            if ep_tag and en_low in title_low and ep_tag in title_low:
+                return vid
+    except Exception as e:
+        print("   dedup check warning (continuing):", str(e)[:120])
+    return None
 
 def upload_video(mp4, title, description, tags, publish_at=None, thumb=None):
     title = title.replace("<", "").replace(">", "").strip()[:100]

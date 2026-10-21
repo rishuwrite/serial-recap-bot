@@ -1,21 +1,67 @@
-import json, os, re, time, calendar, xml.etree.ElementTree as ET, requests
+import datetime as dt, json, os, re, time, calendar, xml.etree.ElementTree as ET, requests
 try:
     import feedparser
 except ImportError:
     feedparser = None
 import config as S
 UA = {"User-Agent": "Mozilla/5.0 (compatible; SerialRecapBot/1.0)"}
+IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
 def _state(key): return os.path.join(S.BASE, "state", f"{key}.json")
+def _status_file(key): return os.path.join(S.BASE, "state", f"{key}_status.json")
+
 def done_ids(key):
     try: return set(json.load(open(_state(key))))
     except Exception: return set()
-def mark_done(key, vid):
+
+def is_done(key, vid, episode_no=None):
+    """Check if either this video ID or this episode number has already been processed for this show."""
+    done = done_ids(key)
+    if vid and vid in done:
+        return True
+    if episode_no and str(episode_no).strip() and f"ep:{str(episode_no).strip()}" in done:
+        return True
+    return False
+
+def mark_done(key, vid, episode_no=None, target_ep=None, yt_id=None):
+    """Record both video_id and episode_no so re-uploads or retries never process the same episode twice."""
     os.makedirs(os.path.join(S.BASE, "state"), exist_ok=True)
-    ids = sorted(done_ids(key) | {vid}); json.dump(ids[-60:], open(_state(key), "w"))
+    tokens = {vid} if vid else set()
+    if episode_no and str(episode_no).strip() and str(episode_no).strip() != "?":
+        tokens.add(f"ep:{str(episode_no).strip()}")
+    if target_ep and str(target_ep).strip() and str(target_ep).strip() != "?":
+        tokens.add(f"target_ep:{str(target_ep).strip()}")
+    ids = sorted(done_ids(key) | tokens)
+    json.dump(ids[-120:], open(_state(key), "w"), indent=2)
+    record_status(key, "success", vid=vid, episode=episode_no, target_ep=target_ep, yt_id=yt_id)
+
+def record_status(key, status, vid="", episode="", target_ep="", yt_id="", error="", log_tail=""):
+    """Write structured execution status & log summary for watchdog inspection and auto-rerun decisions."""
+    os.makedirs(os.path.join(S.BASE, "state"), exist_ok=True)
+    now_ist = dt.datetime.now(IST)
+    payload = {
+        "show": key,
+        "status": status,  # "running" | "success" | "failed" | "no_new_episode" | "already_uploaded"
+        "date_ist": now_ist.strftime("%Y-%m-%d"),
+        "timestamp_ist": now_ist.strftime("%Y-%m-%d %H:%M:%S IST"),
+        "source_video_id": vid or "",
+        "source_episode": str(episode or ""),
+        "target_episode": str(target_ep or ""),
+        "youtube_video_id": yt_id or "",
+        "error": str(error or "")[:500],
+        "log_tail": str(log_tail or "")[-1500:],
+    }
+    try:
+        json.dump(payload, open(_status_file(key), "w"), ensure_ascii=False, indent=2)
+    except Exception as e:
+        print("   status write warning:", e)
+
+def get_status(key):
+    try: return json.load(open(_status_file(key)))
+    except Exception: return {}
 
 def recent_uploads(max_pages=3):
-    """Latest uploads of the channel. Uses the Data API (up to 150 items across 3 pages) when YT_API_KEY is set, else RSS (15 items)."""
+    """Latest uploads of the channel. Uses the Data API (up to 150 items across 3 pages) when YT_API_KEY is set, else RSS."""
     out = []
     key = os.getenv("YT_API_KEY")
     if key:
@@ -64,7 +110,6 @@ def _norm(s):
 def _matches_show(title, key):
     show = S.SHOWS[key]
     t = _norm(title)
-    # Prevent 'mann sundar' from falsely matching 'mann atisundar'
     if key == "mannsundar" and ("atisundar" in t or "ati sundar" in t):
         return False
     candidates = [show["match"]] + list(show.get("alt", []))
@@ -81,22 +126,23 @@ def parse_title(title):
     return (ep_m.group(1) if ep_m else ""), (dt_m.group(1) if dt_m else "")
 
 def find_episode(key, max_age_h=96):
-    done = done_ids(key)
     now = time.time()
     for v in recent_uploads():
         t = v["title"]
-        if not _matches_show(t, key) or not _is_full_episode(t) or v["id"] in done:
+        if not _matches_show(t, key) or not _is_full_episode(t):
+            continue
+        ep, date_ = parse_title(t)
+        if not ep:
+            continue
+        # Check both video_id and episode number so the same episode is never processed twice
+        if is_done(key, v["id"], ep):
             continue
         try:
-            import datetime as dt
             pub = dt.datetime.fromisoformat(v["published"].replace("Z", "+00:00")).timestamp()
             if now - pub > max_age_h * 3600:
                 continue
         except Exception:
             pass
-        ep, date_ = parse_title(t)
-        if not ep:
-            continue
         return {"id": v["id"], "url": f"https://www.youtube.com/watch?v={v['id']}", "title": t, "episode": ep, "date": date_}
     return None
 
