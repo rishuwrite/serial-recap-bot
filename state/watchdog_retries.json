@@ -5,7 +5,7 @@
     "rimjhim": 4,
     "patibrahma": 3,
     "mannsundar": 1,
-    "bhabhi": 1,
+    "bhabhi": 2,
     "ishq": 1,
     "atisundar": 1,
     "sohni": 2
@@ -110,6 +110,12 @@
     {
       "show": "sohni",
       "time_ist": "01:02:45 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 2
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "01:14:42 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "attempt": 2
     }
