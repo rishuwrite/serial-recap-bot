@@ -1,12 +1,12 @@
 {
   "show": "bhabhi",
-  "status": "rendered_no_upload",
+  "status": "success",
   "date_ist": "2026-10-21",
-  "timestamp_ist": "2026-10-21 22:58:10 IST",
+  "timestamp_ist": "2026-10-21 23:54:24 IST",
   "source_video_id": "nsGww0lFN1Q",
   "source_episode": "45",
   "target_episode": "46",
-  "youtube_video_id": "",
+  "youtube_video_id": "zoEIf0Gi8cc",
   "error": "",
-  "log_tail": "\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 3/3: ReadTimeout: HTTPSConnectionPool(host='image.pollinations.ai', port=443): Read timed out. (re\n    image 11 wide: using title card\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 3/3: ReadTimeout: HTTPSConnectionPool(host='image.pollinations.ai', port=443): Read timed out. (re\n    image 11 close: failed, reusing the scene's other image\n    pollinations try 1/3: ReadTimeout: HTTPSConnectionPool(host='image.pollinations.ai', port=443): Read timed out. (re\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 3/3: ReadTimeout: HTTPSConnectionPool(host='image.pollinations.ai', port=443): Read timed out. (re\n    image 12 wide: using title card\n5/7 render\n   hook: 8s\n   s0: 9s\n   s1: 9s\n   s2: 10s\n   s3: 10s\n   s4: 9s\n   s5: 9s\n   s6: 9s\n   s7: 9s\n   s8: 10s\n   s9: 10s\n   s10: 9s\n   s11: 9s\n   cliff: 7s\n   pred: 15s\n   outro: 10s\n   music: automatic background music (shock) -> auto_ambient_shock.m4a\n6/7 thumbnail + metadata\n   title: Hamari Bhabhi Number 1 Ep 46 (22 Oct) | कल की कहानी + अनुमान | पिछला Ep 45 रिकैप | 14 tags\n7/7 upload\n   upload skipped\n"
+  "log_tail": ""
 }
