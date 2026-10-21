@@ -118,15 +118,73 @@ def segment(tag, chip_l, chip_r, emotion, lines, times, audio, comps, tmp, out, 
     for p in paths + [bg]: os.remove(p)
     return D
 
-def concat(files, tmp, out, music=None, total=0):
+def pick_music(emotion=None):
+    """Find background music tracks in /music or the project root directory."""
+    tr = (glob.glob(os.path.join(S.BASE, "music", "*.mp3")) +
+          glob.glob(os.path.join(S.BASE, "music", "*.m4a")) +
+          glob.glob(os.path.join(S.BASE, "music", "*.wav")))
+    if not tr:
+        tr = (glob.glob(os.path.join(S.BASE, "*.mp3")) +
+              glob.glob(os.path.join(S.BASE, "*.m4a")) +
+              glob.glob(os.path.join(S.BASE, "*.wav")))
+    if tr and emotion:
+        matched = [f for f in tr if emotion.lower() in os.path.basename(f).lower()]
+        if matched: return random.choice(matched)
+    return random.choice(tr) if tr else None
+
+def generate_original_music(out, total, emotion="tense"):
+    """Synthesize mood-matched ambient drama/suspense background music automatically with FFmpeg."""
+    total = max(float(total), 8.0)
+    # Emotion-tailored harmony pads for Indian TV serial drama tension, sadness, romance, or shock
+    chords = {
+        "tense":    [(110.0, 0.40), (130.81, 0.30), (155.56, 0.25), (220.0, 0.25)],
+        "sad":      [(110.0, 0.45), (130.81, 0.35), (164.81, 0.30), (220.0, 0.20)],
+        "happy":    [(130.81, 0.40), (164.81, 0.35), (196.00, 0.30), (261.63, 0.25)],
+        "romantic": [(146.83, 0.40), (185.00, 0.35), (220.00, 0.30), (293.66, 0.20)],
+        "shock":    [(110.0, 0.40), (116.54, 0.35), (155.56, 0.30), (207.65, 0.25)],
+        "angry":    [(110.0, 0.45), (123.47, 0.35), (155.56, 0.30), (220.00, 0.25)],
+    }
+    notes = chords.get((emotion or "tense").lower(), chords["tense"])
+    inputs = []
+    for freq, _ in notes:
+        inputs += ["-f", "lavfi", "-i", f"sine=frequency={freq}:sample_rate=44100:duration={total:.3f}"]
+    inputs += ["-f", "lavfi", "-i", f"anoisesrc=sample_rate=44100:duration={total:.3f}:amplitude=0.012:color=pink"]
+
+    filters = []
+    for i, (_, vol) in enumerate(notes):
+        filters.append(f"[{i}:a]volume={vol:.2f},lowpass=f={450 + i * 150},tremolo=f={0.4 + i * 0.15}:d=0.25[a{i}]")
+    filters.append(f"[{len(notes)}:a]bandpass=f=700:width_type=h:w=250,volume=0.12[an]")
+
+    mix_ins = "".join(f"[a{i}]" for i in range(len(notes))) + "[an]"
+    filters.append(f"{mix_ins}amix=inputs={len(notes) + 1}:normalize=0,chorus=0.7:0.9:55:0.4:0.25:2,"
+                   f"afade=t=in:st=0:d=1.5,afade=t=out:st={max(total - 2.5, 0):.3f}:d=2.5,alimiter=limit=0.9[out]")
+
+    cmd = ["ffmpeg", "-y", "-loglevel", "error"] + inputs + ["-filter_complex", ";".join(filters),
+           "-map", "[out]", "-ac", "2", "-b:a", "160k", out]
+    subprocess.run(cmd, check=True)
+    return out
+
+def auto_music(tmp, total, emotion="tense"):
+    """Automatically find or synthesize background music without requiring any user-provided files."""
+    music = pick_music(emotion)
+    if not music:
+        out_bed = os.path.join(tmp, f"auto_ambient_{emotion or 'tense'}.m4a")
+        music = generate_original_music(out_bed, total, emotion=emotion)
+    return music
+
+def concat(files, tmp, out, music=None, total=0, emotion="tense"):
     open(f"{tmp}/final.txt", "w").write("".join(f"file '{os.path.abspath(p)}'\n" for p in files))
-    raw = out if not music else out + ".nomusic.mp4"
+    # Ensure background music is always automatically acquired and mixed without user input
+    if not music:
+        music = auto_music(tmp, total, emotion=emotion)
+    raw = out + ".nomusic.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", f"{tmp}/final.txt", "-c", "copy", "-movflags", "+faststart", raw], check=True)
-    if music:  # optional background music (your own royalty-free tracks in serial/music/), low volume, fades out
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-stream_loop", "-1", "-i", music, "-filter_complex",
-                        f"[1:a]volume=0.10,afade=t=in:d=1.5,afade=t=out:st={max(total - 2.5, 0):.2f}:d=2.5[m];[0:a][m]amix=inputs=2:duration=first:dropout_transition=0[a]",
-                        "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out], check=True)
-        os.remove(raw)
+    vol = getattr(S, "MUSIC_VOLUME", 0.15)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-stream_loop", "-1", "-i", music, "-filter_complex",
+                    f"[1:a]volume={vol:.2f},afade=t=in:d=1.5,afade=t=out:st={max(total - 2.5, 0):.2f}:d=2.5[m];"
+                    f"[0:a][m]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]",
+                    "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out], check=True)
+    os.remove(raw)
 
 def thumbnail(img, hook, tag_text, bottom_text, out):
     hook, tag_text, bottom_text = deva(hook), deva(tag_text), deva(bottom_text)
@@ -141,28 +199,3 @@ def thumbnail(img, hook, tag_text, bottom_text, out):
     f3 = font(48); w3 = int(d.textlength(bottom_text, font=f3)) + 40
     d.rounded_rectangle((1280 - w3 - 30, 650, 1250, 705), 12, fill=(255, 255, 255, 235)); d.text((1280 - w3 - 10, 648), bottom_text, font=f3, fill=(20, 20, 20))
     im.convert("RGB").save(out, quality=88)
-
-def pick_music():
-    tr = glob.glob(os.path.join(S.BASE, "music", "*.mp3")) + glob.glob(os.path.join(S.BASE, "music", "*.m4a"))
-    return random.choice(tr) if tr else None
-
-
-def generate_original_music(out, total):
-    """Synthesize a simple original ambient/suspense bed locally with FFmpeg; no downloaded music assets."""
-    total = max(float(total), 8.0)
-    # Soft layered tones: warm minor-key pad plus a quiet upper pulse for a gentle serial-drama feel.
-    # This is intentionally understated under narration and fades in/out.
-    args = [
-        "ffmpeg", "-y", "-loglevel", "error",
-        "-f", "lavfi", "-i", f"sine=frequency=110:sample_rate=44100:duration={total:.3f}",
-        "-f", "lavfi", "-i", f"sine=frequency=164.81:sample_rate=44100:duration={total:.3f}",
-        "-f", "lavfi", "-i", f"sine=frequency=220:sample_rate=44100:duration={total:.3f}",
-        "-f", "lavfi", "-i", f"sine=frequency=329.63:sample_rate=44100:duration={total:.3f}",
-        "-filter_complex",
-        f"[0:a]volume=0.24,lowpass=f=500[a0];[1:a]volume=0.14,lowpass=f=700[a1];"
-        f"[2:a]volume=0.09,lowpass=f=900[a2];[3:a]volume=0.035,lowpass=f=1200[a3];"
-        f"[a0][a1][a2][a3]amix=inputs=4:normalize=0,volume=0.20,afade=t=in:st=0:d=2,afade=t=out:st={max(total-3,0):.3f}:d=3,alimiter=limit=0.8[out]",
-        "-map", "[out]", "-ac", "2", "-b:a", "128k", out
-    ]
-    subprocess.run(args, check=True)
-    return out

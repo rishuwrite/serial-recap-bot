@@ -91,13 +91,10 @@ for k, s in enumerate(segs):
     if s["name"]: starts.append((t0, s["name"]))
     t0 += D; print(f"   {s['tag']}: {D:.0f}s")
 name = f"{out_dir}/{KEY}_{ep['id']}"
-music = render.pick_music()
-if not music:
-    music = render.generate_original_music(f"{tmp}/original_ambient_bed.m4a", t0)
-    print("   music: generated original ambient/suspense bed (no external track)")
-else:
-    print("   music: licensed user-provided track", os.path.basename(music))
-render.concat(files, tmp, name + ".mp4", music, t0)
+main_emo = (scenes[hook_i].get("emotion") if scenes else "tense") or "tense"
+music = render.auto_music(tmp, t0, emotion=main_emo)
+print(f"   music: automatic background music ({main_emo}) -> {os.path.basename(music)}")
+render.concat(files, tmp, name + ".mp4", music, t0, emotion=main_emo)
 
 print("6/7 thumbnail + metadata")
 thumb = name + ".jpg"

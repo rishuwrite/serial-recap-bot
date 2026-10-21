@@ -9,6 +9,7 @@ CHANNEL_NAME = os.getenv("SERIAL_CHANNEL_NAME") or "सीरियल की �
 WPS = 2.3
 IMAGES_PER_SCENE = int(os.getenv("IMAGES_PER_SCENE") or 2)   # 2 = a wide shot + a close-up per scene (more visual variety)
 CUT_SECONDS = 2.6                                           # fast visual cut every ~2.6 s (framing changes every cut)
+MUSIC_VOLUME = float(os.getenv("MUSIC_VOLUME") or 0.15)     # background music volume relative to narration
 OUTRO_LINE = "अगर आपको ऐसी डेली अपडेट्स पसंद आती हैं तो चैनल को सब्सक्राइब ज़रूर करें।"
 BASE_TAGS = ["serial summary", "serial story in hindi", "today episode", "full episode summary", "episode summary in hindi",
              "hindi serial", "hindi tv serial", "dangal tv serial", "dangal tv", "आज का एपिसोड", "आज की कहानी", "सीरियल की कहानी",
