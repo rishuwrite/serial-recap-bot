@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-21",
+  "counts": {
+    "kaisi": 1,
+    "bhabhi": 1,
+    "sohni": 1,
+    "rimjhim": 1,
+    "mannsundar": 1,
+    "atisundar": 1,
+    "patibrahma": 1,
+    "ishq": 1
+  },
+  "history": [
+    {
+      "show": "kaisi",
+      "time_ist": "23:21:19 IST",
+      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
+      "attempt": 1
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "23:21:19 IST",
+      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
+      "attempt": 1
+    },
+    {
+      "show": "sohni",
+      "time_ist": "23:21:19 IST",
+      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
+      "attempt": 1
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "23:21:19 IST",
+      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
+      "attempt": 1
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "23:21:19 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "23:21:19 IST",
+      "reason": "GitHub job cancelled (RATE_LIMIT_OR_QUOTA)",
+      "attempt": 1
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "23:21:19 IST",
+      "reason": "GitHub job cancelled (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
+    },
+    {
+      "show": "ishq",
+      "time_ist": "23:21:19 IST",
+      "reason": "GitHub job cancelled (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
+    }
+  ]
+}
