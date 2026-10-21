@@ -67,18 +67,19 @@ def caption(lines, out):
     im.save(out)
 
 def clip(comp, frames, path, variant):
-    N = frames
-    z, x = [("min(1+0.0006*on,1.2)", "iw/2-(iw/zoom/2)"), ("max(1.2-0.0006*on,1.0)", "iw/2-(iw/zoom/2)"),
-            ("1.15", f"(iw-iw/zoom)*on/{N}"), ("1.15", f"(iw-iw/zoom)*(1-on/{N})")][variant % 4]
-    y = "ih/2-(ih/zoom/2)"
+    N = frames; y = "ih/2-(ih/zoom/2)"
+    zin, zout = f"1+0.13*on/{N}", f"1.13-0.13*on/{N}"
+    z, x, y = [(zin, "iw/2-(iw/zoom/2)", y), (zout, "iw/2-(iw/zoom/2)", y),
+               ("1.14", f"(iw-iw/zoom)*on/{N}", y), ("1.14", f"(iw-iw/zoom)*(1-on/{N})", y),
+               (zin, "0", "0"), (zin, "iw-iw/zoom", "ih-ih/zoom")][variant % 6]
     vf = f"scale=2400:1350,zoompan=z='{z}':x='{x}':y='{y}':d={N}:s={W}x{H}:fps={FPS},format=yuv420p"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-i", comp, "-vf", vf, "-frames:v", str(N),
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "22", "-pix_fmt", "yuv420p", "-an", path], check=True)
 
-def segment(tag, chip_l, chip_r, emotion, lines, times, audio, comp, tmp, out, offset, total, v0=0):
-    D = times[-1][1]; n = max(1, math.ceil(D / 8)); bounds = [D * k / n for k in range(n + 1)]; paths = []
+def segment(tag, chip_l, chip_r, emotion, lines, times, audio, comps, tmp, out, offset, total, v0=0):
+    D = times[-1][1]; n = max(1, round(D / S.CUT_SECONDS)); bounds = [D * k / n for k in range(n + 1)]; paths = []
     for k in range(n):
-        p = f"{tmp}/{tag}_c{k}.mp4"; clip(comp, max(round(bounds[k + 1] * FPS) - round(bounds[k] * FPS), 2), p, v0 + k); paths.append(p)
+        p = f"{tmp}/{tag}_c{k}.mp4"; clip(comps[k % len(comps)], max(round(bounds[k + 1] * FPS) - round(bounds[k] * FPS), 2), p, v0 * 2 + k); paths.append(p)
     open(f"{tmp}/{tag}_c.txt", "w").write("".join(f"file '{os.path.abspath(p)}'\n" for p in paths))
     bg = f"{tmp}/{tag}_bg.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", f"{tmp}/{tag}_c.txt", "-c", "copy", bg], check=True)

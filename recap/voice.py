@@ -8,7 +8,7 @@ def sanitize(t):
 
 def _edge(text, path):
     import edge_tts
-    asyncio.run(edge_tts.Communicate(text, S.VOICE, rate="+3%").save(path))
+    asyncio.run(edge_tts.Communicate(text, S.VOICE, rate="+10%").save(path))
 
 def _gtts(text, path):                 # last-resort free fallback (robotic voice)
     from gtts import gTTS
