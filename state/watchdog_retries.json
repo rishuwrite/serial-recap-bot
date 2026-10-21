@@ -1,8 +1,8 @@
 {
   "date": "2026-10-22",
   "counts": {
-    "kaisi": 3,
-    "rimjhim": 3,
+    "kaisi": 4,
+    "rimjhim": 4,
     "patibrahma": 2
   },
   "history": [
@@ -53,6 +53,18 @@
       "time_ist": "00:11:58 IST",
       "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
       "attempt": 3
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "00:12:23 IST",
+      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
+      "attempt": 4
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "00:12:23 IST",
+      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
+      "attempt": 4
     }
   ]
 }
