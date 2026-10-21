@@ -3,7 +3,8 @@
   "counts": {
     "kaisi": 4,
     "rimjhim": 4,
-    "patibrahma": 2
+    "patibrahma": 2,
+    "mannsundar": 1
   },
   "history": [
     {
@@ -65,6 +66,12 @@
       "time_ist": "00:12:23 IST",
       "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
       "attempt": 4
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "00:17:48 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
     }
   ]
 }
