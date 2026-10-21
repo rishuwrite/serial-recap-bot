@@ -1,1 +1,92 @@
-
+name: serial-recaps
+on:
+  schedule:   # 03:30 IST. Does NOTHING until you create the repo variable ENABLE_SCHEDULE = true (after you approve the video quality)
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      only_show:
+        description: "Which show (all = every show)"
+        type: choice
+        default: atisundar
+        options: [all, kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
+      video_id:
+        description: "Optional: a specific Dangal TV episode video ID (e.g. JNdlYnNneKE) instead of the newest one"
+        type: string
+        default: ""
+      test_mode:
+        description: "Quick test: only 3 scenes (about 5 minutes to run). Turn OFF for the full 2-3 minute video"
+        type: boolean
+        default: true
+      upload:
+        description: "Upload to YouTube (keep OFF while you are only checking quality)"
+        type: boolean
+        default: false
+      publish_now:
+        description: "If uploading: publish immediately (off = schedule at the show's morning slot)"
+        type: boolean
+        default: true
+permissions: {contents: write}
+jobs:
+  recap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        show: [kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - id: chk
+        run: |
+          S="${{ inputs.only_show }}"; E="${{ github.event_name }}"
+          if [ "$E" = "schedule" ]; then
+            if [ "${{ vars.ENABLE_SCHEDULE }}" = "true" ]; then echo "run=true" >> $GITHUB_OUTPUT; else echo "run=false" >> $GITHUB_OUTPUT; echo "Schedule is disabled (set variable ENABLE_SCHEDULE=true to enable)"; fi
+          elif [ -z "$S" ] || [ "$S" = "all" ] || [ "$S" = "${{ matrix.show }}" ]; then echo "run=true" >> $GITHUB_OUTPUT
+          else echo "run=false" >> $GITHUB_OUTPUT; fi
+      - uses: actions/checkout@v4
+        if: steps.chk.outputs.run == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.chk.outputs.run == 'true'
+        with: {python-version: "3.12", cache: pip}
+      - name: Install
+        if: steps.chk.outputs.run == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-core libraqm0 libfribidi0 libharfbuzz0b
+          pip install -r requirements.txt
+      - name: Make recap
+        if: steps.chk.outputs.run == 'true'
+        run: python recap/main.py
+        env:
+          SHOW_KEY: ${{ matrix.show }}
+          EVENT_NAME: ${{ github.event_name }}
+          VIDEO_ID: ${{ inputs.video_id }}
+          PUBLISH_NOW: ${{ inputs.publish_now }}
+          DO_UPLOAD: ${{ github.event_name == 'schedule' && 'true' || inputs.upload }}
+          TEST_MODE: ${{ inputs.test_mode }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+          UPLOAD_PRIVACY: ${{ vars.UPLOAD_PRIVACY }}
+          SERIAL_CHANNEL_NAME: ${{ vars.SERIAL_CHANNEL_NAME }}
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.chk.outputs.run == 'true'
+        with:
+          name: recap-${{ matrix.show }}
+          path: output/
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Save state
+        if: always() && steps.chk.outputs.run == 'true'
+        run: |
+          git config user.name bot; git config user.email bot@users.noreply.github.com
+          [ -f "state/${{ matrix.show }}.json" ] && git add "state/${{ matrix.show }}.json"
+          git commit -m "state ${{ matrix.show }}" || { echo "nothing to save"; exit 0; }
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push && break; sleep $((RANDOM % 8 + 3)); done
