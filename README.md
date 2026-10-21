@@ -1,36 +1,39 @@
 # Serial recap bot (Dangal TV serials -> 2-3 min "motion comic" recaps), standalone repo
 
-## How a video is made
-1. `feed.py`   finds the newest unseen "Full Episode" of a show on the Dangal TV channel (RSS, or YouTube Data API if YT_API_KEY is set).
-2. `gemini.py` Gemini watches that public YouTube episode (audio + video) and writes: hook, 8-9 scenes (narration), cliffhanger, a clearly-labelled prediction, image prompts, keywords.
-3. `voice.py`  narration -> speech (edge-tts hi-IN-SwaraNeural, falls back to gTTS). One voice for the whole video.
-4. `images.py` one AI illustration per scene (Cloudflare Workers AI if configured, else Pollinations). Failed image -> designed title card (never blank).
-5. `render.py`  each scene = illustration + slow zoom/pan (alternating), top chips (show/episode, scene n/N), big captions, yellow progress bar; then concatenated; background music: completely automated — you do not need to provide any music, the bot automatically finds or synthesizes dramatic mood-matched background music for every episode.
-6. `meta.py`    title (true date + episode no.), chapters, ~480 chars of relevant tags, description with official-episode link, thumbnail (illustration + big Hindi hook).
-7. `youtube.py` uploads (private + scheduled for the show's morning slot, or public now). Only when you turn it on.
+## Daily Publish Schedule (9:00 AM – 4:00 PM IST)
+The bot runs at **12:00 AM IST (Midnight)** via an external cron trigger and schedules the 8 daily recap videos on YouTube at hourly slots from **9:00 AM to 4:00 PM IST**:
 
-## Test the quality FIRST (no upload)
-Actions > serial-recaps > Run workflow: choose a show, leave **upload OFF**.
-- test_mode ON  = 3 scenes (~5 min run). test_mode OFF = full 2-3 min video.
-Download the result from the run page > Artifacts > recap-<show>: the .mp4, the .jpg thumbnail, and the `_preview` folder (every illustration, contact_sheet.jpg, script + prompts).
-Judge: illustration look, voice, caption readability, length. If not happy, tell me what to change.
+| Show Key | Serial Name | Scheduled YouTube Publish Time (IST) |
+| :--- | :--- | :--- |
+| `kaisi` | Kaisi Teri Dillagi (कैसी तेरी दिल्लगी) | **09:00 AM IST** |
+| `bhabhi` | Hamari Bhabhi Number 1 (हमारी भाभी नंबर 1) | **10:00 AM IST** |
+| `sohni` | Sohni Aur Nahi Koi Honi (सोहनी और नहीं कोई होनी) | **11:00 AM IST** |
+| `rimjhim` | Rimjhim (रिमझिम) | **12:00 PM IST** |
+| `mannsundar` | Mann Sundar (मन सुंदर) | **01:00 PM IST** |
+| `atisundar` | Mann Atisundar (मन अतिसुंदर) | **02:00 PM IST** |
+| `patibrahma` | Pati Brahmachari (पति ब्रह्मचारी) | **03:00 PM IST** |
+| `ishq` | Ishq Junooni (इश्क़ जुनूनी) | **04:00 PM IST** |
 
-## Go live (only after you approve the quality)
-1. Secrets: GEMINI_API_KEY (required). For upload: YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN (own Google Cloud project for this channel).
-   Optional: YT_API_KEY (see last 50 uploads), CF_ACCOUNT_ID + CF_API_TOKEN (more reliable images), POLLINATIONS_TOKEN.
-2. Variables: ENABLE_SCHEDULE = true (turns the 03:30 IST daily run on), SERIAL_CHANNEL_NAME (optional), SERIAL_VOICE (optional), MUSIC_VOLUME (optional, default 0.15).
-3. Background music is 100% automated: you do not need to provide or upload any music files. The bot automatically identifies the mood (tense, sad, shock, romantic, happy) and automatically finds or synthesizes drama background music for the video.
-4. Workflow timeout: The cancellation timeout is set to 2 hours (120 minutes) in `.github/workflows/recap.yml` so longer multi-show runs complete without getting cancelled.
-Schedule: all 8 shows run daily at 03:30 IST; each recap publishes at its slot (06:30 ... 10:00 IST, see config.py).
+## Why We Don't Use GitHub's Built-In Cron (And How to Trigger at 12:00 AM IST Sharp for Free)
+GitHub's internal `schedule:` cron frequently delays runs by 30–90 minutes or drops them during peak hours. Instead, this repo uses **external `workflow_dispatch` / `repository_dispatch`** triggered at **12:00 AM IST sharp** using any of the 100% free external schedulers included in `/scheduler`:
 
-## Update: next-day episode targeting and animated captions
-- Discovery scans up to 150 recent uploads when `YT_API_KEY` is configured, follows pagination, matches each of the eight configured shows using normalized aliases, and skips titles whose episode number cannot be parsed. RSS fallback can return fewer uploads; configure the API key for reliable discovery.
-- Recap analysis uses the source episode number. The output title/date/on-screen label targets the next day and episode (+1); the description distinguishes the source recap from predictions. Date parsing uses the date in the source title when supported.
-- Captions now highlight the currently spoken word in yellow. Word timings are estimated from character lengths within each narrated line, not forced-aligned to phonemes, so timing may need adjustment for expressive Hindi narration.
-- Run a test for each show before enabling scheduled uploads.
+1. **Option A — Google Apps Script (`scheduler/google_apps_script.gs`, Recommended & 100% Free)**:
+   - Open [script.google.com](https://script.google.com), create a project, and paste `scheduler/google_apps_script.gs`.
+   - Set `GITHUB_OWNER`, `GITHUB_REPO`, and `GITHUB_PAT` (a GitHub Personal Access Token with `repo` and `workflow` permissions).
+   - Run `setupTriggers()` once. It installs an exact **12:00 AM IST (`Asia/Kolkata`)** daily trigger plus a **2-hour Watchdog Log-Inspector** that checks GitHub run logs and automatically re-triggers any failed show.
+2. **Option B — Cloudflare Worker (`scheduler/cloudflare_worker.js`, 100% Free)**:
+   - Deploy `scheduler/cloudflare_worker.js` on Cloudflare Workers Free Tier with cron `30 18 * * *` (12:00 AM IST) and `30 20,22,0,2 * * *` (watchdog checks).
+3. **Option C — cron-job.org (100% Free Web Cron)**:
+   - Create a free job at [cron-job.org](https://cron-job.org) set to **00:00 Asia/Kolkata (12:00 AM IST)**.
+   - Method: `POST` to `https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/recap.yml/dispatches`
+   - Headers: `Authorization: Bearer <YOUR_GITHUB_PAT>`, `Accept: application/vnd.github+json`
+   - Body: `{"ref":"main","inputs":{"only_show":"all","test_mode":"false","upload":"true","publish_now":"false"}}`
 
-### Background music
-
-Background music is completely automated:
-- No user music files are needed. The bot automatically creates, finds, and mixes dramatic serial background music for every generated recap.
-- Audio levels: Speech dialogue volume is preserved with `normalize=0` (no speech attenuation), and background music sits at a calibrated level under narration with smooth fade-in and fade-out.
+## 3-Layer Self-Healing Log Watchdog & Zero-Duplicate Protection
+1. **In-Job Log Capture & Auto-Retry (`recap.yml` & `main.py`)**:
+   - Every show job streams its logs into `state/<show>_status.json`. If Attempt 1 fails (e.g., temporary Gemini 503 or network timeout), the job reads the status log, cleans up temp files, waits 45 seconds, and retries automatically inside the same run.
+2. **Post-Run Watchdog Supervisor (`recap/watchdog.py`)**:
+   - After the matrix finishes (and whenever triggered with `only_show=watchdog`), `watchdog.py` inspects the GitHub Actions job logs, reads `state/<show>_status.json`, and checks Dangal TV's live feed. If any show failed, timed out, or has an unprocessed new episode, it automatically dispatches a targeted rerun for **only that show** (up to 4 self-healing attempts per day).
+3. **Triple Anti-Duplicate Lock (Never Uploads an Episode Twice)**:
+   - **Video ID + Episode Number State (`state/<show>.json`)**: Stores both the source YouTube video ID (`JNdlYnNneKE`) and the episode number (`ep:452`, `target_ep:453`). Even if Dangal TV re-uploads the same episode with a new video ID, it is never processed twice.
+   - **Live YouTube Channel Pre-Check (`youtube.already_uploaded()`)**: Before generating a video AND again right before uploading, the bot queries your YouTube channel's uploads list (including private/scheduled videos). If an episode is already uploaded or scheduled on your channel, it syncs `state/<show>.json` and skips immediately.
