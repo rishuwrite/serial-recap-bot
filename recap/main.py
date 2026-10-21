@@ -86,7 +86,7 @@ print("5/7 render")
 files, starts, t0 = [], [], 0.0
 for k, s in enumerate(segs):
     f = f"{tmp}/seg_{s['tag']}.mp4"
-    D = render.segment(s["tag"], f"{show['hi']} | कल का एपिसोड {EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k)
+    D = render.segment(s["tag"], f"{show['hi']} | कल का एपिसोड {EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k, word_times=s.get("word_times"))
     files.append(f)
     if s["name"]: starts.append((t0, s["name"]))
     t0 += D; print(f"   {s['tag']}: {D:.0f}s")
