@@ -1,35 +1,41 @@
 name: serial-recaps
 on:
-  schedule:   # 03:30 IST. Does NOTHING until you create the repo variable ENABLE_SCHEDULE = true (after you approve the video quality)
-    - cron: "0 22 * * *"
+  # External cron triggers (Google Apps Script / Cloudflare Worker / cron-job.org at 12:00 AM IST) use workflow_dispatch or repository_dispatch
+  repository_dispatch:
+    types: [nightly-12am, watchdog-check]
   workflow_dispatch:
     inputs:
       only_show:
-        description: "Which show (all = every show)"
+        description: "Which show (all = every show, watchdog = check logs & rerun failed/missed)"
         type: choice
-        default: atisundar
-        options: [all, kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
+        default: all
+        options: [all, watchdog, kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
       video_id:
         description: "Optional: a specific Dangal TV episode video ID (e.g. JNdlYnNneKE) instead of the newest one"
         type: string
         default: ""
       test_mode:
-        description: "Quick test: only 3 scenes (about 5 minutes to run). Turn OFF for the full 2-3 minute video"
-        type: boolean
-        default: true
-      upload:
-        description: "Upload to YouTube (keep OFF while you are only checking quality)"
+        description: "Quick test: only 3 scenes (~5 min). Keep OFF (false) for full 2-3 min production video"
         type: boolean
         default: false
-      publish_now:
-        description: "If uploading: publish immediately (off = schedule at the show's morning slot)"
+      upload:
+        description: "Upload to YouTube (ON = uploads & schedules for 9 AM - 4 PM IST slots)"
         type: boolean
         default: true
-permissions: {contents: write}
+      publish_now:
+        description: "Publish immediately? (Keep OFF/false so videos schedule for 9,10,11,12,1,2,3,4 AM-PM IST)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   recap:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    if: github.event.action != 'watchdog-check' && inputs.only_show != 'watchdog'
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -40,32 +46,38 @@ jobs:
     steps:
       - id: chk
         run: |
-          S="${{ inputs.only_show }}"; E="${{ github.event_name }}"
-          if [ "$E" = "schedule" ]; then
-            if [ "${{ vars.ENABLE_SCHEDULE }}" = "true" ]; then echo "run=true" >> $GITHUB_OUTPUT; else echo "run=false" >> $GITHUB_OUTPUT; echo "Schedule is disabled (set variable ENABLE_SCHEDULE=true to enable)"; fi
-          elif [ -z "$S" ] || [ "$S" = "all" ] || [ "$S" = "${{ matrix.show }}" ]; then echo "run=true" >> $GITHUB_OUTPUT
-          else echo "run=false" >> $GITHUB_OUTPUT; fi
+          S="${{ inputs.only_show }}"
+          if [ -z "$S" ] || [ "$S" = "all" ] || [ "$S" = "${{ matrix.show }}" ]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+          else
+            echo "run=false" >> $GITHUB_OUTPUT
+          fi
+
       - uses: actions/checkout@v4
         if: steps.chk.outputs.run == 'true'
+
       - uses: actions/setup-python@v5
         if: steps.chk.outputs.run == 'true'
-        with: {python-version: "3.12", cache: pip}
-      - name: Install
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
         if: steps.chk.outputs.run == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-noto-core libraqm0 libfribidi0 libharfbuzz0b
           pip install -r requirements.txt
-      - name: Make recap
+
+      - name: Make recap (with log check & auto-retry on failure)
         if: steps.chk.outputs.run == 'true'
-        run: python recap/main.py
         env:
           SHOW_KEY: ${{ matrix.show }}
           EVENT_NAME: ${{ github.event_name }}
           VIDEO_ID: ${{ inputs.video_id }}
-          PUBLISH_NOW: ${{ inputs.publish_now }}
-          DO_UPLOAD: ${{ github.event_name == 'schedule' && 'true' || inputs.upload }}
-          TEST_MODE: ${{ inputs.test_mode }}
+          PUBLISH_NOW: ${{ inputs.publish_now || 'false' }}
+          DO_UPLOAD: ${{ github.event_name == 'repository_dispatch' && 'true' || inputs.upload }}
+          TEST_MODE: ${{ github.event_name == 'repository_dispatch' && 'false' || inputs.test_mode }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
@@ -76,6 +88,31 @@ jobs:
           POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
           UPLOAD_PRIVACY: ${{ vars.UPLOAD_PRIVACY }}
           SERIAL_CHANNEL_NAME: ${{ vars.SERIAL_CHANNEL_NAME }}
+          SERIAL_VOICE: ${{ vars.SERIAL_VOICE }}
+          MUSIC_VOLUME: ${{ vars.MUSIC_VOLUME }}
+        run: |
+          set +e
+          for attempt in 1 2; do
+            echo "=== [${SHOW_KEY}] Run Attempt ${attempt}/2 ==="
+            git pull --rebase -q origin main 2>/dev/null || true
+            python recap/main.py
+            code=$?
+            if [ $code -eq 0 ]; then
+              echo "=== [${SHOW_KEY}] Succeeded on attempt ${attempt} ==="
+              exit 0
+            fi
+            echo "=== [${SHOW_KEY}] Attempt ${attempt} failed (exit ${code}). Inspecting status log... ==="
+            if [ -f "state/${SHOW_KEY}_status.json" ]; then
+              cat "state/${SHOW_KEY}_status.json"
+            fi
+            if [ $attempt -lt 2 ]; then
+              echo "=== [${SHOW_KEY}] Cleaning temporary files & retrying in 45s... ==="
+              rm -rf "tmp_${SHOW_KEY}"
+              sleep 45
+            fi
+          done
+          exit 1
+
       - uses: actions/upload-artifact@v4
         if: always() && steps.chk.outputs.run == 'true'
         with:
@@ -83,10 +120,64 @@ jobs:
           path: output/
           retention-days: 7
           if-no-files-found: ignore
-      - name: Save state
+
+      - name: Save state & status logs
         if: always() && steps.chk.outputs.run == 'true'
         run: |
-          git config user.name bot; git config user.email bot@users.noreply.github.com
-          [ -f "state/${{ matrix.show }}.json" ] && git add "state/${{ matrix.show }}.json"
-          git commit -m "state ${{ matrix.show }}" || { echo "nothing to save"; exit 0; }
-          for i in 1 2 3 4 5; do git pull --rebase -q && git push && break; sleep $((RANDOM % 8 + 3)); done
+          git config user.name bot
+          git config user.email bot@users.noreply.github.com
+          git add state/ 2>/dev/null || true
+          git diff --cached --quiet && { echo "nothing to save"; exit 0; }
+          git commit -m "state ${{ matrix.show }}" || exit 0
+          for i in 1 2 3 4 5 6 7 8; do
+            git pull --rebase -q && git push && break
+            sleep $((RANDOM % 8 + 3))
+          done
+
+  watchdog:
+    name: watchdog-log-checker
+    runs-on: ubuntu-24.04
+    needs: [recap]
+    if: always()
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install watchdog dependencies
+        run: |
+          pip install -r requirements.txt
+          git pull --rebase -q origin main || true
+
+      - name: Read logs, verify YouTube & Dangal feed, and auto-rerun failed/missed shows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python recap/watchdog.py
+
+      - name: Save watchdog state
+        if: always()
+        run: |
+          git config user.name bot
+          git config user.email bot@users.noreply.github.com
+          git add state/ 2>/dev/null || true
+          git diff --cached --quiet && { echo "nothing to save"; exit 0; }
+          git commit -m "watchdog state" || exit 0
+          for i in 1 2 3 4 5; do
+            git pull --rebase -q && git push && break
+            sleep $((RANDOM % 6 + 2))
+          done
