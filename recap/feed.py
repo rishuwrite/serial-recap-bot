@@ -3,7 +3,7 @@ try:
     import feedparser
 except ImportError:
     feedparser = None
-import config as S
+import config as S, youtube
 UA = {"User-Agent": "Mozilla/5.0 (compatible; SerialRecapBot/1.0)"}
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
@@ -61,47 +61,64 @@ def get_status(key):
     except Exception: return {}
 
 def recent_uploads(max_pages=3):
-    """Latest uploads of the channel. Uses the Data API (up to 150 items across 3 pages) when YT_API_KEY is set, else RSS."""
-    out = []
+    """Latest uploads of the channel.
+    1. Uses RSS feed first or YouTube Data API (via YT_API_KEY or existing YouTube OAuth token—no extra key needed!).
+    2. Combines API + RSS results so even if Dangal TV posts Shorts/promos after 7-10:30 PM, no full episode is missed."""
+    out, seen_ids = [], set()
+    # 1. Fast RSS feed check (always 100% free, zero quota, works immediately for evening uploads)
+    try:
+        raw_xml = requests.get(S.FEED, headers=UA, timeout=30).content
+        if feedparser is not None:
+            parsed = feedparser.parse(raw_xml)
+            for e in parsed.entries:
+                vid = e.get("yt_videoid") or e.link.split("v=")[-1]
+                if vid and vid not in seen_ids:
+                    seen_ids.add(vid)
+                    out.append({"id": vid, "title": e.title, "published": e.get("published", "")})
+        else:
+            root = ET.fromstring(raw_xml)
+            ns = {"atom": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
+            for entry in root.findall("atom:entry", ns):
+                vid_el = entry.find("yt:videoId", ns)
+                tit_el = entry.find("atom:title", ns)
+                pub_el = entry.find("atom:published", ns)
+                if vid_el is not None and tit_el is not None and vid_el.text not in seen_ids:
+                    seen_ids.add(vid_el.text)
+                    out.append({"id": vid_el.text or "", "title": tit_el.text or "", "published": pub_el.text if pub_el is not None else ""})
+        print(f"   uploads via RSS: {len(out)}")
+    except Exception as e:
+        print("   RSS warning:", str(e)[:100])
+
+    # 2. Also query playlistItems via OAuth token (or YT_API_KEY if set) so Shorts/promos never push episodes out of the 15-item RSS window
     key = os.getenv("YT_API_KEY")
-    if key:
+    hdr = {}
+    if not key and youtube.enabled():
+        try:
+            hdr = {"Authorization": f"Bearer {youtube._token()}"}
+        except Exception:
+            hdr = {}
+    if key or hdr:
         try:
             page_token = None
             for _ in range(max_pages):
-                params = {"part": "snippet", "playlistId": S.UPLOADS_PLAYLIST, "maxResults": 50, "key": key}
+                params = {"part": "snippet", "playlistId": S.UPLOADS_PLAYLIST, "maxResults": 50}
+                if key:
+                    params["key"] = key
                 if page_token:
                     params["pageToken"] = page_token
-                r = requests.get("https://www.googleapis.com/youtube/v3/playlistItems", timeout=30, params=params).json()
+                r = requests.get("https://www.googleapis.com/youtube/v3/playlistItems", headers=hdr, params=params, timeout=30).json()
                 for it in r.get("items", []):
                     sn = it.get("snippet", {})
                     vid = sn.get("resourceId", {}).get("videoId")
-                    if vid:
+                    if vid and vid not in seen_ids:
+                        seen_ids.add(vid)
                         out.append({"id": vid, "title": sn.get("title", ""), "published": sn.get("publishedAt", "")})
                 page_token = r.get("nextPageToken")
                 if not page_token:
                     break
-            print(f"   uploads via API: {len(out)}")
+            print(f"   total uploads scanned (RSS + OAuth/API): {len(out)}")
         except Exception as e:
-            print("   API failed:", str(e)[:100])
-    if not out:
-        try:
-            raw_xml = requests.get(S.FEED, headers=UA, timeout=30).content
-            if feedparser is not None:
-                parsed = feedparser.parse(raw_xml)
-                for e in parsed.entries:
-                    out.append({"id": e.get("yt_videoid") or e.link.split("v=")[-1], "title": e.title, "published": e.get("published", "")})
-            else:
-                root = ET.fromstring(raw_xml)
-                ns = {"atom": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
-                for entry in root.findall("atom:entry", ns):
-                    vid_el = entry.find("yt:videoId", ns)
-                    tit_el = entry.find("atom:title", ns)
-                    pub_el = entry.find("atom:published", ns)
-                    if vid_el is not None and tit_el is not None:
-                        out.append({"id": vid_el.text or "", "title": tit_el.text or "", "published": pub_el.text if pub_el is not None else ""})
-            print(f"   uploads via RSS: {len(out)}")
-        except Exception as e:
-            print("   RSS failed:", str(e)[:100])
+            print("   API/OAuth scan warning:", str(e)[:100])
     return out
 
 def _norm(s):
