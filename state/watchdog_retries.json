@@ -1,207 +1,28 @@
 {
-  "date": "2026-10-21",
+  "date": "2026-10-22",
   "counts": {
-    "kaisi": 4,
-    "bhabhi": 4,
-    "sohni": 4,
-    "rimjhim": 4,
-    "mannsundar": 4,
-    "atisundar": 4,
-    "patibrahma": 4,
-    "ishq": 4
+    "kaisi": 1,
+    "rimjhim": 1,
+    "patibrahma": 1
   },
   "history": [
     {
       "show": "kaisi",
-      "time_ist": "23:21:19 IST",
+      "time_ist": "00:05:39 IST",
       "reason": "unprocessed new episode 93 (1PmuMR41H18)",
       "attempt": 1
     },
     {
-      "show": "bhabhi",
-      "time_ist": "23:21:19 IST",
-      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
-      "attempt": 1
-    },
-    {
-      "show": "sohni",
-      "time_ist": "23:21:19 IST",
-      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
-      "attempt": 1
-    },
-    {
       "show": "rimjhim",
-      "time_ist": "23:21:19 IST",
+      "time_ist": "00:05:39 IST",
       "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
       "attempt": 1
     },
     {
-      "show": "mannsundar",
-      "time_ist": "23:21:19 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 1
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "23:21:19 IST",
-      "reason": "GitHub job cancelled (RATE_LIMIT_OR_QUOTA)",
-      "attempt": 1
-    },
-    {
       "show": "patibrahma",
-      "time_ist": "23:21:19 IST",
-      "reason": "GitHub job cancelled (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 1
-    },
-    {
-      "show": "ishq",
-      "time_ist": "23:21:19 IST",
-      "reason": "GitHub job cancelled (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 1
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "23:33:50 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 2
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "23:33:50 IST",
-      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
-      "attempt": 2
-    },
-    {
-      "show": "sohni",
-      "time_ist": "23:33:50 IST",
-      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
-      "attempt": 2
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "23:33:50 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 2
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "23:33:50 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
-      "attempt": 2
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "23:33:50 IST",
-      "reason": "unprocessed new episode 1185 (JW13AuX76Rw)",
-      "attempt": 2
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "23:33:50 IST",
+      "time_ist": "00:05:39 IST",
       "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
-      "attempt": 2
-    },
-    {
-      "show": "ishq",
-      "time_ist": "23:33:50 IST",
-      "reason": "unprocessed new episode 231 (1kciC2EbOAU)",
-      "attempt": 2
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "23:34:51 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: AttributeError: 'list' object has no attribute 'get')",
-      "attempt": 3
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "23:34:51 IST",
-      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
-      "attempt": 3
-    },
-    {
-      "show": "sohni",
-      "time_ist": "23:34:51 IST",
-      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
-      "attempt": 3
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "23:34:51 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 3
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "23:34:51 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
-      "attempt": 3
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "23:34:51 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 3
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "23:34:51 IST",
-      "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
-      "attempt": 3
-    },
-    {
-      "show": "ishq",
-      "time_ist": "23:34:51 IST",
-      "reason": "unprocessed new episode 231 (1kciC2EbOAU)",
-      "attempt": 3
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "23:35:46 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: AttributeError: 'list' object has no attribute 'get')",
-      "attempt": 4
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "23:35:46 IST",
-      "reason": "unprocessed new episode 45 (nsGww0lFN1Q)",
-      "attempt": 4
-    },
-    {
-      "show": "sohni",
-      "time_ist": "23:35:46 IST",
-      "reason": "unprocessed new episode 15 (ZOZhmAA5XZU)",
-      "attempt": 4
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "23:35:46 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 4
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "23:35:46 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
-      "attempt": 4
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "23:35:46 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 503 {\n  \"error\": {\n    \"code\")",
-      "attempt": 4
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "23:35:46 IST",
-      "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
-      "attempt": 4
-    },
-    {
-      "show": "ishq",
-      "time_ist": "23:35:46 IST",
-      "reason": "unprocessed new episode 231 (1kciC2EbOAU)",
-      "attempt": 4
+      "attempt": 1
     }
   ]
 }
