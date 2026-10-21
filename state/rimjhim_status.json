@@ -1,0 +1,12 @@
+{
+  "show": "rimjhim",
+  "status": "rendered_no_upload",
+  "date_ist": "2026-10-21",
+  "timestamp_ist": "2026-10-21 22:58:19 IST",
+  "source_video_id": "NaDZJnMT4Og",
+  "source_episode": "371",
+  "target_episode": "372",
+  "youtube_video_id": "",
+  "error": "",
+  "log_tail": "or: Payment Required for url: https://image.pollinations.ai/prompt\n    image 10 close: failed, reusing the scene's other image\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 3/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image 11 wide: using title card\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n5/7 render\n   hook: 6s\n   s0: 11s\n   s1: 10s\n   s2: 11s\n   s3: 10s\n   s4: 10s\n   s5: 9s\n   s6: 9s\n   s7: 9s\n   s8: 10s\n   s9: 8s\n   s10: 9s\n   s11: 9s\n   cliff: 4s\n   pred: 14s\n   outro: 10s\n   music: automatic background music (tense) -> auto_ambient_tense.m4a\n6/7 thumbnail + metadata\n   title: Rimjhim Ep 372 (22 Oct) | कल की कहानी + अनुमान | पिछला Ep 371 रिकैप | समीर के प्यार में बड़ा धोखा! | 30 tags\n7/7 upload\n   upload skipped\n"
+}
