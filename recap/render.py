@@ -145,3 +145,24 @@ def thumbnail(img, hook, tag_text, bottom_text, out):
 def pick_music():
     tr = glob.glob(os.path.join(S.BASE, "music", "*.mp3")) + glob.glob(os.path.join(S.BASE, "music", "*.m4a"))
     return random.choice(tr) if tr else None
+
+
+def generate_original_music(out, total):
+    """Synthesize a simple original ambient/suspense bed locally with FFmpeg; no downloaded music assets."""
+    total = max(float(total), 8.0)
+    # Soft layered tones: warm minor-key pad plus a quiet upper pulse for a gentle serial-drama feel.
+    # This is intentionally understated under narration and fades in/out.
+    args = [
+        "ffmpeg", "-y", "-loglevel", "error",
+        "-f", "lavfi", "-i", f"sine=frequency=110:sample_rate=44100:duration={total:.3f}",
+        "-f", "lavfi", "-i", f"sine=frequency=164.81:sample_rate=44100:duration={total:.3f}",
+        "-f", "lavfi", "-i", f"sine=frequency=220:sample_rate=44100:duration={total:.3f}",
+        "-f", "lavfi", "-i", f"sine=frequency=329.63:sample_rate=44100:duration={total:.3f}",
+        "-filter_complex",
+        f"[0:a]volume=0.24,lowpass=f=500[a0];[1:a]volume=0.14,lowpass=f=700[a1];"
+        f"[2:a]volume=0.09,lowpass=f=900[a2];[3:a]volume=0.035,lowpass=f=1200[a3];"
+        f"[a0][a1][a2][a3]amix=inputs=4:normalize=0,volume=0.20,afade=t=in:st=0:d=2,afade=t=out:st={max(total-3,0):.3f}:d=3,alimiter=limit=0.8[out]",
+        "-map", "[out]", "-ac", "2", "-b:a", "128k", out
+    ]
+    subprocess.run(args, check=True)
+    return out

@@ -91,7 +91,12 @@ for k, s in enumerate(segs):
     if s["name"]: starts.append((t0, s["name"]))
     t0 += D; print(f"   {s['tag']}: {D:.0f}s")
 name = f"{out_dir}/{KEY}_{ep['id']}"
-music = render.pick_music(); print("   music:", os.path.basename(music) if music else "none (add tracks to music/)")
+music = render.pick_music()
+if not music:
+    music = render.generate_original_music(f"{tmp}/original_ambient_bed.m4a", t0)
+    print("   music: generated original ambient/suspense bed (no external track)")
+else:
+    print("   music: licensed user-provided track", os.path.basename(music))
 render.concat(files, tmp, name + ".mp4", music, t0)
 
 print("6/7 thumbnail + metadata")
