@@ -3,7 +3,7 @@
   "counts": {
     "kaisi": 4,
     "rimjhim": 4,
-    "patibrahma": 2,
+    "patibrahma": 3,
     "mannsundar": 1,
     "bhabhi": 1,
     "ishq": 1
@@ -86,6 +86,12 @@
       "time_ist": "00:26:17 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "attempt": 1
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "00:44:00 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 3
     }
   ]
 }
