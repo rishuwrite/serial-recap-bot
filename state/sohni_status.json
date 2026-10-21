@@ -1,12 +1,12 @@
 {
   "show": "sohni",
-  "status": "rendered_no_upload",
-  "date_ist": "2026-10-21",
-  "timestamp_ist": "2026-10-21 22:36:57 IST",
+  "status": "success",
+  "date_ist": "2026-10-22",
+  "timestamp_ist": "2026-10-22 00:03:23 IST",
   "source_video_id": "ZOZhmAA5XZU",
   "source_episode": "15",
   "target_episode": "16",
-  "youtube_video_id": "",
+  "youtube_video_id": "ZdQMGnO8MCM",
   "error": "",
-  "log_tail": "ry 1)\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n    pollinations try 1/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image ok via pollinations (try 3)\n5/7 render\n   hook: 8s\n   s0: 10s\n   s1: 8s\n   s2: 10s\n   s3: 11s\n   s4: 11s\n   s5: 10s\n   s6: 10s\n   s7: 11s\n   s8: 9s\n   s9: 10s\n   cliff: 9s\n   pred: 21s\n   outro: 10s\n   music: automatic background music (shock) -> auto_ambient_shock.m4a\n6/7 thumbnail + metadata\n   title: Sohni Aur Nahi Koi Honi Ep 16 (22 Oct) | कल की कहानी + अनुमान | पिछला Ep 15 रिकैप | 14 tags\n7/7 upload\n   upload skipped\n"
+  "log_tail": ""
 }
