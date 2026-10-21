@@ -5,7 +5,8 @@
     "rimjhim": 4,
     "patibrahma": 2,
     "mannsundar": 1,
-    "bhabhi": 1
+    "bhabhi": 1,
+    "ishq": 1
   },
   "history": [
     {
@@ -77,6 +78,12 @@
     {
       "show": "bhabhi",
       "time_ist": "00:25:02 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "attempt": 1
+    },
+    {
+      "show": "ishq",
+      "time_ist": "00:26:17 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "attempt": 1
     }
