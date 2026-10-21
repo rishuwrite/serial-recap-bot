@@ -37,7 +37,7 @@ PROMPT = """आप एक हिंदी टीवी-सीरियल रि
 {"characters":[{"key":"c1","name":"...","visual":"..."}],
  "hook":"...","headline":"<=8 शब्द","thumb_text":"<=5 शब्द का चौंकाने वाला सवाल/हुक","hook_scene":0,
  "scenes":[{"title":"<=5 शब्द","narration":"...","emotion":"tense|sad|happy|angry|romantic|shock","image_prompt":"...","closeup_prompt":"..."}],
- "cliffhanger":"...","prediction":["...","...","..."],"prediction_image_prompt":"...","keywords":["..."]}
+ "cliffhanger":"...","prediction":["...","..."],"prediction_image_prompt":"...","keywords":["..."]}
 """
 
 def analyze(video_url, show_name, episode):

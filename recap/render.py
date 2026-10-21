@@ -53,17 +53,34 @@ def panel(chip_l, chip_r, emotion, out):
     im.save(out)
 
 def chunks(text, a, b):
-    text = deva(text)
-    ls = wrap(_d, text, font(56), 1740); groups = [ls[i:i + 2] for i in range(0, len(ls), 2)]
-    tot = sum(len(" ".join(g)) for g in groups) or 1; t = a; res = []
-    for g in groups:
-        w = len(" ".join(g)) / tot * (b - a); res.append((g, t, t + w)); t += w
-    return res
+    """Return short caption groups with word-level timings estimated across the spoken line."""
+    words = deva(text).split()
+    if not words: return []
+    # Keep groups short so FFmpeg overlays stay manageable, while preserving sentence context.
+    groups = [words[i:i + 8] for i in range(0, len(words), 8)]
+    weights = [sum(max(1, len(w.strip("।,!?:;"))) for w in g) for g in groups]
+    total = sum(weights) or 1; cursor = a; result = []
+    for group, weight in zip(groups, weights):
+        end = cursor + (b - a) * weight / total
+        gw = [max(1, len(w.strip("।,!?:;"))) for w in group]; gtotal = sum(gw) or 1
+        wc = cursor
+        for word, ww in zip(group, gw):
+            we = wc + (end - cursor) * ww / gtotal
+            result.append((group, word, wc, we))
+            wc = we
+        cursor = end
+    return result
 
-def caption(lines, out):
-    im = Image.new("RGBA", (W, 230), (0, 0, 0, 0)); d = ImageDraw.Draw(im); f = font(56); y = (230 - 78 * len(lines)) // 2
-    for l in lines:
-        d.text(((W - d.textlength(l, font=f)) / 2, y), l, font=f, fill=(255, 255, 255), stroke_width=4, stroke_fill=(0, 0, 0)); y += 78
+def caption(words, active, out):
+    """Draw the full short phrase and highlight the currently spoken word in yellow."""
+    im = Image.new("RGBA", (W, 230), (0, 0, 0, 0)); d = ImageDraw.Draw(im); f = font(56)
+    # One line per phrase; max eight words, centered as a whole.
+    text = " ".join(words); widths = [d.textlength(w + (" " if i < len(words)-1 else ""), font=f) for i,w in enumerate(words)]
+    x = (W - sum(widths)) / 2; y = 76
+    for i, word in enumerate(words):
+        color = (255, 218, 55, 255) if word == active else (255, 255, 255, 255)
+        d.text((x, y), word, font=f, fill=color, stroke_width=4, stroke_fill=(0, 0, 0, 255))
+        x += widths[i]
     im.save(out)
 
 def clip(comp, frames, path, variant):
@@ -88,8 +105,11 @@ def segment(tag, chip_l, chip_r, emotion, lines, times, audio, comps, tmp, out, 
     if not os.path.exists(bar): Image.new("RGBA", (W, 12), (255, 200, 0, 245)).save(bar)
     ins = ["-i", bg, "-i", audio, "-i", f"{tmp}/{tag}_panel.png", "-i", bar]; flt = "[0:v][2:v]overlay=0:0[v0];"; n_ov = 0
     for li, (ln, (a, b)) in enumerate(zip(lines, times)):
-        for gi, (g, ta, tb) in enumerate(chunks(ln, a, b)):
-            cp = f"{tmp}/{tag}_cap{li}_{gi}.png"; caption(g, cp); ins += ["-i", cp]
+        seen = set()
+        for gi, (words, active, ta, tb) in enumerate(chunks(ln, a, b)):
+            # A fresh image per spoken word gives a true word-by-word karaoke-style highlight.
+            cp = f"{tmp}/{tag}_cap{li}_{gi}.png"
+            caption(words, active, cp); ins += ["-i", cp]
             flt += f"[v{n_ov}][{4 + n_ov}:v]overlay=0:830:enable='between(t,{ta:.3f},{tb:.3f})'[v{n_ov + 1}];"; n_ov += 1
     flt += f"[v{n_ov}][3:v]overlay=x='-{W}+{W}*(t+{offset:.3f})/{total:.3f}':y={H - 12}[outv]"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error"] + ins + ["-filter_complex", flt, "-map", "[outv]", "-map", "1:a",

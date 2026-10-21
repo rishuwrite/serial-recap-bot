@@ -18,28 +18,18 @@ ep = feed.by_id(VIDEO_ID) if VIDEO_ID else feed.find_episode(KEY)
 if VIDEO_ID and feed.show_key_for(ep["title"]) != KEY: print("   this video belongs to another show; skipping"); sys.exit(0)
 if not ep: print("   no new unseen full episode for this show right now"); sys.exit(0)
 print("  ", ep["title"], "|", ep["url"])
-SOURCE_EP_NO = ep["episode"] or "?"
-SOURCE_DATE = ep["date"] or dt.datetime.now(IST).strftime("%d %b %Y")
-
-def next_episode_number(value):
-    """Advance a numeric episode number by one; leave unknown/non-numeric values explicit."""
-    return str(int(value) + 1) if str(value).isdigit() else str(value or "?")
-
-def next_date(value):
-    """Advance a parsed episode date by one day, preserving the project's display format."""
-    for fmt in ("%d %b %Y", "%d %B %Y", "%Y-%m-%d"):
-        try:
-            parsed = dt.datetime.strptime(value, fmt).date() + dt.timedelta(days=1)
-            return parsed.strftime("%d %b %Y")
-        except ValueError:
-            continue
-    # If source metadata has no parseable date, use tomorrow in India.
-    return (dt.datetime.now(IST).date() + dt.timedelta(days=1)).strftime("%d %b %Y")
-
-TARGET_EP_NO = next_episode_number(SOURCE_EP_NO)
-TARGET_DATE = next_date(SOURCE_DATE)
-print(f"  next-day packaging: source Ep {SOURCE_EP_NO} ({SOURCE_DATE}) -> target Ep {TARGET_EP_NO} ({TARGET_DATE})")
-
+SOURCE_EP_NO, SOURCE_DATE = ep["episode"] or "?", ep["date"] or dt.datetime.now(IST).strftime("%d %b %Y")
+# The video is framed as a next-day prediction: metadata/on-screen target date and episode are +1.
+def next_target(source_ep, source_date):
+    target_ep = str(int(source_ep) + 1) if str(source_ep).isdigit() else source_ep
+    parsed = None
+    for fmt in ("%d %b %Y", "%d %B %Y"):
+        try: parsed = dt.datetime.strptime(source_date, fmt); break
+        except ValueError: pass
+    target_date = (parsed + dt.timedelta(days=1)).strftime("%d %b %Y") if parsed else (dt.datetime.now(IST) + dt.timedelta(days=1)).strftime("%d %b %Y")
+    return target_ep, target_date
+EP_NO, DATE = next_target(SOURCE_EP_NO, SOURCE_DATE)
+print(f"  source episode/date: {SOURCE_EP_NO} / {SOURCE_DATE}; next-day target: {EP_NO} / {DATE}")
 def hindi_date(d):   # on-screen text must be Devanagari (the font has no Latin letters)
     import re
     m = re.match(r"(\d{1,2})\s+([A-Za-z]{3})[A-Za-z]*\s+(\d{4})", d or "")
@@ -52,12 +42,10 @@ scenes = [s for s in data.get("scenes", []) if s.get("narration")]
 if TEST: scenes = scenes[:3]
 if len(scenes) < 4 and not TEST: raise SystemExit(f"Gemini returned too few scenes ({len(scenes)})")
 n = len(scenes); hook_i = min(max(int(data.get("hook_scene", 0) or 0), 0), n - 1)
-pred = [str(x) for x in data.get("prediction", [])][:3]
-while len(pred) < 3:
-    pred.append(["शायद किसी पुराने राज़ से कहानी में नया मोड़ आएगा।", "हो सकता है अगली कड़ी में किसी रिश्ते की सच्चाई सामने आए।", "संभव है कोई किरदार ऐसा फैसला ले जो सबको चौंका दे।"][len(pred)])
+pred = [str(x) for x in data.get("prediction", [])][:2] or ["शायद आगे कहानी में नया मोड़ आएगा।"]
 
 print("3/7 voice")
-segs = [{"tag": "hook", "lines": [data.get("hook") or scenes[0]["narration"]], "img": hook_i, "chip": "पिछले एपिसोड का रिकैप", "name": "शुरुआत", "emo": scenes[hook_i].get("emotion", "tense")}]
+segs = [{"tag": "hook", "lines": [data.get("hook") or scenes[0]["narration"]], "img": hook_i, "chip": "आज की कहानी", "name": "शुरुआत", "emo": scenes[hook_i].get("emotion", "tense")}]
 for i, s in enumerate(scenes):
     segs.append({"tag": f"s{i}", "lines": [s["narration"]], "img": i, "chip": f"दृश्य {i + 1}/{n}", "name": s.get("title") or f"दृश्य {i + 1}", "emo": s.get("emotion", "tense")})
 segs.append({"tag": "cliff", "lines": [data.get("cliffhanger") or scenes[-1]["narration"]], "img": n - 1, "chip": "एपिसोड का अंत", "name": "एपिसोड का अंत", "emo": "shock"})
@@ -98,7 +86,7 @@ print("5/7 render")
 files, starts, t0 = [], [], 0.0
 for k, s in enumerate(segs):
     f = f"{tmp}/seg_{s['tag']}.mp4"
-    D = render.segment(s["tag"], f"{show['hi']} | एपिसोड {TARGET_EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k)
+    D = render.segment(s["tag"], f"{show['hi']} | कल का एपिसोड {EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k)
     files.append(f)
     if s["name"]: starts.append((t0, s["name"]))
     t0 += D; print(f"   {s['tag']}: {D:.0f}s")
@@ -109,11 +97,11 @@ render.concat(files, tmp, name + ".mp4", music, t0)
 print("6/7 thumbnail + metadata")
 thumb = name + ".jpg"
 render.thumbnail(raws.get((hook_i, "close")) or raws.get((hook_i, "wide")) or comps[hook_i][0], data.get("thumb_text") or data.get("headline") or "क्या होगा आगे?",
-                  show["hi"], f"एपिसोड {TARGET_EP_NO} | {hindi_date(TARGET_DATE)}", thumb)
+                  show["hi"], f"एपिसोड {EP_NO} | {hindi_date(DATE)}", thumb)
 kws = [str(k) for k in data.get("keywords", [])]
-title = meta.make_title(show, TARGET_EP_NO, TARGET_DATE, data.get("headline") or "")
-tags = meta.make_tags(show, TARGET_EP_NO, TARGET_DATE, kws)
-desc = meta.make_description(show, TARGET_EP_NO, TARGET_DATE, ep["url"], data.get("hook", ""), starts, pred, kws, tags, source_episode=SOURCE_EP_NO, source_date=SOURCE_DATE)
+title = meta.make_title(show, EP_NO, DATE, data.get("headline") or "", source_ep=SOURCE_EP_NO, source_date=SOURCE_DATE)
+tags = meta.make_tags(show, EP_NO, DATE, kws)
+desc = meta.make_description(show, EP_NO, DATE, ep["url"], data.get("hook", ""), starts, pred, kws, tags, source_ep=SOURCE_EP_NO, source_date=SOURCE_DATE)
 json.dump({"title": title, "description": desc, "tags": tags, "source": ep["url"], "seconds": round(t0)}, open(name + ".json", "w"), ensure_ascii=False, indent=2)
 print("   title:", title, "|", len(tags), "tags")
 
