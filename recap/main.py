@@ -43,18 +43,18 @@ try:
     print("  ", ep["title"], "|", ep["url"])
     SOURCE_EP_NO, SOURCE_DATE = ep["episode"] or "?", ep["date"] or dt.datetime.now(IST).strftime("%d %b %Y")
 
-    # The video is framed as a next-day prediction: metadata/on-screen target date and episode are +1.
+    # The video is framed as a two-day-ahead prediction: metadata/on-screen target date and episode are +2.
     def next_target(source_ep, source_date):
-        target_ep = str(int(source_ep) + 1) if str(source_ep).isdigit() else source_ep
+        target_ep = str(int(source_ep) + 2) if str(source_ep).isdigit() else source_ep
         parsed = None
         for fmt in ("%d %b %Y", "%d %B %Y"):
             try: parsed = dt.datetime.strptime(source_date, fmt); break
             except ValueError: pass
-        target_date = (parsed + dt.timedelta(days=1)).strftime("%d %b %Y") if parsed else (dt.datetime.now(IST) + dt.timedelta(days=1)).strftime("%d %b %Y")
+        target_date = (parsed + dt.timedelta(days=2)).strftime("%d %b %Y") if parsed else (dt.datetime.now(IST) + dt.timedelta(days=2)).strftime("%d %b %Y")
         return target_ep, target_date
 
     EP_NO, DATE = next_target(SOURCE_EP_NO, SOURCE_DATE)
-    print(f"  source episode/date: {SOURCE_EP_NO} / {SOURCE_DATE}; next-day target: {EP_NO} / {DATE}")
+    print(f"  source episode/date: {SOURCE_EP_NO} / {SOURCE_DATE}; two-day target: {EP_NO} / {DATE}")
 
     # Anti-duplicate check #1: verify state and live YouTube channel before spending time generating video
     if not VIDEO_ID and feed.is_done(KEY, ep["id"], SOURCE_EP_NO):
@@ -87,7 +87,7 @@ try:
     for i, s in enumerate(scenes):
         segs.append({"tag": f"s{i}", "lines": [s["narration"]], "img": i, "chip": f"दृश्य {i + 1}/{n}", "name": s.get("title") or f"दृश्य {i + 1}", "emo": s.get("emotion", "tense")})
     segs.append({"tag": "cliff", "lines": [data.get("cliffhanger") or scenes[-1]["narration"]], "img": n - 1, "chip": "एपिसोड का अंत", "name": "एपिसोड का अंत", "emo": "shock"})
-    segs.append({"tag": "pred", "lines": ["अब कल की बात, लेकिन सिर्फ़ अनुमान के तौर पर।"] + pred, "img": n, "chip": "अनुमान", "name": "कल क्या हो सकता है (अनुमान)", "emo": "tense"})
+    segs.append({"tag": "pred", "lines": ["अब परसों की बात, लेकिन सिर्फ़ अनुमान के तौर पर।"] + pred, "img": n, "chip": "अनुमान", "name": "परसों क्या हो सकता है (अनुमान)", "emo": "tense"})
     segs.append({"tag": "outro", "lines": ["पूरा एपिसोड आधिकारिक चैनल पर उपलब्ध है।", S.OUTRO_LINE], "img": 0, "chip": "धन्यवाद", "name": "", "emo": "happy"})
     voice.synth_all(segs, tmp)
     total = sum(s["times"][-1][1] for s in segs)
@@ -124,7 +124,7 @@ try:
     files, starts, t0 = [], [], 0.0
     for k, s in enumerate(segs):
         f = f"{tmp}/seg_{s['tag']}.mp4"
-        D = render.segment(s["tag"], f"{show['hi']} | कल का एपिसोड {EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k, word_times=s.get("word_times"))
+        D = render.segment(s["tag"], f"{show['hi']} | परसों का एपिसोड {EP_NO}", s["chip"], s["emo"], s["lines"], s["times"], s["audio"], comps[s["img"]], tmp, f, t0, total, v0=k, word_times=s.get("word_times"))
         files.append(f)
         if s["name"]: starts.append((t0, s["name"]))
         t0 += D; print(f"   {s['tag']}: {D:.0f}s")

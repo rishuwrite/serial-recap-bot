@@ -7,11 +7,11 @@ def _next(ep):
     return str(int(ep) + 1) if str(ep).isdigit() else ""
 
 def make_title(show, ep, date_, headline, source_ep=None, source_date=None):
-    """Target next-day date/episode in title; source episode remains clearly identified as recap context."""
+    """Target date/episode two days ahead; source episode remains clearly identified as recap context."""
     short = " ".join(date_.split()[:2]) if date_ else ""
-    source_ep = source_ep or str(max(1, int(ep)-1)) if str(ep).isdigit() else (source_ep or "?")
-    base = f"{show['en']} Ep {ep} ({short}) | कल की कहानी + अनुमान"
-    if source_ep and source_ep != ep: base += f" | पिछला Ep {source_ep} रिकैप"
+    source_ep = source_ep or str(max(1, int(ep)-2)) if str(ep).isdigit() else (source_ep or "?")
+    base = f"{show['en']} Ep {ep} ({short}) | परसों की कहानी + अनुमान"
+    if source_ep and source_ep != ep: base += f" | स्रोत Ep {source_ep} रिकैप"
     t = f"{base} | {headline}" if headline else base
     return t if len(t) <= 98 else base[:98]
 
@@ -39,9 +39,9 @@ def chapters(starts):
     return "\n".join(f"{mmss(t)} {n}" for t, n in out) if len(out) >= 3 else ""
 
 def make_description(show, ep, date_, ep_url, hook, starts, prediction, kws, tags, source_ep=None, source_date=None):
-    source_ep = source_ep or (str(int(ep)-1) if str(ep).isdigit() else "?")
+    source_ep = source_ep or (str(max(1, int(ep)-2)) if str(ep).isdigit() else "?")
     d = f"{hook}\n\n📺 {show['en']} ({show['hi']}) | लक्ष्य: {date_} | अगले एपिसोड {ep} का अनुमान।\n"
-    d += f"यह रिकैप {source_date or 'पिछले दिन'} के एपिसोड {source_ep} पर आधारित है; आगे की बातें अनुमान हैं, पुष्टि किए हुए स्पॉइलर नहीं।\n"
+    d += f"यह रिकैप {source_date or 'दो दिन पहले'} के एपिसोड {source_ep} पर आधारित है; आगे की बातें अनुमान हैं, पुष्टि किए हुए स्पॉइलर नहीं।\n"
     ch = chapters(starts)
     if ch: d += f"\nअध्याय:\n{ch}\n"
     d += f"\n⚠ एपिसोड {ep} में क्या हो सकता है - सिर्फ़ अनुमान, असली एपिसोड नहीं:\n" + "\n".join(prediction) + "\n"

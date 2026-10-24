@@ -130,7 +130,7 @@ def run_watchdog():
         # 2. If unseen episode exists, verify if it was already uploaded to YouTube (prevents duplicates)
         if unseen_ep and youtube.enabled():
             src_ep = unseen_ep.get("episode") or ""
-            target_ep = str(int(src_ep) + 1) if str(src_ep).isdigit() else src_ep
+            target_ep = str(int(src_ep) + 2) if str(src_ep).isdigit() else src_ep
             yt_existing = youtube.already_uploaded(show, target_ep, source_vid=unseen_ep["id"])
             if yt_existing:
                 print(f"   [{k}] unseen episode {src_ep} already on YouTube ({yt_existing}); syncing state")
