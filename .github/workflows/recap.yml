@@ -1,8 +1,8 @@
 name: serial-recaps
 on:
-  # External cron triggers (Google Apps Script / Cloudflare Worker / cron-job.org at 12:00 AM IST) use workflow_dispatch or repository_dispatch
+  # External cron triggers (Google Apps Script at 12:00 AM IST & hourly 9 AM - 4 PM IST slot triggers)
   repository_dispatch:
-    types: [nightly-12am, watchdog-check]
+    types: [nightly-12am, watchdog-check, ig-slot-publish]
   workflow_dispatch:
     inputs:
       only_show:
@@ -19,13 +19,21 @@ on:
         type: boolean
         default: false
       upload:
-        description: "Upload to YouTube (ON = uploads & schedules for 9 AM - 4 PM IST slots)"
+        description: "Upload & schedule to YouTube, Facebook, Google Drive & Instagram (ON = enabled)"
         type: boolean
         default: true
       publish_now:
-        description: "Publish immediately? (Keep OFF/false so videos schedule for 9,10,11,12,1,2,3,4 AM-PM IST)"
+        description: "Publish immediately? (Keep OFF/false at 12 AM so videos schedule for 9 AM - 4 PM IST slots)"
         type: boolean
         default: false
+      only_ig_publish:
+        description: "Slot trigger: only publish pre-rendered Reel from Google Drive to Instagram right now"
+        type: boolean
+        default: false
+      render_vertical:
+        description: "Render 9:16 vertical Reel MP4 (auto-enabled when Instagram or Google Drive is enabled)"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -46,7 +54,7 @@ jobs:
     steps:
       - id: chk
         run: |
-          S="${{ inputs.only_show }}"
+          S="${{ inputs.only_show || github.event.client_payload.only_show }}"
           if [ -z "$S" ] || [ "$S" = "all" ] || [ "$S" = "${{ matrix.show }}" ]; then
             echo "run=true" >> $GITHUB_OUTPUT
           else
@@ -69,27 +77,53 @@ jobs:
           sudo apt-get install -y ffmpeg fonts-noto-core libraqm0 libfribidi0 libharfbuzz0b
           pip install -r requirements.txt
 
-      - name: Make recap (with log check & auto-retry on failure)
+      - name: Make recap / publish (with log check & auto-retry on failure)
         if: steps.chk.outputs.run == 'true'
         env:
           SHOW_KEY: ${{ matrix.show }}
           EVENT_NAME: ${{ github.event_name }}
-          VIDEO_ID: ${{ inputs.video_id }}
-          PUBLISH_NOW: ${{ inputs.publish_now || 'false' }}
+          VIDEO_ID: ${{ inputs.video_id || github.event.client_payload.video_id || '' }}
+          PUBLISH_NOW: ${{ inputs.publish_now || github.event.client_payload.publish_now || 'false' }}
+          ONLY_IG_PUBLISH: ${{ (github.event.action == 'ig-slot-publish' && 'true') || inputs.only_ig_publish || github.event.client_payload.only_ig_publish || 'false' }}
+          RENDER_VERTICAL: ${{ inputs.render_vertical || 'true' }}
           DO_UPLOAD: ${{ github.event_name == 'repository_dispatch' && 'true' || inputs.upload }}
           TEST_MODE: ${{ github.event_name == 'repository_dispatch' && 'false' || inputs.test_mode }}
+          # Core AI & Image Secrets
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+          # YouTube Secrets
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+          # Google Drive Secrets (falls back to YT_CLIENT_ID / YT_CLIENT_SECRET / YT_REFRESH_TOKEN if same Google account)
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID || vars.GDRIVE_FOLDER_ID }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          # Facebook & Instagram (Meta Graph API) Secrets
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_VIDEO_URL_TEMPLATE: ${{ secrets.INSTAGRAM_VIDEO_URL_TEMPLATE }}
+          # Repository Variables
           UPLOAD_PRIVACY: ${{ vars.UPLOAD_PRIVACY }}
           SERIAL_CHANNEL_NAME: ${{ vars.SERIAL_CHANNEL_NAME }}
           SERIAL_VOICE: ${{ vars.SERIAL_VOICE }}
           MUSIC_VOLUME: ${{ vars.MUSIC_VOLUME }}
+          FACEBOOK_ENABLED: ${{ vars.FACEBOOK_ENABLED }}
+          FACEBOOK_REELS_MODE: ${{ vars.FACEBOOK_REELS_MODE }}
+          FACEBOOK_CAPTION: ${{ vars.FACEBOOK_CAPTION }}
+          INSTAGRAM_ENABLED: ${{ vars.INSTAGRAM_ENABLED }}
+          INSTAGRAM_CAPTION: ${{ vars.INSTAGRAM_CAPTION }}
+          IG_MAX_REEL_SECONDS: ${{ vars.IG_MAX_REEL_SECONDS }}
+          IG_PUBLISH_WITH_NIGHTLY: ${{ vars.IG_PUBLISH_WITH_NIGHTLY }}
+          GDRIVE_ENABLED: ${{ vars.GDRIVE_ENABLED }}
+          GDRIVE_DELETE_AFTER_PUBLISH: ${{ vars.GDRIVE_DELETE_AFTER_PUBLISH }}
+          META_GRAPH_API_VERSION: ${{ vars.META_GRAPH_API_VERSION }}
         run: |
           set +e
           for attempt in 1 2; do
@@ -157,7 +191,7 @@ jobs:
           pip install -r requirements.txt
           git pull --rebase -q origin main || true
 
-      - name: Read logs, verify YouTube & Dangal feed, and auto-rerun failed/missed shows
+      - name: Read logs, verify YouTube/Facebook/Instagram/Drive, and auto-rerun failed/missed shows
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -167,6 +201,18 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID || vars.GDRIVE_FOLDER_ID }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          FACEBOOK_ENABLED: ${{ vars.FACEBOOK_ENABLED }}
+          INSTAGRAM_ENABLED: ${{ vars.INSTAGRAM_ENABLED }}
+          GDRIVE_ENABLED: ${{ vars.GDRIVE_ENABLED }}
+          META_GRAPH_API_VERSION: ${{ vars.META_GRAPH_API_VERSION }}
         run: python recap/watchdog.py
 
       - name: Save watchdog state
