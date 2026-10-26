@@ -51,3 +51,34 @@ def make_description(show, ep, date_, ep_url, hook, starts, prediction, kws, tag
     d += ("\nडिस्क्लेमर: यह एक फ़ैन-निर्मित रिकैप है। शो के सभी अधिकार मूल निर्माताओं/चैनल के पास हैं। इसमें शो का कोई वीडियो, ऑडियो या संगीत इस्तेमाल नहीं हुआ। "
           "चित्र AI से बनाए गए हैं और किसी कलाकार की छवि नहीं हैं; आवाज़ AI की है।\n")
     return d[:4900]
+
+def make_social_caption(show, ep, date_, ep_url, hook, prediction, headline="", source_ep=None, source_vid=None):
+    """Build a concise, high-engagement caption for Instagram Reels & Facebook (<2100 chars)
+    that includes the episode identifier for automatic duplicate detection."""
+    source_ep = source_ep or (str(max(1, int(ep)-2)) if str(ep).isdigit() else "?")
+    vid_id = source_vid or (ep_url.split("v=")[-1] if ep_url and "v=" in ep_url else "")
+    lines = [
+        f"🔥 {show['hi']} ({show['en']}) | Ep {ep} ({date_}) महा-ट्विस्ट!",
+        "",
+        hook or headline,
+        "",
+        "🔮 आगे क्या हो सकता है (अनुमान):",
+    ]
+    for p in (prediction or [])[:2]:
+        lines.append(f"👉 {p}")
+    lines += [
+        "",
+        f"📺 स्रोत: Ep {source_ep} रिकैप ({vid_id}) | ऐसी डेली सीरियल अपडेट्स के लिए पेज को फॉलो करें! ❤️",
+        "",
+        " ".join([
+            hashtag(show["en"]),
+            "#DangalTV",
+            "#HindiSerial",
+            "#SerialUpdate",
+            "#TodayEpisode",
+            "#SerialTwist",
+            "#ReelsIndia",
+            "#DesiSerial",
+        ]),
+    ]
+    return "\n".join(lines)[:2100]

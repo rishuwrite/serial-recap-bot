@@ -23,7 +23,7 @@ def is_done(key, vid, episode_no=None):
         return True
     return False
 
-def mark_done(key, vid, episode_no=None, target_ep=None, yt_id=None):
+def mark_done(key, vid, episode_no=None, target_ep=None, yt_id=None, fb_id=None, ig_id=None, drive_id=None, scheduled_slot_ist=None):
     """Record both video_id and episode_no so re-uploads or retries never process the same episode twice."""
     os.makedirs(os.path.join(S.BASE, "state"), exist_ok=True)
     tokens = {vid} if vid else set()
@@ -33,21 +33,34 @@ def mark_done(key, vid, episode_no=None, target_ep=None, yt_id=None):
         tokens.add(f"target_ep:{str(target_ep).strip()}")
     ids = sorted(done_ids(key) | tokens)
     json.dump(ids[-120:], open(_state(key), "w"), indent=2)
-    record_status(key, "success", vid=vid, episode=episode_no, target_ep=target_ep, yt_id=yt_id)
+    record_status(
+        key, "success",
+        vid=vid, episode=episode_no, target_ep=target_ep,
+        yt_id=yt_id, fb_id=fb_id, ig_id=ig_id, drive_id=drive_id,
+        scheduled_slot_ist=scheduled_slot_ist,
+    )
 
-def record_status(key, status, vid="", episode="", target_ep="", yt_id="", error="", log_tail=""):
-    """Write structured execution status & log summary for watchdog inspection and auto-rerun decisions."""
+def record_status(key, status, vid="", episode="", target_ep="", yt_id="", fb_id="", ig_id="", drive_id="", scheduled_slot_ist="", error="", log_tail=""):
+    """Write structured execution status & log summary for watchdog inspection and auto-rerun decisions.
+    Preserves any previously recorded platform IDs (yt_id, fb_id, ig_id, drive_id) for the same source video."""
     os.makedirs(os.path.join(S.BASE, "state"), exist_ok=True)
     now_ist = dt.datetime.now(IST)
+    prev = get_status(key)
+    same_vid = bool(vid and prev.get("source_video_id") == vid)
+
     payload = {
         "show": key,
         "status": status,  # "running" | "success" | "failed" | "no_new_episode" | "already_uploaded"
         "date_ist": now_ist.strftime("%Y-%m-%d"),
         "timestamp_ist": now_ist.strftime("%Y-%m-%d %H:%M:%S IST"),
-        "source_video_id": vid or "",
-        "source_episode": str(episode or ""),
-        "target_episode": str(target_ep or ""),
-        "youtube_video_id": yt_id or "",
+        "source_video_id": vid or (prev.get("source_video_id", "") if same_vid else ""),
+        "source_episode": str(episode or (prev.get("source_episode", "") if same_vid else "")),
+        "target_episode": str(target_ep or (prev.get("target_episode", "") if same_vid else "")),
+        "youtube_video_id": yt_id or (prev.get("youtube_video_id", "") if same_vid else ""),
+        "facebook_video_id": fb_id or (prev.get("facebook_video_id", "") if same_vid else ""),
+        "instagram_media_id": ig_id or (prev.get("instagram_media_id", "") if same_vid else ""),
+        "gdrive_file_id": drive_id or (prev.get("gdrive_file_id", "") if same_vid else ""),
+        "scheduled_slot_ist": scheduled_slot_ist or (prev.get("scheduled_slot_ist", "") if same_vid else ""),
         "error": str(error or "")[:500],
         "log_tail": str(log_tail or "")[-1500:],
     }
@@ -65,7 +78,6 @@ def recent_uploads(max_pages=3):
     1. Uses RSS feed first or YouTube Data API (via YT_API_KEY or existing YouTube OAuth token—no extra key needed!).
     2. Combines API + RSS results so even if Dangal TV posts Shorts/promos after 7-10:30 PM, no full episode is missed."""
     out, seen_ids = [], set()
-    # 1. Fast RSS feed check (always 100% free, zero quota, works immediately for evening uploads)
     try:
         raw_xml = requests.get(S.FEED, headers=UA, timeout=30).content
         if feedparser is not None:
@@ -89,7 +101,6 @@ def recent_uploads(max_pages=3):
     except Exception as e:
         print("   RSS warning:", str(e)[:100])
 
-    # 2. Also query playlistItems via OAuth token (or YT_API_KEY if set) so Shorts/promos never push episodes out of the 15-item RSS window
     key = os.getenv("YT_API_KEY")
     hdr = {}
     if not key and youtube.enabled():
@@ -151,7 +162,6 @@ def find_episode(key, max_age_h=96):
         ep, date_ = parse_title(t)
         if not ep:
             continue
-        # Check both video_id and episode number so the same episode is never processed twice
         if is_done(key, v["id"], ep):
             continue
         try:
