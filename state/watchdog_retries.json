@@ -1,14 +1,14 @@
 {
   "date": "2026-10-27",
   "counts": {
-    "kaisi": 3,
-    "bhabhi": 3,
-    "sohni": 3,
-    "rimjhim": 3,
-    "mannsundar": 3,
-    "atisundar": 3,
-    "patibrahma": 3,
-    "ishq": 3
+    "kaisi": 4,
+    "bhabhi": 4,
+    "sohni": 4,
+    "rimjhim": 4,
+    "mannsundar": 4,
+    "atisundar": 4,
+    "patibrahma": 4,
+    "ishq": 4
   },
   "history": [
     {
@@ -178,6 +178,62 @@
       "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
       "only_ig_publish": false,
       "attempt": 3
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "02:04:14 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "sohni",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "ishq",
+      "time_ist": "02:04:14 IST",
+      "reason": "status=failed (GEMINI_TRANSIENT_FAILURE: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401)",
+      "only_ig_publish": false,
+      "attempt": 4
     }
   ]
 }
