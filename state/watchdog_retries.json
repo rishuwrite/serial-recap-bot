@@ -1,129 +1,71 @@
 {
-  "date": "2026-10-22",
+  "date": "2026-10-27",
   "counts": {
-    "kaisi": 4,
-    "rimjhim": 4,
-    "patibrahma": 4,
+    "kaisi": 1,
+    "bhabhi": 1,
+    "sohni": 1,
+    "rimjhim": 1,
     "mannsundar": 1,
-    "bhabhi": 2,
-    "ishq": 1,
     "atisundar": 1,
-    "sohni": 2
+    "patibrahma": 1,
+    "ishq": 1
   },
   "history": [
     {
       "show": "kaisi",
-      "time_ist": "00:05:39 IST",
-      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
-      "attempt": 1
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "00:05:39 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 1
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "00:05:39 IST",
-      "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
-      "attempt": 1
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "00:07:19 IST",
-      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
-      "attempt": 2
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "00:07:19 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 2
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "00:07:19 IST",
-      "reason": "unprocessed new episode 447 (Lg_unhgG12k)",
-      "attempt": 2
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "00:11:58 IST",
-      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
-      "attempt": 3
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "00:11:58 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 3
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "00:12:23 IST",
-      "reason": "unprocessed new episode 93 (1PmuMR41H18)",
-      "attempt": 4
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "00:12:23 IST",
-      "reason": "unprocessed new episode 371 (NaDZJnMT4Og)",
-      "attempt": 4
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "00:17:48 IST",
+      "time_ist": "01:34:34 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
       "attempt": 1
     },
     {
       "show": "bhabhi",
-      "time_ist": "00:25:02 IST",
+      "time_ist": "01:34:34 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "sohni",
+      "time_ist": "01:34:34 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "01:34:34 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "01:34:34 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "01:34:34 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "01:34:34 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
       "attempt": 1
     },
     {
       "show": "ishq",
-      "time_ist": "00:26:17 IST",
+      "time_ist": "01:34:34 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
       "attempt": 1
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "00:44:00 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 3
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "00:49:42 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 1
-    },
-    {
-      "show": "sohni",
-      "time_ist": "00:52:56 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 1
-    },
-    {
-      "show": "sohni",
-      "time_ist": "01:02:45 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 2
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "01:14:42 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 2
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "01:18:53 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "attempt": 4
     }
   ]
 }
