@@ -1,12 +1,16 @@
 {
   "show": "bhabhi",
-  "status": "no_new_episode",
-  "date_ist": "2026-10-26",
-  "timestamp_ist": "2026-10-26 00:01:31 IST",
-  "source_video_id": "",
-  "source_episode": "",
-  "target_episode": "",
+  "status": "failed",
+  "date_ist": "2026-10-27",
+  "timestamp_ist": "2026-10-27 00:41:56 IST",
+  "source_video_id": "gTuD29WVXws",
+  "source_episode": "49",
+  "target_episode": "51",
   "youtube_video_id": "",
-  "error": "",
-  "log_tail": "== Hamari Bhabhi Number 1 | slot=10:00 IST | test=False | upload=True | publish_now=False\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 15\n   no new unseen full episode for this show right now\n"
+  "facebook_video_id": "",
+  "instagram_media_id": "",
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    ",
+  "log_tail": "== Hamari Bhabhi Number 1 | slot=10:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   Hamari Bhabhi Number 1 | Full Episode 49 | 26 Oct 2026 | HD #newepisode Dangal TV | https://www.youtube.com/watch?v=gTuD29WVXws\n  source episode/date: 49 / 26 Oct 2026; two-day target: 51 / 28 Oct 2026\n2/7 Gemini watches the episode\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 60s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 120s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\nFAILED: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    \n"
 }
