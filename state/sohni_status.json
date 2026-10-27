@@ -1,16 +1,16 @@
 {
   "show": "sohni",
-  "status": "failed",
+  "status": "success",
   "date_ist": "2026-10-27",
-  "timestamp_ist": "2026-10-27 02:28:18 IST",
+  "timestamp_ist": "2026-10-27 08:06:25 IST",
   "source_video_id": "XszGyLOpGbU",
   "source_episode": "19",
   "target_episode": "21",
-  "youtube_video_id": "",
-  "facebook_video_id": "",
+  "youtube_video_id": "IVay5DJ2Iq8",
+  "facebook_video_id": "1096624919861806",
   "instagram_media_id": "",
-  "gdrive_file_id": "",
-  "scheduled_slot_ist": "",
-  "error": "Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    ",
-  "log_tail": "== Sohni Aur Nahi Koi Honi | slot=11:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   Sohni - Aur Nahi Koi Honi | 26 Oct 2026 | Full Episode 19 | Dangal TV Channel | https://www.youtube.com/watch?v=XszGyLOpGbU\n  source episode/date: 19 / 26 Oct 2026; two-day target: 21 / 28 Oct 2026\n2/7 Gemini watches the episode\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 60s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 120s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\nFAILED: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    \n"
+  "gdrive_file_id": "1fO8YFXACKUEdoXsWZugLxZjIpSSKD920",
+  "scheduled_slot_ist": "2026-10-27 11:00 AM IST",
+  "error": "",
+  "log_tail": ""
 }
