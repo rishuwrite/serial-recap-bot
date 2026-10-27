@@ -2,7 +2,7 @@
   "show": "rimjhim",
   "status": "failed",
   "date_ist": "2026-10-27",
-  "timestamp_ist": "2026-10-27 02:48:59 IST",
+  "timestamp_ist": "2026-10-27 08:18:44 IST",
   "source_video_id": "qVb2ZEex6-w",
   "source_episode": "376",
   "target_episode": "378",
@@ -11,6 +11,6 @@
   "instagram_media_id": "",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    ",
-  "log_tail": "== Rimjhim | slot=12:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   Rimjhim - Choti Umar Bada Safar | Full Episode 376 | 26 Oct 2026 | Full HD #Newepisode | Dangal TV | https://www.youtube.com/watch?v=qVb2ZEex6-w\n  source episode/date: 376 / 26 Oct 2026; two-day target: 378 / 28 Oct 2026\n2/7 Gemini watches the episode\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 60s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\n  all models busy, retrying in 120s\n  failed -> gemini-flash-latest 401\n  failed -> gemini-2.5-flash 401\nFAILED: Gemini could not analyse the video. Last error: gemini-2.5-flash: 401 {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"details\": [\n      {\n    \n"
+  "error": "Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: bad response ('candidates')",
+  "log_tail": "-flash 429\n  failed -> gemini-3.7-flash 429\n  gemini-3.6-flash: bad response ('candidates')\n  gemini-3.5-flash: bad response ('candidates')\n  failed -> gemini-2.5-flash 404\n  gemini-flash-lite-latest: bad response ('candidates')\n  gemini-3.5-flash-lite: bad response ('candidates')\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  gemini-3.6-flash: bad response ('candidates')\n  gemini-3.5-flash: bad response ('candidates')\n  failed -> gemini-2.5-flash 404\n  gemini-flash-lite-latest: bad response ('candidates')\n  gemini-3.5-flash-lite: bad response ('candidates')\n  all models busy, retrying in 60s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  gemini-3.6-flash: bad response ('candidates')\n  gemini-3.5-flash: bad response ('candidates')\n  failed -> gemini-2.5-flash 404\n  gemini-flash-lite-latest: bad response ('candidates')\n  gemini-3.5-flash-lite: bad response ('candidates')\n  all models busy, retrying in 120s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  gemini-3.5-flash: bad response ('candidates')\n  failed -> gemini-2.5-flash 404\n  gemini-flash-lite-latest: bad response ('candidates')\n  gemini-3.5-flash-lite: bad response ('candidates')\nFAILED: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: bad response ('candidates')\n"
 }
