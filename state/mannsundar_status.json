@@ -8,9 +8,10 @@
   "target_episode": "",
   "youtube_video_id": "",
   "facebook_video_id": "",
-  "instagram_media_id": "",
+  "instagram_media_id": "18109638133912541",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
   "error": "",
-  "log_tail": "== Mann Sundar | slot=13:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n"
+  "log_tail": "== Mann Sundar | slot=13:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n",
+  "ig_published": true
 }
