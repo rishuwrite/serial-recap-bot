@@ -2,7 +2,7 @@
   "show": "mannsundar",
   "status": "no_new_episode",
   "date_ist": "2026-10-27",
-  "timestamp_ist": "2026-10-27 13:29:27 IST",
+  "timestamp_ist": "2026-10-27 20:30:33 IST",
   "source_video_id": "",
   "source_episode": "",
   "target_episode": "",
@@ -12,5 +12,5 @@
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
   "error": "",
-  "log_tail": "== [IG-SLOT-PUBLISH] Mann Sundar | source_vid= | target_ep= | drive_id= ==\n   No pre-rendered Reel found in Google Drive for today; falling through to full pipeline with PUBLISH_NOW=true...\n== Mann Sundar | slot=13:00 IST | test=False | upload=True | publish_now=True | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n"
+  "log_tail": "== Mann Sundar | slot=13:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n"
 }
