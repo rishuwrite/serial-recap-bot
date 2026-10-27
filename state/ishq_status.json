@@ -8,9 +8,10 @@
   "target_episode": "",
   "youtube_video_id": "",
   "facebook_video_id": "",
-  "instagram_media_id": "",
+  "instagram_media_id": "17958264819256051",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
   "error": "",
-  "log_tail": "== [IG-SLOT-PUBLISH] Ishq Junooni | source_vid= | target_ep= | drive_id= ==\n   No pre-rendered Reel found in Google Drive for today; falling through to full pipeline with PUBLISH_NOW=true...\n== Ishq Junooni | slot=16:00 IST | test=False | upload=True | publish_now=True | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n"
+  "log_tail": "== [IG-SLOT-PUBLISH] Ishq Junooni | source_vid= | target_ep= | drive_id= ==\n   No pre-rendered Reel found in Google Drive for today; falling through to full pipeline with PUBLISH_NOW=true...\n== Ishq Junooni | slot=16:00 IST | test=False | upload=True | publish_now=True | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   no new unseen full episode for this show right now\n",
+  "ig_published": true
 }
