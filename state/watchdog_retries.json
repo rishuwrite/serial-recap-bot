@@ -1,36 +1,15 @@
 {
-  "date": "2026-10-28",
+  "date": "2026-10-29",
   "counts": {
-    "rimjhim": 4
+    "rimjhim": 1
   },
   "history": [
     {
       "show": "rimjhim",
-      "time_ist": "01:11:06 IST",
+      "time_ist": "02:02:03 IST",
       "reason": "unprocessed new episode 376 (qVb2ZEex6-w)",
       "only_ig_publish": false,
       "attempt": 1
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "01:21:58 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "01:32:53 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "01:43:42 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 4
     }
   ]
 }
