@@ -59,6 +59,13 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `IG_MAX_REEL_SECONDS` | `115` | Caps vertical Reel length at 115s so Meta's API never rejects >120s Reels |
 | `IG_PUBLISH_WITH_NIGHTLY` | `false` | `false` = publish IG Reel at exact 9 AM–4 PM IST slot via Apps Script; `true` = publish IG immediately at 12 AM |
 | `GDRIVE_DELETE_AFTER_PUBLISH` | `false` | `true` = automatically delete Reel from Google Drive after Instagram publish succeeds |
+| `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | Optional Gradio Space URL for generating episode-specific 16:9 thumbnail artwork |
+
+### Episode-aware thumbnail artwork
+
+For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It then generates a fresh 1280 × 720 illustration with the FLUX.1-schnell Gradio Space and applies the bot's existing Hindi hook, show, and episode/date overlays. The image prompt uses the analyzed episode hook and scene, and instructs the model not to reproduce faces, text, or logos from the source thumbnail. If thumbnail analysis or the public FLUX Space is unavailable, the bot logs the issue and falls back to the existing episode illustrations/providers.
+
+`gradio_client` is installed from `requirements.txt`. `HF_FLUX_SPACE` can be set as a GitHub Actions repository variable to override the public Space URL; no Hugging Face token is required for the default public Space. Gemini uses the existing `GEMINI_API_KEY`. Thumbnail generation uses HTTPS and does not change process-wide DNS behavior.
 
 ---
 
