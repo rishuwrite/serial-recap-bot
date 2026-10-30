@@ -1,14 +1,14 @@
 {
   "date": "2026-10-30",
   "counts": {
-    "kaisi": 3,
-    "bhabhi": 3,
-    "sohni": 3,
-    "rimjhim": 3,
-    "mannsundar": 3,
-    "atisundar": 3,
-    "patibrahma": 3,
-    "ishq": 3
+    "kaisi": 4,
+    "bhabhi": 4,
+    "sohni": 4,
+    "rimjhim": 4,
+    "mannsundar": 4,
+    "atisundar": 4,
+    "patibrahma": 4,
+    "ishq": 4
   },
   "history": [
     {
@@ -178,6 +178,62 @@
       "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
       "only_ig_publish": false,
       "attempt": 3
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 101 (OxHriVbn48U)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:38:10 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "sohni",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "22:38:10 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "ishq",
+      "time_ist": "22:38:10 IST",
+      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
+      "only_ig_publish": false,
+      "attempt": 4
     }
   ]
 }
