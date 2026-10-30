@@ -1,0 +1,16 @@
+{
+  "show": "patibrahma",
+  "status": "failed",
+  "date_ist": "2026-10-30",
+  "timestamp_ist": "2026-10-30 23:59:35 IST",
+  "source_video_id": "JoU2xoFhB-U",
+  "source_episode": "455",
+  "target_episode": "457",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
+  "instagram_media_id": "",
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        \"reason\": \"uploadLimitExceeded\"\n      }\n    ]\n  }\n}\n",
+  "log_tail": "uota (90s requested vs. 0s left). Try again in 0\n    image pollinations try 1/3: HTTPError: 503 Server Error: Service Unavailable for url: https://image.pollinations.ai/pro\n    image pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image 12 wide: using title card\n5/7 render (landscape 16:9 + vertical 9:16 Reel)\n   hook: 7s\n   s0: 11s\n   s1: 12s\n   s2: 12s\n   s3: 11s\n   s4: 12s\n   s5: 12s\n   s6: 11s\n   s7: 10s\n   s8: 10s\n   s9: 11s\n   s10: 13s\n   s11: 11s\n   cliff: 6s\n   pred: 17s\n   outro: 10s\n   music: automatic background music (tense) -> auto_ambient_tense.m4a\n   vertical Reel rendered -> patibrahma_JoU2xoFhB-U_reel.mp4 (capped at <= 180s)\n6/7 thumbnail + metadata\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Pati Brahmachari Ep 457 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 455 रिकैप | 16 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: scheduled for 2026-10-31 03:00 PM IST (09:30 UTC)\nFAILED: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        \"reason\": \"uploadLimitExceeded\"\n      }\n    ]\n  }\n}\n\n"
+}
