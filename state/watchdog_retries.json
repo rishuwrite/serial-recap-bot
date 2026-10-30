@@ -1,14 +1,14 @@
 {
   "date": "2026-10-31",
   "counts": {
-    "kaisi": 1,
-    "bhabhi": 1,
-    "sohni": 1,
-    "rimjhim": 1,
-    "mannsundar": 1,
-    "atisundar": 1,
-    "patibrahma": 1,
-    "ishq": 1
+    "kaisi": 2,
+    "bhabhi": 2,
+    "sohni": 2,
+    "rimjhim": 2,
+    "mannsundar": 2,
+    "atisundar": 2,
+    "patibrahma": 2,
+    "ishq": 2
   },
   "history": [
     {
@@ -66,6 +66,62 @@
       "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
       "only_ig_publish": false,
       "attempt": 1
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 101 (OxHriVbn48U)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "sohni",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "ishq",
+      "time_ist": "00:01:09 IST",
+      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
+      "only_ig_publish": false,
+      "attempt": 2
     }
   ]
 }
