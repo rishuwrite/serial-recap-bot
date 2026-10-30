@@ -5,8 +5,9 @@
     "atisundar": 4,
     "patibrahma": 4,
     "ishq": 4,
-    "rimjhim": 3,
-    "sohni": 2
+    "rimjhim": 4,
+    "sohni": 3,
+    "bhabhi": 1
   },
   "history": [
     {
@@ -153,6 +154,27 @@
       "show": "ishq",
       "time_ist": "21:38:57 IST",
       "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:07:09 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 1
+    },
+    {
+      "show": "sohni",
+      "time_ist": "22:07:09 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "22:07:09 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "only_ig_publish": false,
       "attempt": 4
     }
