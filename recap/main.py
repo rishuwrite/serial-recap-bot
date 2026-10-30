@@ -243,10 +243,10 @@ try:
     print(f"   music: automatic background music ({main_emo}) -> {os.path.basename(music)}")
     render.concat(files, tmp, name + ".mp4", music, t0, emotion=main_emo)
     if render_vert:
-        # Cap Instagram Reel duration to IG_MAX_REEL_SECONDS (default 115s so it never hits Meta's >120s API processing bug)
-        ig_max_s = float(os.getenv("IG_MAX_REEL_SECONDS") or 115)
-        render.concat(vfiles, tmp, reel_mp4, music, t0, emotion=main_emo, max_seconds=ig_max_s)
-        print(f"   vertical Reel rendered -> {os.path.basename(reel_mp4)} (capped at <= {ig_max_s:.0f}s for Instagram Reels API)")
+        # Keep the shared vertical Reel within Meta's processing limit for Facebook and Instagram.
+        reel_max_s = float(os.getenv("REEL_MAX_SECONDS") or os.getenv("IG_MAX_REEL_SECONDS") or 115)
+        render.concat(vfiles, tmp, reel_mp4, music, t0, emotion=main_emo, max_seconds=reel_max_s)
+        print(f"   vertical Reel rendered -> {os.path.basename(reel_mp4)} (capped at <= {reel_max_s:.0f}s)")
 
     print("6/7 thumbnail + metadata")
     thumb = name + ".jpg"
@@ -269,6 +269,15 @@ try:
         thumbnail_art = raws.get((hook_i, "close")) or raws.get((hook_i, "wide")) or comps[hook_i][0]
     render.thumbnail(thumbnail_art, data.get("thumb_text") or data.get("headline") or "क्या होगा आगे?",
                       show["hi"], f"एपिसोड {EP_NO} | {hindi_date(DATE)}", thumb)
+    fb_thumb = name + "_facebook.jpg"
+    if social.fb_enabled():
+        render.thumbnail_vertical(
+            thumbnail_art,
+            data.get("thumb_text") or data.get("headline") or "क्या होगा आगे?",
+            show["hi"],
+            f"एपिसोड {EP_NO} | {hindi_date(DATE)}",
+            fb_thumb,
+        )
     kws = [str(k) for k in data.get("keywords", [])]
     title = meta.make_title(show, EP_NO, DATE, data.get("headline") or "", source_ep=SOURCE_EP_NO, source_date=SOURCE_DATE)
     tags = meta.make_tags(show, EP_NO, DATE, kws)
@@ -307,8 +316,11 @@ try:
                 print(f"   [Facebook] duplicate prevented right before upload (already on Facebook: {dup_fb})")
                 fb_done_id = dup_fb
             else:
-                fb_mp4 = reel_mp4 if (os.getenv("FACEBOOK_REELS_MODE", "").lower() == "true" and os.path.exists(reel_mp4)) else (name + ".mp4")
-                fb_done_id = social.upload_facebook_video(fb_mp4, title, social_caption, publish_at=slot, thumb_path=thumb)
+                if not os.path.exists(reel_mp4):
+                    raise RuntimeError("Facebook publishing requires a rendered 9:16 vertical video")
+                fb_done_id = social.upload_facebook_video(
+                    reel_mp4, title, social_caption, publish_at=slot, thumb_path=fb_thumb
+                )
 
         # 7C. Google Drive Automatic Reel Storage (so Reel is backed up in Drive & ready for scheduled IG slot)
         if social.drive_enabled() and os.path.exists(reel_mp4) and not drive_done_id:

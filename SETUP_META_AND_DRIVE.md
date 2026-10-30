@@ -54,14 +54,15 @@ Go to your GitHub repository → **Settings → Secrets and variables → Action
 | `INSTAGRAM_ENABLED` | `true` | Enables 9:16 vertical Reel rendering and Instagram Reels publishing |
 | `GDRIVE_ENABLED` | `true` | Automatically stores rendered 9:16 vertical Reels + captions in your Google Drive folder |
 | `META_GRAPH_API_VERSION` | `v22.0` | Meta Graph API version (`v22.0` or `v25.0`) |
-| `FACEBOOK_REELS_MODE` | `false` (or `true`) | `false` uploads the full 16:9 video to Facebook Page Videos; `true` uploads the 9:16 vertical Reel video to your Facebook Page |
-| `IG_MAX_REEL_SECONDS` | `115` | Caps the vertical Instagram Reel at 115 seconds so it never triggers Meta's >120s API processing error |
+| `REEL_MAX_SECONDS` | `115` | Caps Facebook and Instagram 9:16 videos at 115 seconds; Facebook always uploads the vertical video |
 | `IG_PUBLISH_WITH_NIGHTLY` | `false` | Keep `false` so Instagram Reels wait in Google Drive and publish at the exact 9 AM – 4 PM IST show slot via Google Apps Script. Set `true` only if you want IG Reels to publish immediately at midnight |
 | `GDRIVE_DELETE_AFTER_PUBLISH` | `false` | Set `true` if you want the bot to automatically delete the Reel MP4 from Google Drive after it is published on Instagram (saves Drive space) |
 | `UPLOAD_PRIVACY` | `public` | Privacy status when `publish_now=true` |
 | `SERIAL_CHANNEL_NAME` | `सीरियल की कहानी` | Channel branding text |
 | `SERIAL_VOICE` | `hi-IN-SwaraNeural` | Primary Hindi neural TTS voice |
 | `MUSIC_VOLUME` | `0.15` | Background music volume relative to narration |
+
+Facebook publishing always renders and uploads the 9:16 video, verifies the encoded dimensions before upload, and attaches a matching 1080 × 1920 custom cover. The 16:9 video and thumbnail remain available for YouTube.
 
 ---
 

@@ -31,7 +31,7 @@ on:
         type: boolean
         default: false
       render_vertical:
-        description: "Render 9:16 vertical Reel MP4 (auto-enabled when Instagram or Google Drive is enabled)"
+        description: "Render 9:16 vertical Reel MP4 (required for Facebook, also auto-enabled for Instagram or Google Drive)"
         type: boolean
         default: true
 
@@ -116,10 +116,10 @@ jobs:
           SERIAL_VOICE: ${{ vars.SERIAL_VOICE }}
           MUSIC_VOLUME: ${{ vars.MUSIC_VOLUME }}
           FACEBOOK_ENABLED: ${{ vars.FACEBOOK_ENABLED }}
-          FACEBOOK_REELS_MODE: ${{ vars.FACEBOOK_REELS_MODE }}
           FACEBOOK_CAPTION: ${{ vars.FACEBOOK_CAPTION }}
           INSTAGRAM_ENABLED: ${{ vars.INSTAGRAM_ENABLED }}
           INSTAGRAM_CAPTION: ${{ vars.INSTAGRAM_CAPTION }}
+          REEL_MAX_SECONDS: ${{ vars.REEL_MAX_SECONDS }}
           IG_MAX_REEL_SECONDS: ${{ vars.IG_MAX_REEL_SECONDS }}
           IG_PUBLISH_WITH_NIGHTLY: ${{ vars.IG_PUBLISH_WITH_NIGHTLY }}
           GDRIVE_ENABLED: ${{ vars.GDRIVE_ENABLED }}

@@ -19,7 +19,7 @@ The bot runs at **12:00 AM IST (Midnight)** via Google Apps Script (`scheduler/g
 ## Why Facebook & YouTube Schedule Natively, While Instagram Uses Google Drive + Apps Script
 
 1. **YouTube (`recap/youtube.py`)**: Supports native server-side scheduling via `status.publishAt` (ISO-8601 UTC timestamp) with `privacyStatus="private"`.
-2. **Facebook Page Videos (`recap/social.py`)**: Supports native server-side scheduling via Meta's Graph Video API (`POST /{page-id}/videos`) using `published=false` and `scheduled_publish_time=<unix_timestamp>` (must be at least 10 minutes in the future). At 12:00 AM IST, the bot passes the **exact same `slot` timestamp** to both YouTube and Facebook so they go live simultaneously!
+2. **Facebook Page Videos (`recap/social.py`)**: Always uploads the rendered 9:16 vertical video with its matching custom cover and verifies the video dimensions before upload. It supports native server-side scheduling via Meta's Graph Video API (`POST /{page-id}/videos`) using `published=false` and `scheduled_publish_time=<unix_timestamp>` (must be at least 10 minutes in the future). At 12:00 AM IST, the bot passes the **exact same `slot` timestamp** to both YouTube and Facebook so they go live simultaneously!
 3. **Instagram Reels (`recap/social.py` + `scheduler/google_apps_script.gs`)**: Meta's official Instagram Graph API (`/{ig-user-id}/media` and `/{ig-user-id}/media_publish`) **does not support a `scheduled_publish_time` parameter** for direct API calls (calling `media_publish` publishes the Reel immediately).
    - **Our Solution**:
      - At **12:00 AM IST**, the bot renders the 9:16 vertical Reel (`<show>_<vid>_ep<N>_reel.mp4`) and automatically uploads it (along with a `<show>_<vid>_ep<N>_reel.json` caption file) into your **Google Drive folder** (`GDRIVE_FOLDER_ID`).
@@ -55,15 +55,14 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `INSTAGRAM_ENABLED` | `true` | Enable 9:16 vertical Reel rendering & Instagram Reels publishing |
 | `GDRIVE_ENABLED` | `true` | Enable automatic Google Drive Reel upload & slot retrieval |
 | `META_GRAPH_API_VERSION` | `v22.0` | Meta Graph API version |
-| `FACEBOOK_REELS_MODE` | `false` | `false` = upload 16:9 landscape video to FB Page; `true` = upload 9:16 vertical video to FB Page |
-| `IG_MAX_REEL_SECONDS` | `115` | Caps vertical Reel length at 115s so Meta's API never rejects >120s Reels |
+| `REEL_MAX_SECONDS` | `115` | Caps Facebook/Instagram 9:16 video length at 115s; Facebook uploads always use the vertical video |
 | `IG_PUBLISH_WITH_NIGHTLY` | `false` | `false` = publish IG Reel at exact 9 AM–4 PM IST slot via Apps Script; `true` = publish IG immediately at 12 AM |
 | `GDRIVE_DELETE_AFTER_PUBLISH` | `false` | `true` = automatically delete Reel from Google Drive after Instagram publish succeeds |
 | `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | Optional Gradio Space URL for generating episode-specific 16:9 thumbnail artwork |
 
 ### Episode-aware thumbnail artwork
 
-For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It then generates a fresh 1280 × 720 illustration with the FLUX.1-schnell Gradio Space and applies the bot's existing Hindi hook, show, and episode/date overlays. The image prompt uses the analyzed episode hook and scene, and instructs the model not to reproduce faces, text, or logos from the source thumbnail. If thumbnail analysis or the public FLUX Space is unavailable, the bot logs the issue and falls back to the existing episode illustrations/providers.
+For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It then generates fresh episode artwork with the FLUX.1-schnell Gradio Space. YouTube receives the existing 1280 × 720 thumbnail, while Facebook receives a separate 1080 × 1920 cover composed for its 9:16 video. Both use the bot's Hindi hook, show, and episode/date overlays. The image prompt uses the analyzed episode hook and scene, and instructs the model not to reproduce faces, text, or logos from the source thumbnail. If thumbnail analysis or the public FLUX Space is unavailable, the bot logs the issue and falls back to the existing episode illustrations/providers.
 
 `gradio_client` is installed from `requirements.txt`. `HF_FLUX_SPACE` can be set as a GitHub Actions repository variable to override the public Space URL; no Hugging Face token is required for the default public Space. Gemini uses the existing `GEMINI_API_KEY`. Thumbnail generation uses HTTPS and does not change process-wide DNS behavior.
 

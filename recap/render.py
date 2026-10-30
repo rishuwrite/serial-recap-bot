@@ -347,3 +347,47 @@ def thumbnail(img, hook, tag_text, bottom_text, out):
     f3 = font(46); w3 = int(d.textlength(bottom_text, font=f3)) + 40
     d.rounded_rectangle((1280 - w3 - 30, 648, 1250, 704), 12, fill=(255, 255, 255, 240)); d.text((1280 - w3 - 10, 647), bottom_text, font=f3, fill=(20, 20, 20))
     im.convert("RGB").save(out, quality=90)
+
+def thumbnail_vertical(img, hook, tag_text, bottom_text, out):
+    """Create a custom 1080x1920 Facebook Reel cover using the same episode artwork."""
+    hook, tag_text, bottom_text = deva(hook), deva(tag_text), deva(bottom_text)
+    source = Image.open(img).convert("RGB")
+
+    scale = max(VW / source.width, VH / source.height)
+    bg = source.resize((int(source.width * scale) + 1, int(source.height * scale) + 1))
+    left, top = (bg.width - VW) // 2, (bg.height - VH) // 2
+    bg = bg.crop((left, top, left + VW, top + VH)).filter(ImageFilter.GaussianBlur(radius=32))
+    bg = ImageEnhance.Brightness(bg).enhance(0.38)
+    im = bg
+    draw = ImageDraw.Draw(im, "RGBA")
+    for y in range(1080, VH):
+        draw.line([(0, y), (VW, y)], fill=(0, 0, 0, int(230 * (y - 1080) / (VH - 1080))))
+
+    max_w, max_h = VW - 80, 760
+    scale = min(max_w / source.width, max_h / source.height)
+    foreground = source.resize((int(source.width * scale), int(source.height * scale)))
+    x, y = (VW - foreground.width) // 2, 510 + (max_h - foreground.height) // 2
+    draw.rectangle((x - 5, y - 5, x + foreground.width + 4, y + foreground.height + 4), fill=(255, 195, 0, 255))
+    im.paste(foreground, (x, y))
+
+    tag_font = font(48)
+    tag_lines = wrap(draw, tag_text, tag_font, VW - 80)[:2]
+    tag_h = 74 + max(0, len(tag_lines) - 1) * 58
+    draw.rounded_rectangle((30, 34, VW - 30, 34 + tag_h), 18, fill=(180, 0, 20, 245))
+    for i, line in enumerate(tag_lines):
+        draw.text((VW / 2, 46 + i * 58), line, font=tag_font, anchor="ma", fill=(255, 255, 255))
+
+    hook_font = font(88)
+    hook_lines = wrap(draw, hook, hook_font, VW - 100)[:3]
+    hook_y = 1400 - len(hook_lines) * 104
+    for i, line in enumerate(hook_lines):
+        draw.text(
+            (VW / 2, hook_y + i * 104), line, font=hook_font, anchor="mm",
+            fill=(255, 228, 0), stroke_width=7, stroke_fill=(0, 0, 0),
+        )
+
+    footer_font = font(48)
+    footer_lines = wrap(draw, bottom_text, footer_font, VW - 100)[:2]
+    for i, line in enumerate(footer_lines):
+        draw.text((VW / 2, 1760 + i * 58), line, font=footer_font, anchor="mm", fill=(255, 255, 255))
+    im.save(out, quality=90)

@@ -22,7 +22,8 @@ Supports:
      * Public URL Container Upload (`video_url` via `INSTAGRAM_VIDEO_URL_TEMPLATE` or Google Apps Script proxy / Drive URL).
    - Performs a live anti-duplicate check against your Instagram account's recent media before publishing.
 """
-import datetime as dt, json, os, time, requests
+import datetime as dt, json, os, subprocess, time, requests
+from PIL import Image
 
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
@@ -62,12 +63,14 @@ def drive_enabled():
     return bool(folder and cid and csec and rtok)
 
 def should_render_vertical():
+    if fb_enabled():
+        return True
     rv = os.getenv("RENDER_VERTICAL", "").strip().lower()
     if rv in ("true", "1", "yes"):
         return True
     if rv in ("false", "0", "no"):
         return False
-    return ig_enabled() or drive_enabled() or (os.getenv("FACEBOOK_REELS_MODE", "").strip().lower() == "true")
+    return ig_enabled() or drive_enabled()
 
 
 # ==============================================================================
@@ -268,6 +271,44 @@ def drive_mark_ig_published(file_id, ig_media_id):
 # 3. FACEBOOK PAGE VIDEO / REEL SCHEDULING & PUBLISHING
 # ==============================================================================
 
+def _validate_vertical_video(mp4_path):
+    """Reject Facebook uploads unless the encoded video is in a 9:16 portrait format."""
+    try:
+        result = subprocess.run(
+            [
+                "ffprobe", "-v", "error", "-select_streams", "v:0",
+                "-show_entries", "stream=width,height", "-of", "json", mp4_path,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        streams = json.loads(result.stdout).get("streams", [])
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Could not verify Facebook video dimensions with ffprobe: {exc}") from exc
+
+    if not streams or not streams[0].get("width") or not streams[0].get("height"):
+        raise RuntimeError(f"Could not determine Facebook video dimensions: {mp4_path}")
+    width, height = int(streams[0]["width"]), int(streams[0]["height"])
+    if abs(width / height - 9 / 16) > 0.01:
+        raise ValueError(
+            f"Facebook uploads must be 9:16 vertical video; got {width}x{height} for {mp4_path}"
+        )
+
+def _validate_vertical_thumbnail(thumb_path):
+    """Require a readable 9:16 custom cover for every Facebook upload."""
+    if not thumb_path or not os.path.isfile(thumb_path):
+        raise ValueError("Facebook uploads require a generated 9:16 custom thumbnail")
+    try:
+        with Image.open(thumb_path) as thumbnail:
+            width, height = thumbnail.size
+    except OSError as exc:
+        raise RuntimeError(f"Could not verify Facebook thumbnail: {exc}") from exc
+    if not height or abs(width / height - 9 / 16) > 0.01:
+        raise ValueError(
+            f"Facebook thumbnails must be 9:16; got {width}x{height} for {thumb_path}"
+        )
+
 def fb_already_uploaded(show, target_ep, source_vid=None):
     """Check recent videos on the Facebook Page (including scheduled/unpublished videos)
     to prevent duplicate Facebook uploads."""
@@ -309,6 +350,8 @@ def upload_facebook_video(mp4_path, title, description, publish_at=None, thumb_p
     if not fb_enabled():
         return None
 
+    _validate_vertical_video(mp4_path)
+    _validate_vertical_thumbnail(thumb_path)
     page_id = os.environ["FACEBOOK_PAGE_ID"].strip()
     token = os.environ["FACEBOOK_PAGE_ACCESS_TOKEN"].strip()
     ver = graph_version()
