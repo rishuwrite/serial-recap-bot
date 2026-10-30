@@ -1,239 +1,71 @@
 {
-  "date": "2026-10-30",
+  "date": "2026-10-31",
   "counts": {
-    "kaisi": 4,
-    "bhabhi": 4,
-    "sohni": 4,
-    "rimjhim": 4,
-    "mannsundar": 4,
-    "atisundar": 4,
-    "patibrahma": 4,
-    "ishq": 4
+    "kaisi": 1,
+    "bhabhi": 1,
+    "sohni": 1,
+    "rimjhim": 1,
+    "mannsundar": 1,
+    "atisundar": 1,
+    "patibrahma": 1,
+    "ishq": 1
   },
   "history": [
     {
       "show": "kaisi",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 100 (3waky236PwI)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "sohni",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "22:12:58 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "ishq",
-      "time_ist": "22:12:58 IST",
-      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
-      "only_ig_publish": false,
-      "attempt": 1
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 100 (3waky236PwI)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "sohni",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "22:14:18 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "ishq",
-      "time_ist": "22:14:18 IST",
-      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
-      "only_ig_publish": false,
-      "attempt": 2
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 100 (3waky236PwI)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "bhabhi",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "sohni",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "rimjhim",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "mannsundar",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "atisundar",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "patibrahma",
-      "time_ist": "22:15:17 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "ishq",
-      "time_ist": "22:15:17 IST",
-      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
-      "only_ig_publish": false,
-      "attempt": 3
-    },
-    {
-      "show": "kaisi",
-      "time_ist": "22:38:10 IST",
+      "time_ist": "00:00:09 IST",
       "reason": "unprocessed new episode 101 (OxHriVbn48U)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "bhabhi",
-      "time_ist": "22:38:10 IST",
-      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "time_ist": "00:00:09 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "sohni",
-      "time_ist": "22:38:10 IST",
+      "time_ist": "00:00:09 IST",
       "reason": "unprocessed new episode 23 (4QamsHDJquY)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "rimjhim",
-      "time_ist": "22:38:10 IST",
+      "time_ist": "00:00:09 IST",
       "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "mannsundar",
-      "time_ist": "22:38:10 IST",
-      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
+      "time_ist": "00:00:09 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "atisundar",
-      "time_ist": "22:38:10 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "time_ist": "00:00:09 IST",
+      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "patibrahma",
-      "time_ist": "22:38:10 IST",
+      "time_ist": "00:00:09 IST",
       "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     },
     {
       "show": "ishq",
-      "time_ist": "22:38:10 IST",
+      "time_ist": "00:00:09 IST",
       "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     }
   ]
 }
