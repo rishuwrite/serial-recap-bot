@@ -6,8 +6,8 @@
     "patibrahma": 4,
     "ishq": 4,
     "rimjhim": 4,
-    "sohni": 3,
-    "bhabhi": 1
+    "sohni": 4,
+    "bhabhi": 2
   },
   "history": [
     {
@@ -175,6 +175,20 @@
       "show": "rimjhim",
       "time_ist": "22:07:09 IST",
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:07:40 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "sohni",
+      "time_ist": "22:07:40 IST",
+      "reason": "GitHub job failure (RATE_LIMIT_OR_QUOTA)",
       "only_ig_publish": false,
       "attempt": 4
     }
