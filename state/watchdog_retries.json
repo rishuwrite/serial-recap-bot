@@ -7,7 +7,7 @@
     "ishq": 4,
     "rimjhim": 4,
     "sohni": 4,
-    "bhabhi": 2
+    "bhabhi": 3
   },
   "history": [
     {
@@ -191,6 +191,13 @@
       "reason": "GitHub job failure (RATE_LIMIT_OR_QUOTA)",
       "only_ig_publish": false,
       "attempt": 4
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:08:11 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 3
     }
   ]
 }
