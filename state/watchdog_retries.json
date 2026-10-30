@@ -1,14 +1,14 @@
 {
   "date": "2026-10-30",
   "counts": {
-    "kaisi": 2,
-    "bhabhi": 2,
-    "sohni": 2,
-    "rimjhim": 2,
-    "mannsundar": 2,
-    "atisundar": 2,
-    "patibrahma": 2,
-    "ishq": 2
+    "kaisi": 3,
+    "bhabhi": 3,
+    "sohni": 3,
+    "rimjhim": 3,
+    "mannsundar": 3,
+    "atisundar": 3,
+    "patibrahma": 3,
+    "ishq": 3
   },
   "history": [
     {
@@ -122,6 +122,62 @@
       "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
       "only_ig_publish": false,
       "attempt": 2
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 100 (3waky236PwI)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "sohni",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "22:15:17 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "ishq",
+      "time_ist": "22:15:17 IST",
+      "reason": "unprocessed new episode 239 (8LgukvnIH1Q)",
+      "only_ig_publish": false,
+      "attempt": 3
     }
   ]
 }
