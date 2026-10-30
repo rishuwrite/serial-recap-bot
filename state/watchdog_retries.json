@@ -7,7 +7,7 @@
     "ishq": 4,
     "rimjhim": 4,
     "sohni": 4,
-    "bhabhi": 3
+    "bhabhi": 4
   },
   "history": [
     {
@@ -198,6 +198,13 @@
       "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
       "only_ig_publish": false,
       "attempt": 3
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "22:08:29 IST",
+      "reason": "unprocessed new episode 53 (JcfFxRV4LpY)",
+      "only_ig_publish": false,
+      "attempt": 4
     }
   ]
 }
