@@ -1,12 +1,12 @@
 {
   "date": "2026-10-30",
   "counts": {
-    "mannsundar": 3,
-    "atisundar": 3,
-    "patibrahma": 3,
-    "ishq": 3,
-    "rimjhim": 2,
-    "sohni": 1
+    "mannsundar": 4,
+    "atisundar": 4,
+    "patibrahma": 4,
+    "ishq": 4,
+    "rimjhim": 3,
+    "sohni": 2
   },
   "history": [
     {
@@ -113,6 +113,48 @@
       "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
       "only_ig_publish": false,
       "attempt": 3
+    },
+    {
+      "show": "sohni",
+      "time_ist": "21:38:57 IST",
+      "reason": "unprocessed new episode 23 (4QamsHDJquY)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "21:38:57 IST",
+      "reason": "unprocessed new episode 380 (eF7Q_1uk-lY)",
+      "only_ig_publish": false,
+      "attempt": 3
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "21:38:57 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "21:38:57 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "21:38:57 IST",
+      "reason": "status=failed (IMAGE_GEN_FAILURE: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 4
+    },
+    {
+      "show": "ishq",
+      "time_ist": "21:38:57 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 4
     }
   ]
 }
