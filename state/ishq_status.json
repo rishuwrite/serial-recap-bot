@@ -1,0 +1,16 @@
+{
+  "show": "ishq",
+  "status": "failed",
+  "date_ist": "2026-10-31",
+  "timestamp_ist": "2026-10-31 00:07:50 IST",
+  "source_video_id": "8LgukvnIH1Q",
+  "source_episode": "239",
+  "target_episode": "241",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
+  "instagram_media_id": "",
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "YouTube upload init failed: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n    \"errors\": [\n      {\n        \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n        \"domain\": \"global\",\n        \"reason\": ",
+  "log_tail": "mage\n    image flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    image ok via pollinations (try 1)\n5/7 render (landscape 16:9 + vertical 9:16 Reel)\n   hook: 7s\n   s0: 13s\n   s1: 11s\n   s2: 13s\n   s3: 11s\n   s4: 14s\n   s5: 12s\n   s6: 12s\n   s7: 15s\n   s8: 13s\n   s9: 11s\n   s10: 12s\n   s11: 12s\n   cliff: 4s\n   pred: 16s\n   outro: 10s\n   music: automatic background music (sad) -> auto_ambient_sad.m4a\n   vertical Reel rendered -> ishq_8LgukvnIH1Q_reel.mp4 (capped at <= 180s)\n6/7 thumbnail + metadata\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Ishq Junooni Ep 241 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 239 रिकैप | 19 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: scheduled for 2026-10-31 04:00 PM IST (10:30 UTC)\nFAILED: YouTube upload init failed: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n    \"errors\": [\n      {\n        \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n        \"domain\": \"global\",\n        \"reason\": \"rateLimitExceeded\"\n      }\n    \n"
+}
