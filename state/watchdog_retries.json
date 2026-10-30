@@ -1,36 +1,39 @@
 {
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "counts": {
-    "rimjhim": 4
+    "mannsundar": 1,
+    "atisundar": 1,
+    "patibrahma": 1,
+    "ishq": 1
   },
   "history": [
     {
-      "show": "rimjhim",
-      "time_ist": "02:02:03 IST",
-      "reason": "unprocessed new episode 376 (qVb2ZEex6-w)",
+      "show": "mannsundar",
+      "time_ist": "20:40:57 IST",
+      "reason": "unprocessed new episode 1773 (tkCR6oz7GBs)",
       "only_ig_publish": false,
       "attempt": 1
     },
     {
-      "show": "rimjhim",
-      "time_ist": "02:12:50 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "show": "atisundar",
+      "time_ist": "20:40:57 IST",
+      "reason": "unprocessed new episode 1194 (aRhLojpaxlQ)",
       "only_ig_publish": false,
-      "attempt": 2
+      "attempt": 1
     },
     {
-      "show": "rimjhim",
-      "time_ist": "02:24:27 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "show": "patibrahma",
+      "time_ist": "20:40:57 IST",
+      "reason": "unprocessed new episode 455 (JoU2xoFhB-U)",
       "only_ig_publish": false,
-      "attempt": 3
+      "attempt": 1
     },
     {
-      "show": "rimjhim",
-      "time_ist": "02:35:00 IST",
-      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "show": "ishq",
+      "time_ist": "20:40:57 IST",
+      "reason": "GitHub job cancelled (YOUTUBE_UPLOAD_ERROR)",
       "only_ig_publish": false,
-      "attempt": 4
+      "attempt": 1
     }
   ]
 }
