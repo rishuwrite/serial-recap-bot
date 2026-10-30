@@ -1,16 +1,16 @@
 {
   "show": "ishq",
-  "status": "running",
+  "status": "failed",
   "date_ist": "2026-10-30",
-  "timestamp_ist": "2026-10-30 20:24:37 IST",
-  "source_video_id": "",
-  "source_episode": "",
-  "target_episode": "",
+  "timestamp_ist": "2026-10-30 21:16:17 IST",
+  "source_video_id": "8LgukvnIH1Q",
+  "source_episode": "239",
+  "target_episode": "241",
   "youtube_video_id": "",
   "facebook_video_id": "",
   "instagram_media_id": "",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "",
-  "log_tail": "== Ishq Junooni | slot=16:00 IST | test=False | upload=False | publish_now=False | vertical_reel=True ==\n"
+  "error": "YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        \"reason\": \"uploadLimitExceeded\"\n      }\n    ]\n  }\n}\n",
+  "log_tail": ": Payment Required for url: https://image.pollinations.ai/prompt\n    image pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image pollinations try 3/3: HTTPError: 503 Server Error: Service Unavailable for url: https://image.pollinations.ai/pro\n    image 12 wide: using title card\n5/7 render (landscape 16:9 + vertical 9:16 Reel)\n   hook: 7s\n   s0: 8s\n   s1: 8s\n   s2: 8s\n   s3: 8s\n   s4: 8s\n   s5: 8s\n   s6: 8s\n   s7: 8s\n   s8: 8s\n   s9: 8s\n   s10: 8s\n   s11: 8s\n   cliff: 8s\n   pred: 19s\n   outro: 10s\n   music: automatic background music (romantic) -> auto_ambient_romantic.m4a\n   vertical Reel rendered -> ishq_8LgukvnIH1Q_reel.mp4 (capped at <= 180s)\n6/7 thumbnail + metadata\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Ishq Junooni Ep 241 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 239 रिकैप | 19 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: scheduled for 2026-10-31 04:00 PM IST (10:30 UTC)\nFAILED: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        \"reason\": \"uploadLimitExceeded\"\n      }\n    ]\n  }\n}\n\n"
 }
