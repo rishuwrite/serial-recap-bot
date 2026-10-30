@@ -8,11 +8,13 @@ The bot runs at **12:00 AM IST (Midnight)** via Google Apps Script (`scheduler/g
 | `kaisi` | Kaisi Teri Dillagi (कैसी तेरी दिल्लगी) | **09:00 AM IST** (`publishAt`) | **09:00 AM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **09:00 AM IST** |
 | `bhabhi` | Hamari Bhabhi Number 1 (हमारी भाभी नंबर 1) | **10:00 AM IST** (`publishAt`) | **10:00 AM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **10:00 AM IST** |
 | `sohni` | Sohni Aur Nahi Koi Honi (सोहनी और नहीं कोई होनी) | **11:00 AM IST** (`publishAt`) | **11:00 AM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **11:00 AM IST** |
-| `rimjhim` | Rimjhim (रिमझिम) | **12:00 PM IST** (`publishAt`) | **12:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **12:00 PM IST** |
+| `rimjhim` | Rimjhim Choti Umar Bada Safar (रिमझिम छोटी उम्र बड़ा सफर) | **12:00 PM IST** (`publishAt`) | **12:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **12:00 PM IST** |
 | `mannsundar` | Mann Sundar (मन सुंदर) | **01:00 PM IST** (`publishAt`) | **01:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **01:00 PM IST** |
 | `atisundar` | Mann Atisundar (मन अतिसुंदर) | **02:00 PM IST** (`publishAt`) | **02:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **02:00 PM IST** |
 | `patibrahma` | Pati Brahmachari (पति ब्रह्मचारी) | **03:00 PM IST** (`publishAt`) | **03:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **03:00 PM IST** |
 | `ishq` | Ishq Junooni (इश्क़ जुनूनी) | **04:00 PM IST** (`publishAt`) | **04:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **04:00 PM IST** |
+
+Video descriptions include dynamic show, episode, and date details, Hindi/English search phrases, hashtags, recap/prediction copy, and the official source episode link. Search terms include general show phrases plus varied +1-day/+1-episode and +2-day/+2-episode combinations; source-day search terms are excluded. [Example description](./examples/mann_atisundar_MZLmmpAv87Q_description.txt).
 
 ---
 
