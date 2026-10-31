@@ -2,7 +2,7 @@
   "show": "atisundar",
   "status": "failed",
   "date_ist": "2026-11-01",
-  "timestamp_ist": "2026-11-01 02:02:00 IST",
+  "timestamp_ist": "2026-11-01 02:30:04 IST",
   "source_video_id": "j7WmloVujPk",
   "source_episode": "1195",
   "target_episode": "1197",
@@ -11,6 +11,6 @@
   "instagram_media_id": "",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":460,\"fbtrace_id\":\"Awr7KrJrRcdexZCXaZhDOOG\"}}",
-  "log_tail": "\n   s4: 12s\n   s5: 10s\n   s6: 11s\n   s7: 11s\n   s8: 11s\n   s9: 11s\n   s10: 11s\n   s11: 9s\n   cliff: 6s\n   pred: 15s\n   outro: 10s\n   music: automatic background music (tense) -> auto_ambient_tense.m4a\n   vertical Reel rendered -> atisundar_j7WmloVujPk_reel.mp4 (capped at <= 180s)\n6/7 thumbnail + metadata\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Mann Atisundar Ep 1197 (02 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 1195 रिकैप | 18 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: scheduled for 2026-11-01 02:00 PM IST (08:30 UTC)\nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 321, in <module>\n    fb_done_id = social.upload_facebook_video(\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/social.py\", line 372, in upload_facebook_video\n    raise RuntimeError(f\"Facebook upload start failed ({r_start.status_code}): {r_start.text[:400]}\")\nRuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":460,\"fbtrace_id\":\"Awr7KrJrRcdexZCXaZhDOOG\"}}\n\n"
+  "error": "AttributeError: 'list' object has no attribute 'get'",
+  "log_tail": "== Mann Atisundar | slot=14:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   Mann Atisundar | 31 Oct 2026 | Full Episode 1195 | Full HD #Newepisode | Dangal TV | https://www.youtube.com/watch?v=j7WmloVujPk\n  source episode/date: 1195 / 31 Oct 2026; two-day target: 1197 / 02 Nov 2026\n2/7 Gemini watches the episode\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  analysed with gemini-flash-lite-latest\n  source thumbnail described with gemini-flash-lite-latest\nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 174, in <module>\n    scenes = [s for s in data.get(\"scenes\", []) if s.get(\"narration\")]\n                         ^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n\n"
 }
