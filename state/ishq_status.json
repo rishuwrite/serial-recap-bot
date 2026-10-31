@@ -1,16 +1,16 @@
 {
   "show": "ishq",
-  "status": "failed",
+  "status": "no_new_episode",
   "date_ist": "2026-10-31",
-  "timestamp_ist": "2026-10-31 02:54:49 IST",
-  "source_video_id": "8LgukvnIH1Q",
-  "source_episode": "239",
-  "target_episode": "241",
+  "timestamp_ist": "2026-10-31 06:14:37 IST",
+  "source_video_id": "",
+  "source_episode": "",
+  "target_episode": "",
   "youtube_video_id": "",
   "facebook_video_id": "",
   "instagram_media_id": "",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error,",
-  "log_tail": "/7 Gemini watches the episode\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  failed -> gemini-flash-lite-latest 429\n  failed -> gemini-3.5-flash-lite 429\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  failed -> gemini-flash-lite-latest 429\n  failed -> gemini-3.5-flash-lite 429\n  all models busy, retrying in 60s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  failed -> gemini-flash-lite-latest 429\n  failed -> gemini-3.5-flash-lite 429\n  all models busy, retrying in 120s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  failed -> gemini-flash-lite-latest 429\n  failed -> gemini-3.5-flash-lite 429\nFAILED: Gemini could not analyse the video. Last error: gemini-3.5-flash-lite: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error,\n"
+  "error": "",
+  "log_tail": "== Ishq Junooni | slot=16:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 0\n   total uploads scanned (RSS + OAuth/API): 0\n   no new unseen full episode for this show right now\n"
 }
