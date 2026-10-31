@@ -2,7 +2,7 @@
   "show": "bhabhi",
   "status": "no_new_episode",
   "date_ist": "2026-10-31",
-  "timestamp_ist": "2026-10-31 06:57:21 IST",
+  "timestamp_ist": "2026-10-31 10:01:15 IST",
   "source_video_id": "",
   "source_episode": "",
   "target_episode": "",
@@ -12,5 +12,5 @@
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
   "error": "",
-  "log_tail": "== Hamari Bhabhi Number 1 | slot=10:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 0\n   total uploads scanned (RSS + OAuth/API): 0\n   no new unseen full episode for this show right now\n"
+  "log_tail": "== [IG-SLOT-PUBLISH] Hamari Bhabhi Number 1 | source_vid= | target_ep= | drive_id= ==\n   No pre-rendered Reel found in Google Drive for today; falling through to full pipeline with PUBLISH_NOW=true...\n== Hamari Bhabhi Number 1 | slot=10:00 IST | test=False | upload=True | publish_now=True | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 0\n   total uploads scanned (RSS + OAuth/API): 0\n   no new unseen full episode for this show right now\n"
 }
