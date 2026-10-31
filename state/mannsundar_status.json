@@ -1,16 +1,16 @@
 {
   "show": "mannsundar",
-  "status": "failed",
+  "status": "no_new_episode",
   "date_ist": "2026-10-31",
-  "timestamp_ist": "2026-10-31 06:09:37 IST",
-  "source_video_id": "tkCR6oz7GBs",
-  "source_episode": "1773",
-  "target_episode": "1775",
+  "timestamp_ist": "2026-10-31 06:47:19 IST",
+  "source_video_id": "",
+  "source_episode": "",
+  "target_episode": "",
   "youtube_video_id": "",
   "facebook_video_id": "",
   "instagram_media_id": "",
   "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "YouTube upload init failed: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n    \"errors\": [\n      {\n        \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n        \"domain\": \"global\",\n        \"reason\": ",
-  "log_tail": ".ai/pro\n    image pollinations try 2/3: HTTPError: 402 Client Error: Payment Required for url: https://image.pollinations.ai/prompt\n    image 11 wide: using title card\n5/7 render (landscape 16:9 + vertical 9:16 Reel)\n   hook: 7s\n   s0: 10s\n   s1: 9s\n   s2: 8s\n   s3: 8s\n   s4: 8s\n   s5: 8s\n   s6: 9s\n   s7: 8s\n   s8: 9s\n   s9: 9s\n   s10: 10s\n   cliff: 7s\n   pred: 19s\n   outro: 10s\n   music: automatic background music (shock) -> auto_ambient_shock.m4a\n   vertical Reel rendered -> mannsundar_tkCR6oz7GBs_reel.mp4 (capped at <= 180s)\n6/7 thumbnail + metadata\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Mann Sundar Ep 1775 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 1773 रिकैप | 20 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: scheduled for 2026-10-31 01:00 PM IST (07:30 UTC)\nFAILED: YouTube upload init failed: 429 {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n    \"errors\": [\n      {\n        \"message\": \"Quota exceeded for quota metric 'Video Uploads' and limit 'Video Uploads per day' of service 'youtube.googleapis.com' for consumer 'project_number:1077195298488'.\",\n        \"domain\": \"global\",\n        \"reason\": \"rateLimitExceeded\"\n      }\n    \n"
+  "error": "",
+  "log_tail": "== Mann Sundar | slot=13:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 0\n   total uploads scanned (RSS + OAuth/API): 0\n   no new unseen full episode for this show right now\n"
 }
