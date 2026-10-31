@@ -1,14 +1,14 @@
 {
   "date": "2026-11-01",
   "counts": {
-    "kaisi": 1,
-    "bhabhi": 1,
-    "sohni": 1,
-    "rimjhim": 1,
-    "mannsundar": 1,
-    "atisundar": 1,
-    "patibrahma": 1,
-    "ishq": 1
+    "kaisi": 2,
+    "bhabhi": 2,
+    "sohni": 2,
+    "rimjhim": 2,
+    "mannsundar": 2,
+    "atisundar": 2,
+    "patibrahma": 2,
+    "ishq": 2
   },
   "history": [
     {
@@ -66,6 +66,62 @@
       "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
       "only_ig_publish": false,
       "attempt": 1
+    },
+    {
+      "show": "kaisi",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "bhabhi",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "sohni",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "rimjhim",
+      "time_ist": "01:58:08 IST",
+      "reason": "GitHub job failure (YOUTUBE_UPLOAD_ERROR)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "mannsundar",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "atisundar",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "patibrahma",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: YouTube upload init failed: 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceede)",
+      "only_ig_publish": false,
+      "attempt": 2
+    },
+    {
+      "show": "ishq",
+      "time_ist": "01:58:08 IST",
+      "reason": "status=failed (RATE_LIMIT_OR_QUOTA: RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token)",
+      "only_ig_publish": false,
+      "attempt": 2
     }
   ]
 }
