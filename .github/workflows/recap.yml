@@ -2,14 +2,14 @@ name: serial-recaps
 on:
   # External cron triggers (Google Apps Script at 12:00 AM IST & hourly 9 AM - 4 PM IST slot triggers)
   repository_dispatch:
-    types: [nightly-12am, watchdog-check, ig-slot-publish]
+    types: [nightly-12am, ig-slot-publish]
   workflow_dispatch:
     inputs:
       only_show:
-        description: "Which show (all = every show, watchdog = check logs & rerun failed/missed)"
+        description: "Which show to process"
         type: choice
         default: all
-        options: [all, watchdog, kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
+        options: [all, kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq]
       video_id:
         description: "Optional: a specific Dangal TV episode video ID (e.g. JNdlYnNneKE) instead of the newest one"
         type: string
@@ -43,7 +43,6 @@ jobs:
   recap:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
-    if: github.event.action != 'watchdog-check' && inputs.only_show != 'watchdog'
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -167,64 +166,4 @@ jobs:
           for i in 1 2 3 4 5 6 7 8; do
             git pull --rebase -q && git push && break
             sleep $((RANDOM % 8 + 3))
-          done
-
-  watchdog:
-    name: watchdog-log-checker
-    runs-on: ubuntu-24.04
-    needs: [recap]
-    if: always()
-    timeout-minutes: 20
-    env:
-      PYTHONUNBUFFERED: "1"
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install watchdog dependencies
-        run: |
-          pip install -r requirements.txt
-          git pull --rebase -q origin main || true
-
-      - name: Read logs, verify YouTube/Facebook/Instagram/Drive, and auto-rerun failed/missed shows
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_REF_NAME: ${{ github.ref_name }}
-          YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID || vars.GDRIVE_FOLDER_ID }}
-          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
-          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
-          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
-          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
-          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
-          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          FACEBOOK_ENABLED: ${{ vars.FACEBOOK_ENABLED }}
-          INSTAGRAM_ENABLED: ${{ vars.INSTAGRAM_ENABLED }}
-          GDRIVE_ENABLED: ${{ vars.GDRIVE_ENABLED }}
-          META_GRAPH_API_VERSION: ${{ vars.META_GRAPH_API_VERSION }}
-        run: python recap/watchdog.py
-
-      - name: Save watchdog state
-        if: always()
-        run: |
-          git config user.name bot
-          git config user.email bot@users.noreply.github.com
-          git add state/ 2>/dev/null || true
-          git diff --cached --quiet && { echo "nothing to save"; exit 0; }
-          git commit -m "watchdog state" || exit 0
-          for i in 1 2 3 4 5; do
-            git pull --rebase -q && git push && break
-            sleep $((RANDOM % 6 + 2))
           done

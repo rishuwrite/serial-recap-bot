@@ -209,10 +209,6 @@ function watchdogCheckAndRerun() {
     }
   }
 
-  // Also run the repo's internal multi-platform watchdog check at 4-5 AM IST and 5-6 PM IST
-  if (hourIst === 4 || hourIst === 5 || hourIst === 17) {
-    dispatchWorkflow("watchdog", false, false);
-  }
 }
 
 /**

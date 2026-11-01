@@ -40,7 +40,6 @@ Go to your GitHub repository → **Settings → Secrets and variables → Action
 | `FACEBOOK_PAGE_ACCESS_TOKEN` | Facebook Page Publishing | Long-lived / Never-expiring Facebook Page Access Token with `pages_manage_posts`, `pages_read_engagement`, `pages_show_list` |
 | `INSTAGRAM_USER_ID` | Instagram Reels Publishing | Your numeric Instagram Professional (Business/Creator) Account ID (e.g. `17841405500208338`) |
 | `INSTAGRAM_ACCESS_TOKEN` | Instagram Reels Publishing | Long-lived Token with `instagram_basic`, `instagram_content_publish`, `pages_read_engagement` (can be the same token as `FACEBOOK_PAGE_ACCESS_TOKEN` if your IG Business account is linked to your FB Page!) |
-| `GH_PAT` | Self-Healing Watchdog | GitHub Personal Access Token (`repo` + `workflow` scopes) so the watchdog can dispatch targeted reruns |
 | `CF_ACCOUNT_ID` *(Optional)* | Fast Image Generation | Cloudflare Account ID (falls back to free Pollinations if unset) |
 | `CF_API_TOKEN` *(Optional)* | Fast Image Generation | Cloudflare Workers AI Token |
 

@@ -47,7 +47,6 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `FACEBOOK_PAGE_ACCESS_TOKEN` | Never-expiring Page Access Token (`pages_manage_posts`, `pages_read_engagement`, `pages_show_list`) |
 | `INSTAGRAM_USER_ID` | Numeric ID of your Instagram Professional (Business/Creator) Account |
 | `INSTAGRAM_ACCESS_TOKEN` | Long-lived Meta Access Token with `instagram_basic` and `instagram_content_publish` |
-| `GH_PAT` | GitHub Personal Access Token (`repo` and `workflow` scopes) for Watchdog auto-reruns |
 
 ### GitHub Actions Variables (`Settings → Secrets and variables → Actions → Variables`)
 
@@ -70,12 +69,12 @@ For each episode, the bot asks Gemini to describe the source video's public YouT
 
 ---
 
-## 3-Layer Reliability, Self-Healing Watchdog & Zero-Duplicate Protection
+## Reliability, Self-Healing Watchdog & Zero-Duplicate Protection
 1. **In-Job Log Capture & Auto-Retry (`recap.yml` & `main.py`)**:
-   - Every show job streams its logs into `state/<show>_status.json` (tracking `youtube_video_id`, `facebook_video_id`, `instagram_media_id`, `gdrive_file_id`, and `scheduled_slot_ist`). If Attempt 1 fails, it cleans up temporary files, waits 45s, and retries automatically. Only platforms that haven't succeeded yet are run on retry!
-2. **Google Apps Script Scheduler + Hourly Slot Publisher + 2-Hour Watchdog (`scheduler/google_apps_script.gs`)**:
+   - Every show job streams its logs into `state/<show>_status.json` (tracking `youtube_video_id`, `facebook_video_id`, `instagram_media_id`, `gdrive_file_id`, and `scheduled_slot_ist`). If Attempt 1 fails, it cleans up temporary files, waits 45s, and retries automatically. Only platforms that haven't succeeded yet are run on retry.
+2. **Google Apps Script Scheduler + Hourly Slot Publisher + Single 2-Hour Watchdog (`scheduler/google_apps_script.gs`)**:
    - **`triggerNightly12AM`**: Starts the midnight generation and scheduling run at 12:00 AM IST sharp.
    - **`hourlySlotPublisherAndChecker`**: Runs every hour at 9 AM – 4 PM IST to publish that hour's Instagram Reel from Google Drive and verify that YouTube, Facebook, and Instagram are all live.
-   - **`watchdogCheckAndRerun`**: Runs every 2 hours, inspects GitHub Actions job logs and `state/<show>_status.json`, and dispatches targeted reruns for any failed or missed show.
+   - **`watchdogCheckAndRerun`**: The only scheduled watchdog; runs every 2 hours and dispatches targeted reruns for failed or missed work.
 3. **Live Anti-Duplicate Locks Across All 3 Platforms**:
    - Before uploading to YouTube (`youtube.already_uploaded()`), Facebook (`social.fb_already_uploaded()`), Google Drive (`social.drive_find_file()`), or Instagram (`social.ig_already_uploaded()`), the bot queries the live API of each platform to guarantee the same episode is **never** uploaded twice.
