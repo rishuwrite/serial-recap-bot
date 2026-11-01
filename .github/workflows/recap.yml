@@ -5,6 +5,10 @@ on:
     types: [nightly-12am, ig-slot-publish]
   workflow_dispatch:
     inputs:
+      validate_meta_tokens:
+        description: "Read-only check of Facebook and Instagram credentials; does not publish"
+        type: boolean
+        default: false
       only_show:
         description: "Which show to process"
         type: choice
@@ -43,6 +47,7 @@ jobs:
   recap:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    if: inputs.validate_meta_tokens != true
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -166,4 +171,65 @@ jobs:
           for i in 1 2 3 4 5 6 7 8; do
             git pull --rebase -q && git push && break
             sleep $((RANDOM % 8 + 3))
-          done
+            done
+
+  validate-meta-tokens:
+    name: validate-meta-tokens
+    if: inputs.validate_meta_tokens == true
+    runs-on: ubuntu-24.04
+    permissions: {}
+    steps:
+      - name: Check Facebook and Instagram credentials without publishing
+        env:
+            FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+            FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+            INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+            INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+            META_GRAPH_API_VERSION: ${{ vars.META_GRAPH_API_VERSION || 'v22.0' }}
+        run: |
+            python - <<'PY'
+            import json
+            import os
+            import sys
+            import urllib.error
+            import urllib.request
+
+            version = os.environ["META_GRAPH_API_VERSION"]
+            checks = [
+                ("Facebook Page", os.environ.get("FACEBOOK_PAGE_ID", ""),
+                 os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""), "name"),
+                ("Instagram account", os.environ.get("INSTAGRAM_USER_ID", ""),
+                 os.environ.get("INSTAGRAM_ACCESS_TOKEN", ""), "username"),
+            ]
+            failed = False
+            for label, account_id, token, field in checks:
+                if not account_id or not token:
+                    print(f"{label}: NOT CONFIGURED (account ID or token secret is missing)")
+                    failed = True
+                    continue
+                url = f"https://graph.facebook.com/{version}/{account_id}?fields=id,{field}"
+                request = urllib.request.Request(
+                    url, headers={"Authorization": f"Bearer {token}"}
+                )
+                try:
+                    with urllib.request.urlopen(request, timeout=30) as response:
+                        result = json.loads(response.read())
+                    if str(result.get("id")) != account_id:
+                        print(f"{label}: FAILED (returned account ID did not match configured ID)")
+                        failed = True
+                    else:
+                        print(f"{label}: VALID (read access confirmed for ID {account_id})")
+                except urllib.error.HTTPError as error:
+                    try:
+                        body = json.loads(error.read())
+                        details = body.get("error", {})
+                        message = details.get("message", "request rejected")
+                        code = details.get("code", "unknown")
+                    except (ValueError, AttributeError):
+                        message, code = "unreadable API error response", "unknown"
+                    print(f"{label}: INVALID (HTTP {error.code}, Meta code {code}: {message})")
+                    failed = True
+                except (urllib.error.URLError, TimeoutError, ValueError) as error:
+                    print(f"{label}: CHECK FAILED ({type(error).__name__}: {error})")
+                    failed = True
+            sys.exit(1 if failed else 0)
