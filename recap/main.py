@@ -202,16 +202,30 @@ try:
             render.cover(raw, comp)
             if render_vert: render.cover_vertical(raw, vcomp)
             raws[(i, label)] = raw
-        elif comps[i]:
-            print(f"    image {i} {label}: failed, reusing the scene's other image"); continue
         else:
-            print(f"    image {i} {label}: using title card")
+            print(f"    image {i} {label}: generation failed; deferring fallback")
+            continue
+        comps[i].append(comp)
+        if render_vert: vcomps[i].append(vcomp)
+
+    generated_indices = {i for i, _ in raws}
+    reused = images.reuse_nearest_generated_images(
+        comps, vcomps if render_vert else None, generated_indices
+    )
+    for i, source in reused:
+        print(f"    image {i}: reusing generated artwork from scene {source}")
+    if not generated_indices:
+        print("    no generated episode art available; using title cards")
+        for i in range(n + 1):
+            comp = f"{tmp}/comp{i}_fallback.jpg"
             sc_title = scenes[min(i, n - 1)].get("title", "")
             sc_emo = scenes[min(i, n - 1)].get("emotion", "")
             render.card(sc_title, sc_emo, comp)
-            if render_vert: render.card_vertical(sc_title, sc_emo, vcomp)
-        comps[i].append(comp)
-        if render_vert: vcomps[i].append(vcomp)
+            comps[i].append(comp)
+            if render_vert:
+                vcomp = f"{tmp}/vcomp{i}_fallback.jpg"
+                render.card_vertical(sc_title, sc_emo, vcomp)
+                vcomps[i].append(vcomp)
 
     pv = f"{out_dir}/{KEY}_{ep['id']}_preview"; os.makedirs(pv, exist_ok=True)
     for (i, label), raw in raws.items(): shutil.copy(raw, f"{pv}/image_{i + 1:02d}_{label}.jpg")

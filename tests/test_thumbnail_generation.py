@@ -124,6 +124,26 @@ class ThumbnailGenerationTests(unittest.TestCase):
             with Image.open(output) as image:
                 self.assertEqual(image.size, (1280, 720))
 
+    def test_missing_scenes_reuse_nearest_generated_art(self):
+        comps = {0: ["scene-0"], 1: [], 2: ["scene-2"], 3: []}
+        vcomps = {0: ["vertical-0"], 1: [], 2: ["vertical-2"], 3: []}
+
+        reused = images.reuse_nearest_generated_images(comps, vcomps, {0, 2})
+
+        self.assertEqual(reused, [(1, 0), (3, 2)])
+        self.assertEqual(comps[1], ["scene-0"])
+        self.assertEqual(comps[3], ["scene-2"])
+        self.assertEqual(vcomps[1], ["vertical-0"])
+        self.assertEqual(vcomps[3], ["vertical-2"])
+
+    def test_missing_scenes_remain_unfilled_when_no_art_was_generated(self):
+        comps = {0: [], 1: []}
+
+        reused = images.reuse_nearest_generated_images(comps, None, set())
+
+        self.assertEqual(reused, [])
+        self.assertEqual(comps, {0: [], 1: []})
+
     def test_scene_image_generation_uses_flux_before_fallbacks(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / "scene.jpg"

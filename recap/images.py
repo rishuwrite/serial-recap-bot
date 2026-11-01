@@ -132,6 +132,22 @@ def generate_thumbnail(prompt, seed, out):
                     time.sleep(6 * (attempt + 1))
     return False
 
+def reuse_nearest_generated_images(comps, vcomps, generated_indices):
+    """Fill scenes without generated art from the nearest scene that has it."""
+    sources = sorted(set(generated_indices))
+    if not sources:
+        return []
+    reused = []
+    for i in sorted(comps):
+        if comps[i]:
+            continue
+        source = min(sources, key=lambda candidate: (abs(candidate - i), candidate))
+        comps[i] = list(comps[source])
+        if vcomps is not None:
+            vcomps[i] = list(vcomps[source])
+        reused.append((i, source))
+    return reused
+
 def generate(prompt, seed, out):
     """Make one illustration, preferring the FLUX Gradio Space then existing providers."""
     full = f"{prompt}. Style: {S.STYLE}"
