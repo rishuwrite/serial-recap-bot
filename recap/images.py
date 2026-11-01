@@ -54,21 +54,27 @@ def _retryable_image_error(exc):
     if status is None:
         match = re.search(r"\b([45]\d\d)\b", message)
         status = int(match.group(1)) if match else None
-    if status in (400, 401, 402, 403, 404) or "zerogpu quota" in message or "payment required" in message:
+    if (status in (400, 401, 402, 403, 404) or "quota" in message or "4006" in message
+            or "daily free allocation" in message or "out of credits" in message
+            or "insufficient credit" in message or "payment required" in message):
         return False
     return True
 
 def _cloudflare(prompt, seed, attempt=0):
-    acc, tok = os.getenv("CF_ACCOUNT_ID"), os.getenv("CF_API_TOKEN")
+    acc = (os.getenv("CLOUDFLARE_ACCOUNT_ID") or os.getenv("CF_ACCOUNT_ID") or "").strip()
+    tok = (os.getenv("CLOUDFLARE_API_TOKEN") or os.getenv("CF_API_TOKEN") or "").strip()
     if not (acc and tok): return None
     # Request native 16:9 widescreen on first attempts; fallback to default if needed
-    payload = {"prompt": prompt[:2000], "steps": 8, "seed": int(seed)}
-    if attempt == 0:
-        payload.update({"width": 1344, "height": 768})
+    payload = {"prompt": prompt[:2000], "steps": 4}
     r = requests.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/@cf/black-forest-labs/flux-1-schnell",
                       headers={"Authorization": f"Bearer {tok}"}, json=payload, timeout=120)
     r.raise_for_status()
-    return Image.open(io.BytesIO(base64.b64decode(r.json()["result"]["image"]))).convert("RGB")
+    if r.headers.get("content-type", "").startswith("image/"):
+        return Image.open(io.BytesIO(r.content)).convert("RGB")
+    result = r.json()
+    if not result.get("success", True) or "result" not in result:
+        raise ValueError(f"Cloudflare returned an unexpected response: {str(result)[:300]}")
+    return Image.open(io.BytesIO(base64.b64decode(result["result"]["image"]))).convert("RGB")
 
 def _pollinations(prompt, seed, attempt=0):
     wait = 16 - (time.time() - _last[0])                       # anonymous free tier pacing
@@ -110,9 +116,9 @@ def _flux(prompt, seed, attempt=0):
     return Image.open(image_data).convert("RGB")
 
 def generate_thumbnail(prompt, seed, out):
-    """Generate one 16:9 cover, preferring the FLUX Gradio Space then existing providers."""
+    """Generate one cover, preferring Cloudflare FLUX then the existing providers."""
     full = f"{prompt}. Style: {S.STYLE}"
-    providers = (("flux", _flux, 1), ("cloudflare", _cloudflare, 3), ("pollinations", _pollinations, 3))
+    providers = (("cloudflare", _cloudflare, 3), ("flux", _flux, 1), ("pollinations", _pollinations, 3))
     for name, fn, attempts in providers:
         for attempt in range(attempts):
             try:
@@ -149,9 +155,9 @@ def reuse_nearest_generated_images(comps, vcomps, generated_indices):
     return reused
 
 def generate(prompt, seed, out):
-    """Make one illustration, preferring the FLUX Gradio Space then existing providers."""
+    """Make one illustration, preferring Cloudflare FLUX then the existing providers."""
     full = f"{prompt}. Style: {S.STYLE}"
-    providers = (("flux", _flux, 1), ("cloudflare", _cloudflare, 3), ("pollinations", _pollinations, 3))
+    providers = (("cloudflare", _cloudflare, 3), ("flux", _flux, 1), ("pollinations", _pollinations, 3))
     for name, fn, attempts in providers:
         for attempt in range(attempts):
             try:

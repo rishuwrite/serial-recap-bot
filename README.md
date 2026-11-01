@@ -47,6 +47,8 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `FACEBOOK_PAGE_ACCESS_TOKEN` | Never-expiring Page Access Token (`pages_manage_posts`, `pages_read_engagement`, `pages_show_list`) |
 | `INSTAGRAM_USER_ID` | Numeric ID of your Instagram Professional (Business/Creator) Account |
 | `INSTAGRAM_ACCESS_TOKEN` | Long-lived Meta Access Token with `instagram_basic` and `instagram_content_publish` |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID for Workers AI image generation |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare Workers AI API token for primary image generation |
 
 ### GitHub Actions Variables (`Settings → Secrets and variables → Actions → Variables`)
 
@@ -59,13 +61,13 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `REEL_MAX_SECONDS` | `115` | Caps Facebook/Instagram 9:16 video length at 115s; Facebook uploads always use the vertical video |
 | `IG_PUBLISH_WITH_NIGHTLY` | `false` | `false` = publish IG Reel at exact 9 AM–4 PM IST slot via Apps Script; `true` = publish IG immediately at 12 AM |
 | `GDRIVE_DELETE_AFTER_PUBLISH` | `false` | `true` = automatically delete Reel from Google Drive after Instagram publish succeeds |
-| `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | Optional Gradio Space URL for generating episode-specific 16:9 thumbnail artwork |
+| `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | First image fallback if Cloudflare is unavailable or its quota is exhausted |
 
 ### Episode-aware thumbnail artwork
 
-For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It then generates fresh episode artwork with the FLUX.1-schnell Gradio Space. YouTube receives the existing 1280 × 720 thumbnail, while Facebook receives a separate 1080 × 1920 cover composed for its 9:16 video. Both use the bot's Hindi hook, show, and episode/date overlays. The image prompt uses the analyzed episode hook and scene, and instructs the model not to reproduce faces, text, or logos from the source thumbnail. If thumbnail analysis or the public FLUX Space is unavailable, the bot logs the issue and falls back to the existing episode illustrations/providers.
+For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It generates fresh episode art with Cloudflare Workers AI FLUX.1-schnell first, then falls back to the Hugging Face FLUX Space and Pollinations. YouTube receives the existing 1280 × 720 thumbnail, while Facebook receives a separate 1080 × 1920 cover composed for its 9:16 video. Both use the bot's Hindi hook, show, and episode/date overlays. If individual scene generation fails, the nearest successfully generated scene art is reused; title cards are used only if all image providers fail for the episode.
 
-`gradio_client` is installed from `requirements.txt`. `HF_FLUX_SPACE` can be set as a GitHub Actions repository variable to override the public Space URL; no Hugging Face token is required for the default public Space. Gemini uses the existing `GEMINI_API_KEY`. Image generation tries FLUX first, then configured Cloudflare, then Pollinations. If a scene cannot be generated but another scene in the episode has generated artwork, the bot reuses the nearest available artwork instead of showing a title card; title cards are used only if all image providers fail for the entire episode. If a hostname fails normal DNS resolution, image networking falls back to Google DNS-over-HTTPS and caches the IPv4 result briefly. A ZeroGPU quota or HTTP 402 is a provider limit, not a DNS error; the exhausted provider is skipped so the next provider can run. Transient errors such as HTTP 503 are retried. Configure `CF_ACCOUNT_ID` and `CF_API_TOKEN` or a valid `POLLINATIONS_TOKEN` to provide fallbacks when the public FLUX Space quota is exhausted.
+`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` are read from GitHub Actions secrets (legacy `CF_ACCOUNT_ID` and `CF_API_TOKEN` names are also accepted). Cloudflare is the primary image provider and uses the Workers AI FLUX.1-schnell endpoint; if it is unavailable or its quota is exhausted, generation tries the configured/default Hugging Face FLUX Space, then Pollinations. `gradio_client` is installed from `requirements.txt`; `HF_FLUX_SPACE` can override the default public Space URL. A ZeroGPU quota or HTTP 402 is a provider limit, not a DNS error; the exhausted provider is skipped so the next provider can run. Transient errors such as HTTP 503 are retried.
 
 ---
 
