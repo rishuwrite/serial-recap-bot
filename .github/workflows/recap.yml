@@ -233,3 +233,4 @@ jobs:
                     print(f"{label}: CHECK FAILED ({type(error).__name__}: {error})")
                     failed = True
             sys.exit(1 if failed else 0)
+            PY
