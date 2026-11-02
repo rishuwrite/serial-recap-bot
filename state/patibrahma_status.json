@@ -1,16 +1,16 @@
 {
   "show": "patibrahma",
-  "status": "success",
+  "status": "failed",
   "date_ist": "2026-11-02",
-  "timestamp_ist": "2026-11-02 00:53:05 IST",
-  "source_video_id": "ud2GvJUjBYs",
-  "source_episode": "456",
-  "target_episode": "458",
-  "youtube_video_id": "raVqLhMetLY",
-  "facebook_video_id": "1916958869662224",
+  "timestamp_ist": "2026-11-02 15:25:44 IST",
+  "source_video_id": "JoU2xoFhB-U",
+  "source_episode": "455",
+  "target_episode": "457",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
   "instagram_media_id": "",
-  "gdrive_file_id": "1uSQg50GrfAZ-Kit3osikVdhkw3Cm054e",
-  "scheduled_slot_ist": "2026-11-02 03:00 PM IST",
-  "error": "",
-  "log_tail": ""
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "RuntimeError: Instagram binary rupload failed (400): {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}",
+  "log_tail": "quests for url: https://api.cloudflare.com/client/v\n    thumbnail cloudflare try 3/3: HTTPError: 429 Client Error: Too Many Requests for url: https://api.cloudflare.com/client/v\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Pati Brahmachari Ep 457 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 455 रिकैप | 16 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: publish now\n   [Facebook] UPLOADED video_id=1664323408647809 | published immediately\n   [Drive] Uploaded Reel MP4 -> https://drive.google.com/file/d/1moco8Gn1JOm6trdmBOxSsFMQV1SBIkkG/view (patibrahma_JoU2xoFhB-U_ep457_reel.mp4)\n   [Instagram] initializing resumable Reel container (21196284 bytes)...\nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 356, in <module>\n    ig_done_id = social.publish_instagram_reel(reel_mp4, social_caption)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/social.py\", line 591, in publish_instagram_reel\n    raise RuntimeError(f\"Instagram binary rupload failed ({r_up.status_code}): {r_up.text[:400]}\")\nRuntimeError: Instagram binary rupload failed (400): {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}\n\n"
 }
