@@ -1,16 +1,16 @@
 {
   "show": "bhabhi",
-  "status": "success",
-  "date_ist": "2026-11-02",
-  "timestamp_ist": "2026-11-02 10:42:57 IST",
-  "source_video_id": "JcfFxRV4LpY",
-  "source_episode": "53",
-  "target_episode": "55",
-  "youtube_video_id": "Monsh8Zo9vM",
-  "facebook_video_id": "1438323497797326",
+  "status": "failed",
+  "date_ist": "2026-11-03",
+  "timestamp_ist": "2026-11-03 00:24:57 IST",
+  "source_video_id": "KIaQ9rK9YkM",
+  "source_episode": "55",
+  "target_episode": "57",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
   "instagram_media_id": "",
-  "gdrive_file_id": "14yIhb1mpvdMgOsSG00Zy08L2lMUd5EPf",
+  "gdrive_file_id": "",
   "scheduled_slot_ist": "",
-  "error": "",
-  "log_tail": ""
+  "error": "AttributeError: 'list' object has no attribute 'get'",
+  "log_tail": "== Hamari Bhabhi Number 1 | slot=10:00 IST | test=False | upload=True | publish_now=False | vertical_reel=True ==\n1/7 find episode\n   uploads via RSS: 15\n   total uploads scanned (RSS + OAuth/API): 150\n   Hamari Bhabhi Number 1 | Full Episode 55 | 2 Nov 2026 | HD #newepisode Dangal TV | https://www.youtube.com/watch?v=KIaQ9rK9YkM\n  source episode/date: 55 / 2 Nov 2026; two-day target: 57 / 04 Nov 2026\n2/7 Gemini watches the episode\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 429\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  failed -> gemini-flash-lite-latest 503\n  failed -> gemini-3.5-flash-lite 503\n  all models busy, retrying in 30s\n  failed -> gemini-flash-latest 429\n  failed -> gemini-3.8-flash 429\n  failed -> gemini-3.7-flash 429\n  failed -> gemini-3.6-flash 503\n  failed -> gemini-3.5-flash 429\n  failed -> gemini-2.5-flash 404\n  analysed with gemini-flash-lite-latest\n  source thumbnail described with gemini-flash-lite-latest\nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 174, in <module>\n    scenes = [s for s in data.get(\"scenes\", []) if s.get(\"narration\")]\n                         ^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n\n"
 }
