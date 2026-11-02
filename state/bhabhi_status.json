@@ -1,16 +1,16 @@
 {
   "show": "bhabhi",
-  "status": "success",
+  "status": "failed",
   "date_ist": "2026-11-02",
-  "timestamp_ist": "2026-11-02 00:21:44 IST",
-  "source_video_id": "MugIFSQgh08",
-  "source_episode": "54",
-  "target_episode": "56",
-  "youtube_video_id": "v4GWaseE6NQ",
-  "facebook_video_id": "2335800110606601",
+  "timestamp_ist": "2026-11-02 10:19:00 IST",
+  "source_video_id": "JcfFxRV4LpY",
+  "source_episode": "53",
+  "target_episode": "55",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
   "instagram_media_id": "",
-  "gdrive_file_id": "15qxyDoYV1l0-STVf7gFa-GNv4Tbsvjol",
-  "scheduled_slot_ist": "2026-11-02 10:00 AM IST",
-  "error": "",
-  "log_tail": ""
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "RuntimeError: Instagram binary rupload failed (400): {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}",
+  "log_tail": "/3: HTTPError: 429 Client Error: Too Many Requests for url: https://api.cloudflare.com/client/v\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail art ok via pollinations (try 1)\n   title: Hamari Bhabhi Number 1 Ep 55 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 53 रिकैप | 14 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: publish now\nUPLOADED https://youtube.com/watch?v=Monsh8Zo9vM | publishAt: None\nthumbnail: 200 \n   [Facebook] UPLOADED video_id=1438323497797326 | published immediately\n   [Drive] Uploaded Reel MP4 -> https://drive.google.com/file/d/14yIhb1mpvdMgOsSG00Zy08L2lMUd5EPf/view (bhabhi_JcfFxRV4LpY_ep55_reel.mp4)\n   [Instagram] initializing resumable Reel container (20045948 bytes)...\nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 356, in <module>\n    ig_done_id = social.publish_instagram_reel(reel_mp4, social_caption)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/social.py\", line 591, in publish_instagram_reel\n    raise RuntimeError(f\"Instagram binary rupload failed ({r_up.status_code}): {r_up.text[:400]}\")\nRuntimeError: Instagram binary rupload failed (400): {\"debug_info\":{\"retriable\":false,\"type\":\"ProcessingFailedError\",\"message\":\"Request processing failed\"}}\n\n"
 }
