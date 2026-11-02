@@ -1,16 +1,16 @@
 {
   "show": "ishq",
-  "status": "success",
+  "status": "failed",
   "date_ist": "2026-11-02",
-  "timestamp_ist": "2026-11-02 00:59:31 IST",
-  "source_video_id": "EgjR4E7L0Xs",
-  "source_episode": "240",
-  "target_episode": "242",
-  "youtube_video_id": "XrQQe9zGnp8",
-  "facebook_video_id": "1141141895548077",
+  "timestamp_ist": "2026-11-02 16:27:32 IST",
+  "source_video_id": "8LgukvnIH1Q",
+  "source_episode": "239",
+  "target_episode": "241",
+  "youtube_video_id": "",
+  "facebook_video_id": "",
   "instagram_media_id": "",
-  "gdrive_file_id": "1UeU-DHh4yp6HmOSyeqxaF3J3DSNYl3u7",
-  "scheduled_slot_ist": "2026-11-02 04:00 PM IST",
-  "error": "",
-  "log_tail": ""
+  "gdrive_file_id": "",
+  "scheduled_slot_ist": "",
+  "error": "RuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":460,\"fbtrace_id\":\"ADj8EoLAHZWtscCCcKbv6GE\"}}",
+  "log_tail": "e try 3/3: HTTPError: 429 Client Error: Too Many Requests for url: https://api.cloudflare.com/client/v\n    thumbnail flux try 1/1: AppError: You have exceeded your ZeroGPU quota (90s requested vs. 0s left). Try again in 0\n    thumbnail pollinations try 1/3: HTTPError: 404 Client Error: Not Found for url: https://image.pollinations.ai/prompt/Create\n   generated thumbnail art unavailable; using the existing episode illustration\n   title: Ishq Junooni Ep 241 (01 Nov) | परसों की कहानी + अनुमान | स्रोत Ep 239 रिकैप | 20 tags\n7/7 upload & schedule (YouTube + Facebook + Google Drive + Instagram)\n   schedule mode: publish now\nUPLOADED https://youtube.com/watch?v=AcrmBh9VMwk | publishAt: None\nthumbnail: 200 \nUNHANDLED ERROR:\n Traceback (most recent call last):\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/main.py\", line 335, in <module>\n    fb_done_id = social.upload_facebook_video(\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/serial-recap-bot/serial-recap-bot/recap/social.py\", line 372, in upload_facebook_video\n    raise RuntimeError(f\"Facebook upload start failed ({r_start.status_code}): {r_start.text[:400]}\")\nRuntimeError: Facebook upload start failed (400): {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":460,\"fbtrace_id\":\"ADj8EoLAHZWtscCCcKbv6GE\"}}\n\n"
 }
