@@ -1,17 +1,16 @@
 {
   "show": "rimjhim",
   "status": "success",
-  "date_ist": "2026-11-03",
-  "timestamp_ist": "2026-11-03 00:37:59 IST",
-  "source_video_id": "SpfAN6eP3XE",
-  "source_episode": "383",
-  "target_episode": "385",
-  "youtube_video_id": "gRoCvmR-Qg4",
-  "facebook_video_id": "1796377274914879",
-  "instagram_media_id": "18135859708743310",
-  "gdrive_file_id": "141IhDXyEPEFaEhNLUjeMg-bcvBSI-O0W",
-  "scheduled_slot_ist": "2026-11-03 12:00 PM IST",
+  "date_ist": "2026-11-04",
+  "timestamp_ist": "2026-11-04 00:57:13 IST",
+  "source_video_id": "Vw8EOodKhwE",
+  "source_episode": "384",
+  "target_episode": "386",
+  "youtube_video_id": "Wz_Jxo-L7UQ",
+  "facebook_video_id": "1427989412789878",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1zwreJbIgw6zSapkngHOctdwVvqKN6FYM",
+  "scheduled_slot_ist": "2026-11-04 12:00 PM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
