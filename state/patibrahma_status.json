@@ -1,17 +1,16 @@
 {
   "show": "patibrahma",
   "status": "success",
-  "date_ist": "2026-11-03",
-  "timestamp_ist": "2026-11-03 00:55:35 IST",
-  "source_video_id": "XKN4Xox9BCI",
-  "source_episode": "457",
-  "target_episode": "459",
-  "youtube_video_id": "-fo14vvBp0U",
-  "facebook_video_id": "1799756321232162",
-  "instagram_media_id": "18119349740142592",
-  "gdrive_file_id": "1JWDVGOZS9_s9EvnoLgi3D6m-uU48L_qh",
-  "scheduled_slot_ist": "2026-11-03 03:00 PM IST",
+  "date_ist": "2026-11-04",
+  "timestamp_ist": "2026-11-04 01:16:06 IST",
+  "source_video_id": "bV27MSb0GG8",
+  "source_episode": "458",
+  "target_episode": "460",
+  "youtube_video_id": "MV93Xe6EZNs",
+  "facebook_video_id": "1424560763155370",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1mB5SH6kY-PC_6by42hdd_kQMSUVeDEjb",
+  "scheduled_slot_ist": "2026-11-04 03:00 PM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
