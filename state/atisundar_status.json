@@ -1,17 +1,16 @@
 {
   "show": "atisundar",
   "status": "success",
-  "date_ist": "2026-11-03",
-  "timestamp_ist": "2026-11-03 00:43:33 IST",
-  "source_video_id": "mQ6L2ZsQU2Y",
-  "source_episode": "1197",
-  "target_episode": "1199",
-  "youtube_video_id": "r0iXyu53Eck",
-  "facebook_video_id": "1628872085631479",
-  "instagram_media_id": "17893313913453968",
-  "gdrive_file_id": "1oFZYYqaDnNy9fmyZXVQVCkOHRt6zuYTA",
-  "scheduled_slot_ist": "2026-11-03 02:00 PM IST",
+  "date_ist": "2026-11-04",
+  "timestamp_ist": "2026-11-04 01:02:23 IST",
+  "source_video_id": "_Q__3Ud-Mqg",
+  "source_episode": "1198",
+  "target_episode": "1200",
+  "youtube_video_id": "r7jZAN5B73M",
+  "facebook_video_id": "1083609928050603",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1241uf93IwzNqyFmfW-ZaXmaz3DTWEhH7",
+  "scheduled_slot_ist": "2026-11-04 02:00 PM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
