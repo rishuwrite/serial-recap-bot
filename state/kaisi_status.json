@@ -1,17 +1,16 @@
 {
   "show": "kaisi",
   "status": "success",
-  "date_ist": "2026-11-05",
-  "timestamp_ist": "2026-11-05 00:33:29 IST",
-  "source_video_id": "ON1OYS6enbI",
-  "source_episode": "105",
-  "target_episode": "107",
-  "youtube_video_id": "J7sf8eI3faI",
-  "facebook_video_id": "1140105352046830",
-  "instagram_media_id": "18114063653591176",
-  "gdrive_file_id": "1kEfQy_vzc94xuonKEq4eitJtBaJSl1V4",
-  "scheduled_slot_ist": "2026-11-05 09:00 AM IST",
+  "date_ist": "2026-11-06",
+  "timestamp_ist": "2026-11-06 00:42:37 IST",
+  "source_video_id": "2KClOx7_TPM",
+  "source_episode": "106",
+  "target_episode": "108",
+  "youtube_video_id": "Mlx5Gus5rzo",
+  "facebook_video_id": "1108059938707896",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1k15Of9ocVw9yKu256X6SSsnTZ5vfWjgE",
+  "scheduled_slot_ist": "2026-11-06 09:00 AM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
