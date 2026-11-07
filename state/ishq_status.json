@@ -1,17 +1,16 @@
 {
   "show": "ishq",
   "status": "success",
-  "date_ist": "2026-11-07",
-  "timestamp_ist": "2026-11-07 01:52:50 IST",
-  "source_video_id": "135AarVYsik",
-  "source_episode": "245",
-  "target_episode": "247",
-  "youtube_video_id": "La8TRtzlEhQ",
-  "facebook_video_id": "1691352972694364",
-  "instagram_media_id": "18025301387940895",
-  "gdrive_file_id": "17q7VdjVryCjRNHSxLpBNmpDCOB89q3K1",
-  "scheduled_slot_ist": "2026-11-07 04:00 PM IST",
+  "date_ist": "2026-11-08",
+  "timestamp_ist": "2026-11-08 01:06:45 IST",
+  "source_video_id": "IOo50zZ0pQM",
+  "source_episode": "246",
+  "target_episode": "248",
+  "youtube_video_id": "f27QynEOOlY",
+  "facebook_video_id": "2648133978955833",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1uXeLy_mtMXECmPOC1q5PEZd6CPpsLy7c",
+  "scheduled_slot_ist": "2026-11-08 04:00 PM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
