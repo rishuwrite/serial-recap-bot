@@ -117,6 +117,6 @@ Facebook publishing always renders and uploads the 9:16 video, verifies the enco
    - *(Optional)* `INSTAGRAM_USER_ID` & `INSTAGRAM_ACCESS_TOKEN`: If filled in, Apps Script will also push the Reel directly from Google Drive to Instagram at slot time before calling the GitHub verification job.
 4. Select `setupTriggers` in the top toolbar dropdown and click **Run** once (grant permissions when prompted).
    - It automatically installs:
-     1. **`triggerNightly12AM` (Daily at 12:00 AM IST)**: Generates all 8 shows, schedules YouTube & Facebook for 9 AM – 4 PM IST, and uploads all 8 vertical Reels to Google Drive.
+     1. **`triggerNightly12AM` (Daily at 12:00 AM IST)**: Generates all 9 shows, schedules YouTube & Facebook for 9 AM – 4 PM IST (including Saanche at 12:30 PM), and uploads all vertical Reels to Google Drive.
      2. **`hourlySlotPublisherAndChecker` (Every 1 Hour at 9 AM – 4 PM IST)**: Publishes that hour's show Reel from Google Drive to Instagram so Instagram goes live at the exact same time as YouTube and Facebook!
      3. **`watchdogCheckAndRerun` (Every 2 Hours)**: Checks GitHub logs & `state/<show>_status.json` and automatically re-runs any failed or missed show/platform.

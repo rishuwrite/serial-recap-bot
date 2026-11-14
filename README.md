@@ -1,7 +1,7 @@
 # Serial Recap Bot (Dangal TV -> YouTube + Facebook + Instagram Reels + Google Drive + Google Apps Script)
 
 ## Daily Synchronized Publish Schedule (9:00 AM – 4:00 PM IST)
-The bot runs at **12:00 AM IST (Midnight)** via Google Apps Script (`scheduler/google_apps_script.gs`) and publishes all 8 daily recap videos across **YouTube**, **Facebook Page**, and **Instagram Reels** at the exact same hourly slots from **9:00 AM to 4:00 PM IST**:
+The bot runs at **12:00 AM IST (Midnight)** via Google Apps Script (`scheduler/google_apps_script.gs`) and publishes the daily recap videos across **YouTube**, **Facebook Page**, and **Instagram Reels** at the exact same listed IST slots:
 
 | Show Key | Serial Name | YouTube Schedule | Facebook Page Schedule | Google Drive + Instagram Reel Slot |
 | :--- | :--- | :--- | :--- | :--- |
@@ -13,6 +13,7 @@ The bot runs at **12:00 AM IST (Midnight)** via Google Apps Script (`scheduler/g
 | `atisundar` | Mann Atisundar (मन अतिसुंदर) | **02:00 PM IST** (`publishAt`) | **02:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **02:00 PM IST** |
 | `patibrahma` | Pati Brahmachari (पति ब्रह्मचारी) | **03:00 PM IST** (`publishAt`) | **03:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **03:00 PM IST** |
 | `ishq` | Ishq Junooni (इश्क़ जुनूनी) | **04:00 PM IST** (`publishAt`) | **04:00 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **04:00 PM IST** |
+| `saanche` | Saanche Darbar Ki Jai Dhyanu Bhagat Ki Amar Kahani (सांचे दरबार की जय ध्यानु भगत की अमर कहानी) | **12:30 PM IST** (`publishAt`) | **12:30 PM IST** (`scheduled_publish_time`) | Stored in Drive at 12 AM → Published **12:30 PM IST** |
 
 Video descriptions include dynamic show, episode, and date details, Hindi/English search phrases, hashtags, recap/prediction copy, and the official source episode link. Search terms include general show phrases plus varied +1-day/+1-episode and +2-day/+2-episode combinations; source-day search terms are excluded. [Example description](./examples/mann_atisundar_MZLmmpAv87Q_description.txt).
 
@@ -47,8 +48,8 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `FACEBOOK_PAGE_ACCESS_TOKEN` | Never-expiring Page Access Token (`pages_manage_posts`, `pages_read_engagement`, `pages_show_list`) |
 | `INSTAGRAM_USER_ID` | Numeric ID of your Instagram Professional (Business/Creator) Account |
 | `INSTAGRAM_ACCESS_TOKEN` | Long-lived Meta Access Token with `instagram_basic` and `instagram_content_publish` |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID for Workers AI image generation |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare Workers AI API token for primary image generation |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID for fallback Workers AI image generation |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare Workers AI API token for fallback image generation |
 
 ### GitHub Actions Variables (`Settings → Secrets and variables → Actions → Variables`)
 
@@ -61,13 +62,13 @@ See **[`SETUP_META_AND_DRIVE.md`](SETUP_META_AND_DRIVE.md)** for the full step-b
 | `REEL_MAX_SECONDS` | `115` | Caps Facebook/Instagram 9:16 video length at 115s; Facebook uploads always use the vertical video |
 | `IG_PUBLISH_WITH_NIGHTLY` | `false` | `false` = publish IG Reel at exact 9 AM–4 PM IST slot via Apps Script; `true` = publish IG immediately at 12 AM |
 | `GDRIVE_DELETE_AFTER_PUBLISH` | `false` | `true` = automatically delete Reel from Google Drive after Instagram publish succeeds |
-| `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | First image fallback if Cloudflare is unavailable or its quota is exhausted |
+| `HF_FLUX_SPACE` | Public FLUX.1-schnell Space | Image fallback after DeepAI and Cloudflare |
 
 ### Episode-aware thumbnail artwork
 
-For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It generates fresh episode art with Cloudflare Workers AI FLUX.1-schnell first, then falls back to the Hugging Face FLUX Space and Pollinations. YouTube receives the existing 1280 × 720 thumbnail, while Facebook receives a separate 1080 × 1920 cover composed for its 9:16 video. Both use the bot's Hindi hook, show, and episode/date overlays. If individual scene generation fails, the nearest successfully generated scene art is reused; title cards are used only if all image providers fail for the episode.
+For each episode, the bot asks Gemini to describe the source video's public YouTube thumbnail and uses only its broad composition and color balance as guidance. It generates fresh episode art from DeepAI's public image-generator page first using Playwright and Chromium, then falls back to Cloudflare Workers AI FLUX.1-schnell, the Hugging Face FLUX Space, and Pollinations. YouTube receives the existing 1280 × 720 thumbnail, while Facebook receives a separate 1080 × 1920 cover composed for its 9:16 video. Both use the bot's Hindi hook, show, and episode/date overlays. If individual scene generation fails, the nearest successfully generated scene art is reused; title cards are used only if all image providers fail for the episode.
 
-`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` are read from GitHub Actions secrets (legacy `CF_ACCOUNT_ID` and `CF_API_TOKEN` names are also accepted). Cloudflare is the primary image provider and uses the Workers AI FLUX.1-schnell endpoint; if it is unavailable or its quota is exhausted, generation tries the configured/default Hugging Face FLUX Space, then Pollinations. `gradio_client` is installed from `requirements.txt`; `HF_FLUX_SPACE` can override the default public Space URL. A ZeroGPU quota or HTTP 402 is a provider limit, not a DNS error; the exhausted provider is skipped so the next provider can run. Transient errors such as HTTP 503 are retried.
+DeepAI generation uses the page's normal prompt and Generate controls; it does not call the DeepAI API or require an API key. The workflow installs Chromium for Playwright. If DeepAI is unavailable, blocked, or rate-limited, it stops DeepAI attempts and continues with the remaining providers without bypassing sign-in, CAPTCHA, or rate-limit protections. `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` are read from GitHub Actions secrets (legacy `CF_ACCOUNT_ID` and `CF_API_TOKEN` names are also accepted). Cloudflare uses the Workers AI FLUX.1-schnell endpoint; `gradio_client` is installed from `requirements.txt`, and `HF_FLUX_SPACE` can override the default public Space URL. Quota/credit limits skip to the next provider; transient errors such as HTTP 503 are retried.
 
 ---
 
@@ -76,7 +77,7 @@ For each episode, the bot asks Gemini to describe the source video's public YouT
    - Every show job streams its logs into `state/<show>_status.json` (tracking `youtube_video_id`, `facebook_video_id`, `instagram_media_id`, `gdrive_file_id`, and `scheduled_slot_ist`). If Attempt 1 fails, it cleans up temporary files, waits 45s, and retries automatically. Only platforms that haven't succeeded yet are run on retry.
 2. **Google Apps Script Scheduler + Hourly Slot Publisher + Single 2-Hour Watchdog (`scheduler/google_apps_script.gs`)**:
    - **`triggerNightly12AM`**: Starts the midnight generation and scheduling run at 12:00 AM IST sharp.
-   - **`hourlySlotPublisherAndChecker`**: Runs every hour at 9 AM – 4 PM IST to publish that hour's Instagram Reel from Google Drive and verify that YouTube, Facebook, and Instagram are all live.
+   - **`hourlySlotPublisherAndChecker`**: Runs every 30 minutes at 9 AM – 4 PM IST to publish scheduled Instagram Reels from Google Drive, including Saanche at 12:30 PM, and verify that all platforms are live. Re-run `setupTriggers()` in Apps Script to install the updated trigger.
    - **`watchdogCheckAndRerun`**: The only scheduled watchdog; runs every 2 hours and dispatches targeted reruns for failed or missed work.
 3. **Live Anti-Duplicate Locks Across All 3 Platforms**:
    - Before uploading to YouTube (`youtube.already_uploaded()`), Facebook (`social.fb_already_uploaded()`), Google Drive (`social.drive_find_file()`), or Instagram (`social.ig_already_uploaded()`), the bot queries the live API of each platform to guarantee the same episode is **never** uploaded twice.

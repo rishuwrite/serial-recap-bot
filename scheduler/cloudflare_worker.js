@@ -2,7 +2,7 @@
  * Optional Cloudflare Worker nightly scheduler (`scheduler/cloudflare_worker.js`)
  *
  * Schedules (configure in Cloudflare Dashboard -> Workers -> Triggers -> Cron Triggers):
- * - `30 18 * * *`       -> Exact 12:00 AM IST (Midnight) nightly run for all 8 shows
+ * - `30 18 * * *`       -> Exact 12:00 AM IST (Midnight) nightly run for all 9 shows
  *
  * Environment Variables to set in Cloudflare Worker Settings -> Variables:
  * - `GITHUB_OWNER`: Your GitHub username

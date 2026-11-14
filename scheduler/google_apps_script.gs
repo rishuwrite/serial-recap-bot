@@ -9,14 +9,14 @@
  *      YouTube AND Facebook Page Videos for their exact 9:00 AM – 4:00 PM IST slots, and
  *      automatically saves the vertical 9:16 Reel MP4 + caption JSON into your Google Drive folder!
  *
- * 2. Hourly 9:00 AM – 4:00 PM IST Slot Trigger (`hourlySlotPublisherAndChecker`):
+ * 2. 30-minute 9:00 AM – 4:00 PM IST Slot Trigger (`hourlySlotPublisherAndChecker`):
  *    - Because Meta's Instagram Graph API does not have a `scheduled_publish_time` field for direct API calls,
- *      this trigger fires at the top of every hour (9 AM, 10 AM, 11 AM, 12 PM, 1 PM, 2 PM, 3 PM, 4 PM IST)
- *      for the exact show scheduled for that hour:
+ *      this trigger fires every 30 minutes and publishes on the scheduled show slot:
  *        09:00 IST -> kaisi      (Kaisi Teri Dillagi)
  *        10:00 IST -> bhabhi     (Hamari Bhabhi Number 1)
  *        11:00 IST -> sohni      (Sohni Aur Nahi Koi Honi)
  *        12:00 IST -> rimjhim    (Rimjhim)
+ *        12:30 IST -> saanche    (Saanche Darbar Ki Jai Dhyanu Bhagat Ki Amar Kahani)
  *        13:00 IST -> mannsundar (Mann Sundar)
  *        14:00 IST -> atisundar  (Mann Atisundar)
  *        15:00 IST -> patibrahma (Pati Brahmachari)
@@ -27,7 +27,7 @@
  *          (if `INSTAGRAM_USER_ID` & `INSTAGRAM_ACCESS_TOKEN` are filled in below), AND/OR
  *      (b) Dispatch GitHub Actions (`only_show=<show>`, `only_ig_publish=true`) so GitHub Actions
  *          pulls the Reel from Google Drive, publishes it to Instagram, and updates `state/<show>_status.json`!
- *    - Result: YouTube, Facebook, and Instagram ALL go live at the exact same scheduled hour!
+ *    - Result: YouTube, Facebook, and Instagram ALL use the same scheduled slot!
  *
  * 3. Every-2-Hours Self-Healing Watchdog (`watchdogCheckAndRerun`):
  *    - Inspects GitHub Actions workflow runs, job conclusions, and `state/<show>_status.json` files.
@@ -56,12 +56,13 @@ const SLOT_MAP_IST = {
   10: "bhabhi",
   11: "sohni",
   12: "rimjhim",
+  "12:30": "saanche",
   13: "mannsundar",
   14: "atisundar",
   15: "patibrahma",
   16: "ishq"
 };
-const SHOW_KEYS = ["kaisi", "bhabhi", "sohni", "rimjhim", "mannsundar", "atisundar", "patibrahma", "ishq"];
+const SHOW_KEYS = ["kaisi", "bhabhi", "sohni", "rimjhim", "mannsundar", "atisundar", "patibrahma", "ishq", "saanche"];
 
 /**
  * Run `setupTriggers()` ONCE in the Google Apps Script editor to install all 3 automated triggers.
@@ -70,7 +71,7 @@ function setupTriggers() {
   // Remove any old duplicate triggers first
   ScriptApp.getProjectTriggers().forEach(t => ScriptApp.deleteTrigger(t));
 
-  // 1. Exact 12:00 AM IST (Midnight) Nightly Trigger -> Renders all 8 shows, schedules YT & FB, uploads Reels to Drive
+  // 1. Exact 12:00 AM IST (Midnight) Nightly Trigger -> Renders all 9 shows, schedules YT & FB, uploads Reels to Drive
   ScriptApp.newTrigger("triggerNightly12AM")
     .timeBased()
     .atHour(0)
@@ -79,10 +80,10 @@ function setupTriggers() {
     .inTimezone("Asia/Kolkata")
     .create();
 
-  // 2. Hourly Trigger -> Fires every hour to publish the scheduled show's Instagram Reel at 9 AM - 4 PM IST sharp
+  // 2. 30-minute Trigger -> Publishes hourly and half-hour Instagram Reel slots
   ScriptApp.newTrigger("hourlySlotPublisherAndChecker")
     .timeBased()
-    .everyHours(1)
+    .everyMinutes(30)
     .create();
 
   // 3. Watchdog Log-Inspector & Auto-Rerunner -> Checks every 2 hours to catch & heal any failed job
@@ -91,32 +92,34 @@ function setupTriggers() {
     .everyHours(2)
     .create();
 
-  Logger.log("Installed: (1) 12:00 AM IST Nightly Trigger, (2) Hourly 9 AM-4 PM IST Slot Publisher, (3) 2-Hour Watchdog!");
+  Logger.log("Installed: (1) 12:00 AM IST Nightly Trigger, (2) 30-minute Slot Publisher, (3) 2-Hour Watchdog!");
 }
 
 /**
- * 1. Fires at 12:00 AM IST every night to generate & schedule all 8 videos for 9 AM - 4 PM IST.
+ * 1. Fires at 12:00 AM IST every night to generate & schedule all 9 videos, including Saanche at 12:30 PM IST.
  */
 function triggerNightly12AM() {
   dispatchWorkflow("all", false, false);
 }
 
 /**
- * 2. Fires every hour. During 9:00 AM – 4:00 PM IST, identifies the show scheduled for this hour:
+ * 2. Fires every 30 minutes and identifies the show scheduled for this time:
  *    - Checks `state/<show>_status.json` in GitHub and/or the Google Drive folder.
  *    - Publishes the pre-rendered Reel to Instagram so YouTube, Facebook, and Instagram go live simultaneously!
  */
 function hourlySlotPublisherAndChecker() {
   const nowIst = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
   const hourIst = nowIst.getHours();
-  const showKey = SLOT_MAP_IST[hourIst];
+  const minuteIst = nowIst.getMinutes();
+  const slotKey = hourIst === 12 && minuteIst >= 30 ? "12:30" : hourIst;
+  const showKey = SLOT_MAP_IST[slotKey];
 
   if (!showKey) {
-    Logger.log(`Current IST hour (${hourIst}:00) is not a 9 AM - 4 PM show slot; skipping slot publish.`);
+    Logger.log(`Current IST time (${hourIst}:${String(minuteIst).padStart(2, "0")}) is not a show slot; skipping slot publish.`);
     return;
   }
 
-  Logger.log(`=== [SLOT ${hourIst}:00 IST] Processing scheduled slot for show '${showKey}' ===`);
+  Logger.log(`=== [SLOT ${slotKey} IST] Processing scheduled slot for show '${showKey}' ===`);
 
   // Check show status in GitHub repo `state/<showKey>_status.json`
   const st = fetchShowStatusFromGitHub(showKey);
