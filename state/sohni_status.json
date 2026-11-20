@@ -1,17 +1,16 @@
 {
   "show": "sohni",
   "status": "success",
-  "date_ist": "2026-11-20",
-  "timestamp_ist": "2026-11-20 00:27:30 IST",
-  "source_video_id": "qnssLb3gV10",
-  "source_episode": "40",
-  "target_episode": "42",
-  "youtube_video_id": "u2LX2Bn9oCU",
-  "facebook_video_id": "1165507762579519",
-  "instagram_media_id": "18113161727227187",
-  "gdrive_file_id": "1dKafaqra7bq7LWHv4oLp40GGmppvwP62",
-  "scheduled_slot_ist": "2026-11-20 11:00 AM IST",
+  "date_ist": "2026-11-21",
+  "timestamp_ist": "2026-11-21 00:29:42 IST",
+  "source_video_id": "htykQ42PeiI",
+  "source_episode": "41",
+  "target_episode": "43",
+  "youtube_video_id": "OLVY8BNd41Q",
+  "facebook_video_id": "1040296275751615",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1YLPkskBlAme6KIpfBLd__C8gFmfuQOUp",
+  "scheduled_slot_ist": "2026-11-21 11:00 AM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
