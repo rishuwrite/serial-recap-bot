@@ -78,6 +78,7 @@ DeepAI generation uses the page's normal prompt and Generate controls; it does n
 2. **Google Apps Script Scheduler + Hourly Slot Publisher + Single 2-Hour Watchdog (`scheduler/google_apps_script.gs`)**:
    - **`triggerNightly12AM`**: Starts the midnight generation and scheduling run at 12:00 AM IST sharp.
    - **`hourlySlotPublisherAndChecker`**: Runs every 30 minutes at 9 AM – 4 PM IST to publish scheduled Instagram Reels from Google Drive, including Saanche at 12:30 PM, and verify that all platforms are live. Re-run `setupTriggers()` in Apps Script to install the updated trigger.
-   - **`watchdogCheckAndRerun`**: The only scheduled watchdog; runs every 2 hours and dispatches targeted reruns for failed or missed work.
+   - **`watchdogCheckAndRerun`**: Runs every 2 hours, skips shows with successful current-day state, reruns only failed jobs, and dispatches a single missing show at a time.
+   - Store `GITHUB_PAT` in Apps Script **Project Settings → Script Properties**; do not hardcode the token. Run `setupTriggers()` once after updating the script.
 3. **Live Anti-Duplicate Locks Across All 3 Platforms**:
    - Before uploading to YouTube (`youtube.already_uploaded()`), Facebook (`social.fb_already_uploaded()`), Google Drive (`social.drive_find_file()`), or Instagram (`social.ig_already_uploaded()`), the bot queries the live API of each platform to guarantee the same episode is **never** uploaded twice.
