@@ -1,17 +1,16 @@
 {
   "show": "bhabhi",
   "status": "success",
-  "date_ist": "2026-11-26",
-  "timestamp_ist": "2026-11-26 09:04:42 IST",
-  "source_video_id": "wmy0_kr6wPU",
-  "source_episode": "73",
-  "target_episode": "75",
-  "youtube_video_id": "LOOG5BYPEGM",
-  "facebook_video_id": "2010299133261119",
-  "instagram_media_id": "18132286115489684",
-  "gdrive_file_id": "1Bfqwt7w5LonOMc8BEKlJAGoN-ej1L0Pa",
-  "scheduled_slot_ist": "2026-11-26 10:00 AM IST",
+  "date_ist": "2026-11-27",
+  "timestamp_ist": "2026-11-27 00:24:48 IST",
+  "source_video_id": "X27y-8_oFQY",
+  "source_episode": "76",
+  "target_episode": "78",
+  "youtube_video_id": "AEbJp9oaL28",
+  "facebook_video_id": "1654139476189664",
+  "instagram_media_id": "",
+  "gdrive_file_id": "1foyPRfESQe9T3cOg7ad1KvQG5onjwbyD",
+  "scheduled_slot_ist": "2026-11-27 10:00 AM IST",
   "error": "",
-  "log_tail": "",
-  "ig_published": true
+  "log_tail": ""
 }
