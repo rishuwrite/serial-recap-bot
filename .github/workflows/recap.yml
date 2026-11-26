@@ -50,7 +50,7 @@ jobs:
     if: inputs.validate_meta_tokens != true
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 9
       matrix:
         show: [kaisi, bhabhi, sohni, rimjhim, mannsundar, atisundar, patibrahma, ishq, saanche]
     env:
